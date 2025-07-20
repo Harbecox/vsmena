@@ -2,8 +2,10 @@
 
 namespace App\View\Components\Form;
 
+use App\Helpers\Helper;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Request;
 use Illuminate\View\Component;
 
 class DateFilter extends Filter
@@ -37,5 +39,16 @@ class DateFilter extends Filter
                 'base_url' => $this->base_url,
                 'clear_url' => $this->clear_url,
             ]);
+    }
+
+    function getSelected()
+    {
+        $query = Request::query();
+        if(isset($query[$this->name])){
+            $value = $query[$this->name];
+            $this->selected_value = str_replace(","," — ",$value);
+            $e = explode(",", $value);
+            $this->selected_label = Helper::formatRussianDate($e[0],false) . " - " . Helper::formatRussianDate($e[1],false);
+        }
     }
 }

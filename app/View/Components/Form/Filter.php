@@ -58,7 +58,7 @@ class Filter extends Component
         $new_query = array_filter(Request::query(), function ($key) {
             return $key != $this->name;
         }, ARRAY_FILTER_USE_KEY);
-        return Request::url().'?'.http_build_query($new_query)."&".$this->name."=";
+        return Request::url().'?'.http_build_query($new_query).(count($new_query) > 0 ? "&" : "").$this->name ."=";
     }
 
     function generateClearUrl(): string

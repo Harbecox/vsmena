@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
 
 class Helper
@@ -70,5 +71,22 @@ class Helper
             $page,
             $options + ['path' => Request::url(), 'query' => Request::query()]
         );
+    }
+
+    static function formatRussianDate($date,$withTime = true): string
+    {
+        App::setLocale('ru');
+        Carbon::setLocale('ru');
+
+        try {
+            $carbon = Carbon::parse($date);
+        } catch (\Exception $e) {
+            return $date;
+        }
+        if($withTime){
+            return $carbon->translatedFormat('j F Y, H:i');
+        }else{
+            return $carbon->translatedFormat('j F Y');
+        }
     }
 }

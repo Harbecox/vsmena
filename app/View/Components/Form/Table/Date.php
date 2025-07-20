@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Form\Table;
 
+use App\Helpers\Helper;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
@@ -13,7 +14,7 @@ class Date extends Component
     public ?string $date;
     public function __construct($date)
     {
-        $this->date = $this->formatRussianDate($date);
+        $this->date = Helper::formatRussianDate($date);
     }
 
     /**
@@ -24,17 +25,4 @@ class Date extends Component
         return view('components.form.table.date',['date' => $this->date,]);
     }
 
-    function formatRussianDate($date): string
-    {
-        App::setLocale('ru');
-        Carbon::setLocale('ru');
-
-        try {
-            $carbon = Carbon::parse($date);
-        } catch (\Exception $e) {
-            return $date;
-        }
-
-        return $carbon->translatedFormat('j F Y, H:i');
-    }
 }

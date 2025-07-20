@@ -31,13 +31,18 @@ class EventCustomerController extends Controller
             ->join("positions", "events.positions_id", "positions.id")
             ->join("users", "positions.users_id", "users.id")
             ->join("restaurants", "positions.restaurants_id", "restaurants.id")
-            ->where('events.start_date', '>=', Carbon::now()->subDays(1))
             ->where('users.id', '=', auth()->user()->id);
         if(isset($filters_params['restorant'])){
             $query = $query->where('restaurants.id', '=', $filters_params['restorant']);
         }
         if(isset($filters_params['status'])){
             $query = $query->where('events.status', '=', $filters_params['status']);
+        }
+        if(isset($filters_params['date'])){
+            $dates = explode(',', $filters_params['date']);
+            $query = $query->whereBetween('events.start_date', [$dates[0], $dates[1]]);
+        }else{
+            $query = $query->where('events.start_date', '>=', Carbon::now()->subDays(1));
         }
         $events = $query->get();
         $data = [];

@@ -9,5 +9,5 @@
     <span class="open_icon">
         <x-icon name="arrow_down"></x-icon>
     </span>
-    <input style="z-index: -1;opacity: 0;position: absolute; bottom: 0" id="datePicker">
+    <input style="opacity:1;z-index: -1;position: absolute; bottom: 0" id="datePicker" value="{{ $selected_value }}" data-base-url="{{ $base_url }}">
 </div>
