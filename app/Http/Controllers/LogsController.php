@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logs;
 use Illuminate\Http\Request;
-use App\Logs;
+
 
 class LogsController extends Controller
 {
-    public function __construct() {
-    parent::__construct();
-		$this->middleware("can:manipulate,App\Logs");
-	}
+
 	//--------------------------view------------------------------------
     public function index()
     {

@@ -305,6 +305,7 @@ $info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
 $light:         #FAFBFF !default;
+$gggg:          #F9F9F9;
 $dark:          $gray-900 !default;
 // scss-docs-end theme-color-variables
 
@@ -1237,19 +1238,19 @@ $navbar-dark-brand-hover-color:     $navbar-dark-active-color !default;
 
 // scss-docs-start dropdown-variables
 $dropdown-min-width:                10rem !default;
-$dropdown-padding-x:                0 !default;
-$dropdown-padding-y:                .5rem !default;
+$dropdown-padding-x:                30px !default;
+$dropdown-padding-y:                20px !default;
 $dropdown-spacer:                   .125rem !default;
 $dropdown-font-size:                $font-size-base !default;
 $dropdown-color:                    var(--#{$prefix}body-color) !default;
-$dropdown-bg:                       var(--#{$prefix}body-bg) !default;
-$dropdown-border-color:             var(--#{$prefix}border-color-translucent) !default;
+$dropdown-bg:                       #fff !default;
+$dropdown-border-color:             rgb(250, 251, 255) !default;
 $dropdown-border-radius:            var(--#{$prefix}border-radius) !default;
 $dropdown-border-width:             var(--#{$prefix}border-width) !default;
 $dropdown-inner-border-radius:      calc(#{$dropdown-border-radius} - #{$dropdown-border-width}) !default; // stylelint-disable-line function-disallowed-list
 $dropdown-divider-bg:               $dropdown-border-color !default;
 $dropdown-divider-margin-y:         $spacer * .5 !default;
-$dropdown-box-shadow:               var(--#{$prefix}box-shadow) !default;
+$dropdown-box-shadow:               0px 4px 6px 0px rgba(228, 228, 228, 0.25) !default;
 
 $dropdown-link-color:               var(--#{$prefix}body-color) !default;
 $dropdown-link-hover-color:         $dropdown-link-color !default;
@@ -1260,8 +1261,8 @@ $dropdown-link-active-bg:           $component-active-bg !default;
 
 $dropdown-link-disabled-color:      var(--#{$prefix}tertiary-color) !default;
 
-$dropdown-item-padding-y:           $spacer * .25 !default;
-$dropdown-item-padding-x:           $spacer !default;
+$dropdown-item-padding-y:           0;
+$dropdown-item-padding-x:           0;
 
 $dropdown-header-color:             $gray-600 !default;
 $dropdown-header-padding-x:         $dropdown-item-padding-x !default;
@@ -1510,9 +1511,9 @@ $modal-title-line-height:           $line-height-base !default;
 
 $modal-content-color:               var(--#{$prefix}body-color) !default;
 $modal-content-bg:                  var(--#{$prefix}body-bg) !default;
-$modal-content-border-color:        var(--#{$prefix}border-color-translucent) !default;
-$modal-content-border-width:        var(--#{$prefix}border-width) !default;
-$modal-content-border-radius:       var(--#{$prefix}border-radius-lg) !default;
+$modal-content-border-color:        none !default;
+$modal-content-border-width:        0 !default;
+$modal-content-border-radius:       20px !default;
 $modal-content-inner-border-radius: subtract($modal-content-border-radius, $modal-content-border-width) !default;
 $modal-content-box-shadow-xs:       var(--#{$prefix}box-shadow-sm) !default;
 $modal-content-box-shadow-sm-up:    var(--#{$prefix}box-shadow) !default;
@@ -1531,7 +1532,7 @@ $modal-footer-border-color:         $modal-header-border-color !default;
 $modal-footer-border-width:         $modal-header-border-width !default;
 
 $modal-sm:                          300px !default;
-$modal-md:                          500px !default;
+$modal-md:                          645px !default;
 $modal-lg:                          800px !default;
 $modal-xl:                          1140px !default;
 

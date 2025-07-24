@@ -1,4 +1,4 @@
-<div class="filter d-flex align-items-center gap-20">
+<div class="filter filter-date d-flex align-items-center gap-20">
     @if($icon)
         <x-icon name="{{ $icon }}"></x-icon>
     @endif

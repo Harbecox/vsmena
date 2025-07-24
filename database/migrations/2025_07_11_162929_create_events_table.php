@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('positions_id')->unsigned();
             $table->string('title');
-            $table->string('color');
+            $table->string('color')->nullable();
             $table->datetime('start_date');
             $table->datetime('end_date');
             $table->tinyInteger('status')->default(0);

@@ -102,11 +102,9 @@ Route::post('/events/export',[EventController::class,'downloads']);
 //-------------------------admin logs--------------------------------------------------
 Route::get('/logs', [LogsController::class, 'index']);
 //-------------------------customer------------------------------------------------
-Route::get('/userscustomer', [UserCustomerController::class, 'index']);
-Route::get("/userscustomer/{user}/edit", [UserCustomerController::class, 'input']);
-Route::put("/userscustomer", [UserCustomerController::class, 'save']);
-Route::get('/userscustomer/{user}/chgpwd', [UserCustomerController::class, 'changepwd']);
-Route::put("/userscustomer", [UserCustomerController::class, 'update']);
+Route::get('/userscustomer', [UserCustomerController::class, 'index'])->name('userscustomer.index');
+Route::put("/userscustomer", [UserCustomerController::class, 'save'])->name('userscustomer.save');
+Route::put("/userscustomer/change_pwd", [UserCustomerController::class, 'update'])->name('userscustomer.update');
 
 Route::middleware('can:manipulate,App\Models\EventCustomer')->group(function (){
     //-----------------------customer(events)-----------------------------------------

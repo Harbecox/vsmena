@@ -20,7 +20,7 @@ class DateFilter extends Filter
     public string $clear_url;
     public function __construct($name,$title,$empty_label,$values = [],$icon = null)
     {
-        parent::__construct($name,$title,$empty_label,$values = [],$icon = null);
+        parent::__construct($name,$title,$empty_label,$values,$icon);
     }
 
     /**

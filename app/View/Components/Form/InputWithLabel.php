@@ -13,7 +13,7 @@ class InputWithLabel extends Component
      */
     public function __construct(
         public string $label,
-        public string $placeholder,
+        public string $placeholder = '',
         public string $name,
         public string $value = '',
         public string $type = 'text',

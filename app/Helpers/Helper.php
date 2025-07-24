@@ -26,12 +26,10 @@ class Helper
 
     }
 
-    public static function role_to_russian(): string
+    public static function role_to_russian($role = null): string
     {
-        if(!auth()->check()){
-            return "";
-        }
-        return match (auth()->user()->role) {
+        $role = $role ?? auth()->user()->role;
+        return match ($role) {
             'a' => 'Сотрудник',
             'e' => 'Менеджер',
             'b' => 'Бухгалтер',
@@ -84,9 +82,9 @@ class Helper
             return $date;
         }
         if($withTime){
-            return $carbon->translatedFormat('j F Y, H:i');
+            return $carbon->translatedFormat('j M Y, H:i');
         }else{
-            return $carbon->translatedFormat('j F Y');
+            return $carbon->translatedFormat('j M Y');
         }
     }
 }

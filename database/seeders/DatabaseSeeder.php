@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
 
         // Positions
         $positionIds = [];
-        foreach (range(1, 300) as $i) {
+        foreach (range(1, 6) as $i) {
             $name = fake()->jobTitle();
             $slug = Str::slug($name . '-' . $i);
             $id = DB::table('positions')->insertGetId([

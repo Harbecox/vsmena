@@ -18,6 +18,11 @@
                 @endforeach
             </div>
         @endforeach
+        @if(count($items) == 0)
+            <div class="x-table-row">
+                <div class="x-table-cell fs-16 text-secondary">Нет данных</div>
+            </div>
+        @endif
     </div>
     <div class="x-table-footer pt-30">
         {{ $items->links() }}

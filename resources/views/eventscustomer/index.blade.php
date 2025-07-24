@@ -1,8 +1,7 @@
 @extends("layouts.dashboard")
 
 @php
-$columns = ['Ресторан ','Должность','Время начала','Время окончания','Длительность смены','Статус смены'];
-
+    $columns = ['Ресторан ','Должность','Время начала','Время окончания','Длительность смены','Статус смены'];
 @endphp
 
 @section('content')
@@ -15,9 +14,14 @@ $columns = ['Ресторан ','Должность','Время начала','
             @foreach($filters as $filter)
                 {!! $filter->render() !!}
             @endforeach
+            <div class="filter d-flex align-items-center">
+                <a href="{{ $export_url }}">
+                    <x-icon name="export"/>
+                </a>
+            </div>
         </div>
     </div>
-    <x-form.table :columns="$columns" :items="$events" />
+    <x-form.table :columns="$columns" :items="$events"/>
 @endsection
 
 {{--@section("title", "Открыть смену")--}}

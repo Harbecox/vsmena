@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Positions;
 use App\Models\Restaurants;
-use MaddHatter\LaravelFullcalendar\Facades\Calendar;
+//use MaddHatter\LaravelFullcalendar\Facades\Calendar;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -19,9 +19,10 @@ use Illuminate\Support\Facades\Storage;
 use App\Exports\EventsCustomerExport;
 use App\Exports\EventsFCustomerExport;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Illuminate\Database\Eloquent\Builder;
 class EventCustomerController extends Controller
 {
+    private Builder $query;
     //----------------------view--------------------------------
     public function index()
     {
@@ -42,8 +43,13 @@ class EventCustomerController extends Controller
             $dates = explode(',', $filters_params['date']);
             $query = $query->whereBetween('events.start_date', [$dates[0], $dates[1]]);
         }else{
-            $query = $query->where('events.start_date', '>=', Carbon::now()->subDays(1));
+            $from = Carbon::now()->subDays(1)->format('Y-m-d');
+            $to = Carbon::now()->format('Y-m-d');
+            $url = \Illuminate\Support\Facades\Request::url() . (count($filters_params) > 0 ? http_build_query($filters_params). '&' : "?") . "date=".$from.','.$to;
+            return redirect($url);
         }
+        $export_url = 'eventscustomer/mview/load?' . http_build_query($filters_params);
+        $this->query = $query;
         $events = $query->get();
         $data = [];
         foreach ($events as $event) {
@@ -67,7 +73,7 @@ class EventCustomerController extends Controller
         $filters[] = new Filter('status','Статус смены','Все смены',$statuses);
         $filters[] = new Filter('restorant','Выбрать ресторан','Все рестораны',$restorans,'cookie');
         $filters[] = new DateFilter('date','Выбрать даты','--',[],'calendar');
-        return view("eventscustomer.index", ["events" => $data,'filters' => $filters]);
+        return view("eventscustomer.index", ["events" => $data,'filters' => $filters,'export_url' => $export_url]);
     }
 
     //----------------------add---------------------------------
@@ -178,7 +184,11 @@ class EventCustomerController extends Controller
     //------------------------------------------export to Excel---------------------------
     public function dloads()
     {
-        return Excel::download(new EventsCustomerExport(), 'exportCustNoFilterEvents.xlsx');
+        $filters_params = \Illuminate\Support\Facades\Request::all();
+        $restaurants_id = isset($filters_params['restorant']) ? $filters_params['restorant'] : -1;
+        $status = isset($filters_params['status']) ? $filters_params['status'] : -1;
+        $dates = explode(',', $filters_params['date']);
+        return Excel::download(new EventsCustomerExport($dates[0],$dates[1],$restaurants_id,$status), 'exportCustomerEvents.xlsx');
     }
 
     //------------------------------------------export to Excel Filters---------------------------

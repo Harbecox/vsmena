@@ -24,7 +24,7 @@
                 <x-icon name="search"/>
                 <input type="text" name="search" placeholder="Поиск...">
             </div>
-            <button class="btn btn-success">Открыть смену</button>
+            <x-add-event-modal />
         </div>
     </div>
 </header>
@@ -36,19 +36,16 @@
         </div>
         <div class="menu">
             <span>
-                <a href="#" class="menu_item active">
+                <a href="/eventscustomer" class="menu_item {{ request()->is('eventscustomer') ? 'active' : '' }}">
                 <x-icon name="book"/><span>История смен</span>
             </a>
-            <a href="#" class="menu_item">
+            <a href="/userscustomer" class="menu_item {{ request()->is('userscustomer') ? 'active' : '' }}">
                 <x-icon name="user"/><span>Мои данные</span>
             </a>
             </span>
-            <form class="menu_item" action="{{ route('logout') }}" method="POST">
-                @csrf
-                <a href="#" onclick="this.closest('form').submit()">
-                    <x-icon name="logout"/><span>Выход</span>
-                </a>
-            </form>
+            <span class="menu_item">
+                <x-logout-modal type="danger" />
+            </span>
         </div>
     </aside>
     <div class="main_content_box">

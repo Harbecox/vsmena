@@ -19,12 +19,13 @@ function filtersInit(){
 import { Russian } from "flatpickr/dist/l10n/ru.js"
 import * as url from "node:url";
 
-
-
 function calendarInit(){
+    let input = document.querySelector('#datePicker');
+    if(!input){
+        return;
+    }
     let picker = flatpickr("#datePicker", {mode: "range","locale": Russian});
     let flatpickr_calendar = document.querySelector('.flatpickr-calendar');
-    let input = document.querySelector('#datePicker');
     input.parentNode.insertBefore(flatpickr_calendar, input);
     let base_url = input.getAttribute('data-base-url');
     input.addEventListener('change', function (e) {
@@ -56,5 +57,44 @@ function calendarInit(){
     m_next.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18095"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18095)"><path d="M11 9L14 12L11 15" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
 }
 
+function modalInit(){
+    document.querySelectorAll('.modal').forEach(function (modal) {
+        document.querySelector('body').appendChild(modal);
+    })
+    document.querySelectorAll('.modal').forEach(function (modal) {
+        let button = modal.querySelector('button[type="submit"]');
+        let form = modal.querySelector('form');
+        console.log(button, form);
+        if(button && form){
+            button.addEventListener('click',function (){
+                form.submit();
+            })
+        }
+    })
+}
+
+function selectInit(){
+    document.querySelectorAll(".x-select").forEach(function (select) {
+        let form_input = select.querySelector('.form-input');
+        form_input.addEventListener('click', function (e) {
+            select.classList.toggle('open');
+        })
+        let selected = select.querySelector('.item.selected');
+        if(selected){
+            selected.classList.remove('selected');
+        }
+        select.querySelector('.list').querySelectorAll('.item').forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                form_input.querySelector('.selected_value').textContent = item.textContent;
+                form_input.querySelector('input').value = item.dataset.id;
+                select.classList.remove('open');
+                item.classList.add('selected');
+            })
+        })
+    })
+}
+
 filtersInit();
 calendarInit();
+modalInit();
+selectInit();
