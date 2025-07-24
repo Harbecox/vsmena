@@ -8,7 +8,7 @@
         </x-slot:button>
         <x-slot:body>
             <div class="d-flex justify-content-center align-items-center h-100">
-                <form method="POST"  action="{{ route('userscustomer.update') }}" class="login_form">
+                <form method="POST" data-class="passwordChangeRequest" action="{{ route('userscustomer.update') }}" class="login_form form_with_validate">
                     @method('PUT')
                     @csrf
                     <x-form.input-with-label

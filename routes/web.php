@@ -12,6 +12,7 @@ use App\Http\Controllers\RestaurantsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserCustomerController;
 use App\Http\Controllers\UserManagerController;
+use App\Http\Controllers\ValidateController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -125,4 +126,5 @@ Route::middleware('can:manipulate,App\Models\EventCustomer')->group(function (){
 //-------------------------booker export events-------------------------------------------
 Route::get('/booker', [BookerController::class,'index']); // export route
 Route::post('/booker/export',[BookerController::class,'downloads']);
+
 

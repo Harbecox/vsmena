@@ -64,10 +64,10 @@ function modalInit(){
     document.querySelectorAll('.modal').forEach(function (modal) {
         let button = modal.querySelector('button[type="submit"]');
         let form = modal.querySelector('form');
-        console.log(button, form);
         if(button && form){
             button.addEventListener('click',function (){
-                form.submit();
+                form.dispatchEvent(new Event('submit', { bubbles: true }))
+                // form.submit();
             })
         }
     })
@@ -94,7 +94,79 @@ function selectInit(){
     })
 }
 
+async function validateForm(form, className) {
+    const url = `http://127.0.0.1:8000/api/validator/${className}`;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    delete data._method;
+
+    form.querySelectorAll('.error').forEach(function (el){
+        el.classList.remove('d-block')
+        el.classList.add('d-none')
+    });
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        if (response.status === 422 && result.errors) {
+            for (const [field, messages] of Object.entries(result.errors)) {
+                const input = form.querySelector(`[name="${field}"]`);
+                if (input) {
+                    let error = input.parentNode.querySelector('.error');
+                    error.classList.add('d-block');
+                    error.classList.remove('d-none');
+                    error.textContent = messages[0];
+                    input.insertAdjacentElement('afterend', error);
+                }
+            }
+            return false;
+        } else if (response.ok) {
+            form.submit();
+            return false;
+        } else {
+            console.error(result);
+            return false;
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert('Сетевая ошибка');
+        return false;
+    }
+}
+
+function formsInit(){
+    document.querySelectorAll('form').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            if(form.dataset.class !== undefined){
+                e.preventDefault();
+                validateForm(form, form.dataset.class);
+            }
+        })
+    })
+}
+
+function initClearFilters() {
+    document.querySelectorAll('.clear_filter').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+            window.location.href = window.location.origin + window.location.pathname;
+        })
+    })
+}
+
 filtersInit();
 calendarInit();
 modalInit();
 selectInit();
+formsInit();
+initClearFilters();
+
+

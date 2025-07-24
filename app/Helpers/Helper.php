@@ -87,4 +87,28 @@ class Helper
             return $carbon->translatedFormat('j M Y');
         }
     }
+
+    static function parseRuDate(string $string): ?string
+    {
+        $months = [
+            'янв' => 'Jan', 'фев' => 'Feb', 'мар' => 'Mar', 'апр' => 'Apr',
+            'май' => 'May', 'июн' => 'Jun', 'июл' => 'Jul', 'авг' => 'Aug',
+            'сен' => 'Sep', 'окт' => 'Oct', 'ноя' => 'Nov', 'дек' => 'Dec',
+        ];
+
+        foreach ($months as $ru => $en) {
+            if (str_contains($string, $ru)) {
+                $string = str_replace($ru, $en, $string);
+                break;
+            }
+        }
+
+        try {
+            $date = Carbon::createFromFormat('d M Y, H:i', $string);
+            return $date->format('Y-m-d H:i:s');
+        } catch (\Exception $e) {
+            // Не удалось распарсить дату — возвращаем null
+            return null;
+        }
+    }
 }

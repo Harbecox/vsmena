@@ -20,14 +20,27 @@ class DatabaseSeeder extends Seeder
         // Roles
         $roles = ['a', 'e', 'b', 'm'];
 
+
+        $id = DB::table('users')->insertGetId([
+            'fio' => fake()->name(),
+            'year_birth' => rand(1970, 2005),
+            'phone' => fake()->numberBetween(10000000000,99999999999),
+            'email' => 'user@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'a',
+            'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         // Users
-        $userIds = [];
+        $userIds = [$id];
         foreach (range(1, 25) as $i) {
             $role = $roles[array_rand($roles)];
             $id = DB::table('users')->insertGetId([
                 'fio' => fake()->name(),
                 'year_birth' => rand(1970, 2005),
-                'phone' => fake()->phoneNumber(),
+                'phone' => fake()->numberBetween(10000000000,99999999999),
                 'email' => fake()->unique()->safeEmail(),
                 'password' => Hash::make('password'),
                 'role' => $role,

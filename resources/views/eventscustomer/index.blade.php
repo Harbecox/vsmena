@@ -10,16 +10,22 @@
             <h1 class="text-primary">История моих смен</h1>
             <h3 class="text-secondary">Место, где каждый день — новый вкус</h3>
         </div>
-        <div class="filters d-flex gap-20">
-            @foreach($filters as $filter)
-                {!! $filter->render() !!}
-            @endforeach
-            <div class="filter d-flex align-items-center">
-                <a href="{{ $export_url }}">
-                    <x-icon name="export"/>
-                </a>
+        <div class="d-flex flex-column gap-20">
+            <div class="filters d-flex gap-20">
+                @foreach($filters as $filter)
+                    {!! $filter->render() !!}
+                @endforeach
+                <div class="filter d-flex align-items-center">
+                    <a href="{{ $export_url }}">
+                        <x-icon name="export"/>
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-light clear_filter" >Сбросить фильтры</button>
             </div>
         </div>
+
     </div>
     <x-form.table :columns="$columns" :items="$events"/>
 @endsection

@@ -7,7 +7,5 @@
     @if($icon)
         <x-icon name="{{ $icon }}" />
     @endif
-    @if($errors->has($name))
-        <div class="error text-danger">{{ $errors->first($name) }}</div>
-    @endif
+    <div class="error text-danger @if($errors->has($name)) d-block @else d-none @endif">@if($errors->has($name)){{ $errors->first($name) }}@endif</div>
 </div>

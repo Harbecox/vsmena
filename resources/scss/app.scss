@@ -77,6 +77,10 @@ a{
         opacity: 0;
     }
 }
+.error{
+    font-size: 16px;
+    font-weight: 400;
+}
 
 .input__with_label{
     gap: 10px;
@@ -214,11 +218,13 @@ header{
         z-index: 99;
     }
     .main_content_box{
+        $mtop: 100px;
         flex: 1;
         height: 100%;
         background-color: #F9F9F9;
-        margin-top: 100px;
+        margin-top: $mtop;
         padding: 50px 40px 50px 50px;
+        min-height: calc(100vh - #{$mtop});
     }
 }
 

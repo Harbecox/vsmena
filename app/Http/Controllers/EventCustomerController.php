@@ -42,7 +42,8 @@ class EventCustomerController extends Controller
         if(isset($filters_params['date'])){
             $dates = explode(',', $filters_params['date']);
             $query = $query->whereBetween('events.start_date', [$dates[0], $dates[1]]);
-        }else{
+        }
+        else{
             $from = Carbon::now()->subDays(1)->format('Y-m-d');
             $to = Carbon::now()->format('Y-m-d');
             $url = \Illuminate\Support\Facades\Request::url() . (count($filters_params) > 0 ? http_build_query($filters_params). '&' : "?") . "date=".$from.','.$to;
@@ -99,11 +100,9 @@ class EventCustomerController extends Controller
     public function store(Request $request)
     {
         $events = new Event;
-        $events->title = $request->input('title');
-        $events->color = $request->input('color');
-        $events->start_date = $request->input('start_date');
-        $events->status = $request->input('status');
+        $events->start_date = Helper::parseRuDate($request->input('start_date'));
         $events->positions_id = $request->input('positions_id');
+
         $events->save();
         //----------------------------------------------------------
         DB::table('positions')->where('id', $events->positions_id)->update(['users_id' => auth()->user()->id]);
@@ -201,4 +200,5 @@ class EventCustomerController extends Controller
 
         return Excel::download(new EventsFCustomerExport($start_date, $end_date, $restaurants_id, $title), 'exportCustFilterEvents.xlsx');
     }
+
 }

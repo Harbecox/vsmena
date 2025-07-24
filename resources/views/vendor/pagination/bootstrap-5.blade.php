@@ -14,11 +14,39 @@
         </div>
         <div class="position-absolute fs-14 d-flex gap-15 align-items-center" style="right: 0">
             Страница
-            <span style="border-radius: 8px;padding: 12px 24px;background-color: #fff">{{ $paginator->currentPage() }}</span>
+{{--            <span style="border-radius: 8px;padding: 12px 24px;background-color: #fff">{{ $paginator->currentPage() }}</span>--}}
+            <form method="GET" action="{{ url()->current() }}" class="d-flex align-items-center gap-10" id="pageJumpForm">
+                @foreach(request()->except('page') as $key => $value)
+                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                @endforeach
+
+                <input
+                    name="page"
+                    value="{{ $paginator->currentPage() }}"
+                    class="page-jump-input"
+                    style="width: 53px;text-align: center; border-radius: 8px; padding: 12px 0; background-color: #fff; border: 1px solid #ccc;"
+                >
+            </form>
             из {{ $paginator->lastPage() }}
         </div>
     </div>
 
+    <script>
+        document.querySelector('.page-jump-input').addEventListener('change', function () {
+            const maxPage = {{ $paginator->lastPage() }};
+            let page = parseInt(this.value);
+            if (page < 1) page = 1;
+            if (page > maxPage) page = maxPage;
+
+            const form = document.getElementById('pageJumpForm');
+            const input = form.querySelector('input[name="page"]');
+            input.value = page;
+            input.addEventListener('focus', function () {
+                this.select();
+            });
+            form.submit();
+        });
+    </script>
 
 
     {{--    <nav class="d-flex justify-items-center justify-content-between">--}}

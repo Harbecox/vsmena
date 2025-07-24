@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('positions_id')->unsigned();
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->string('color')->nullable();
             $table->datetime('start_date');
-            $table->datetime('end_date');
+            $table->datetime('end_date')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->foreign('positions_id')->references('id')->on('positions')->onDelete('cascade')->onUpdate('restrict');
             $table->timestamps();
