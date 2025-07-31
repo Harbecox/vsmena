@@ -19,6 +19,7 @@ class InputWithLabel extends Component
         public string $type = 'text',
         public string|null $icon = null,
         public bool $required = false,
+        public bool $looked = false,
     )
     {}
 

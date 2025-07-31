@@ -13,6 +13,7 @@
         "flatpickr": "^4.6.13",
         "js-datepicker": "^5.18.4",
         "laravel-vite-plugin": "^1.0",
+        "notyf": "^3.10.0",
         "tailwindcss": "^4.0.7",
         "vite": "^6.0"
     },

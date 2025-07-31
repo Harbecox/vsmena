@@ -24,7 +24,14 @@
             </div>
         @endif
     </div>
-    <div class="x-table-footer pt-30">
+    <div class="x-table-footer pt-30 position-relative">
+        @if(strlen($fbTitle) > 0)
+            <div class="position-absolute left-0 bottom-0 z-1">
+                <a class="btn btn-light" href="{{ $fbUrl }}">
+                    {{ $fbTitle }}
+                </a>
+            </div>
+        @endif
         {{ $items->links() }}
     </div>
 </div>

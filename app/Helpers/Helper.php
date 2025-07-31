@@ -38,10 +38,10 @@ class Helper
         };
     }
 
-    static function formatDurationRoundedHours(string $start, string $end): string
+    static function formatDurationRoundedHours(string $start, string|null $end): string
     {
         $start = Carbon::parse($start);
-        $end = Carbon::parse($end);
+        $end = Carbon::parse($end ?? Carbon::now());
 
         $minutes = $start->diffInMinutes($end);
         $hours = round($minutes / 60);

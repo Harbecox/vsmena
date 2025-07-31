@@ -10,11 +10,15 @@ class Table extends Component
 {
     public array $columns;
     public mixed $items;
+    public string $fbTitle = '';
+    public string $fbUrl = '';
 
-    public function __construct(array $columns, mixed $items)
+    public function __construct(array $columns, mixed $items, string $fbTitle = "", string $fbUrl = "")
     {
         $this->columns = $columns;
         $this->items = $items;
+        $this->fbTitle = $fbTitle;
+        $this->fbUrl = $fbUrl;
     }
 
     /**

@@ -11,10 +11,8 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Positions;
 use App\Models\Restaurants;
-//use MaddHatter\LaravelFullcalendar\Facades\Calendar;
 use DB;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\EventsCustomerExport;
 use App\Exports\EventsFCustomerExport;
@@ -22,7 +20,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 class EventCustomerController extends Controller
 {
-    private Builder $query;
     //----------------------view--------------------------------
     public function index()
     {
@@ -47,7 +44,13 @@ class EventCustomerController extends Controller
             $from = Carbon::now()->subDays(1)->format('Y-m-d');
             $to = Carbon::now()->format('Y-m-d');
             $url = \Illuminate\Support\Facades\Request::url() . (count($filters_params) > 0 ? http_build_query($filters_params). '&' : "?") . "date=".$from.','.$to;
-            return redirect($url);
+
+            $status = session('status');
+            $error = session('error');
+
+            return redirect($url)
+                ->with('status', $status)
+                ->with('error', $error);
         }
         $export_url = 'eventscustomer/mview/load?' . http_build_query($filters_params);
         $this->query = $query;
@@ -97,7 +100,7 @@ class EventCustomerController extends Controller
         return view("/eventscustomer/addevent", ["rests" => $restaurants, "events" => $events, "restaurant" => $restaurant]);
     }
 
-    public function store(Request $request)
+    public function open(Request $request)
     {
         $events = new Event;
         $events->start_date = Helper::parseRuDate($request->input('start_date'));
@@ -107,7 +110,7 @@ class EventCustomerController extends Controller
         //----------------------------------------------------------
         DB::table('positions')->where('id', $events->positions_id)->update(['users_id' => auth()->user()->id]);
         //----------------------------------------------------------
-        return redirect('/eventscustomer')->with("status", 'Смена успешно открыта.');
+        return redirect()->route('events.index')->with("status", 'Смена успешно открыта.');
     }
 
     //--------------------------edit----------------------------
@@ -117,7 +120,7 @@ class EventCustomerController extends Controller
         return view('eventscustomer.input', compact('events', 'id'));
     }
 
-    public function save(Request $request)
+    public function close(Request $request)
     {
         $events = Event::where('id', '=', $request->id)->first();
         //------------------------callback----------------------------------------
@@ -126,12 +129,12 @@ class EventCustomerController extends Controller
             $posit = Positions::select("name", "restaurants_id")->where('id', '=', $events->positions_id)->first();
             $name_ = $this->convertRUcharacters($posit->name);
             $slug = $name_ . time() * 1000;
-            DB::table('positions')->insert(['name' => $posit->name, 'price_shifts' => '0.00', 'price_hour' => '0.00', 'price_month' => '0.00', 'description' => '', 'slug' => $slug, 'users_id' => '2', 'restaurants_id' => $posit->restaurants_id]);
+            DB::table('positions')->insert(['name' => $posit->name, 'price_shifts' => '0.00', 'price_hour' => '0.00', 'description' => '', 'slug' => $slug, 'users_id' => '2', 'restaurants_id' => $posit->restaurants_id]);
             //-------------------------------------------------------------------
         }
         //-------------------------------------------------------------------------
         $events->update($request->all());
-        return redirect('/eventscustomer')->with('status', 'Смена успешно закрыта.');
+        return redirect()->route('events.index')->with('status', 'Смена успешно закрыта.');
     }
 
     //------------------------------translit php-------------------------------------
@@ -184,21 +187,10 @@ class EventCustomerController extends Controller
     public function dloads()
     {
         $filters_params = \Illuminate\Support\Facades\Request::all();
-        $restaurants_id = isset($filters_params['restorant']) ? $filters_params['restorant'] : -1;
-        $status = isset($filters_params['status']) ? $filters_params['status'] : -1;
+        $restaurants_id = $filters_params['restorant'] ?? -1;
+        $status = $filters_params['status'] ?? -1;
         $dates = explode(',', $filters_params['date']);
         return Excel::download(new EventsCustomerExport($dates[0],$dates[1],$restaurants_id,$status), 'exportCustomerEvents.xlsx');
-    }
-
-    //------------------------------------------export to Excel Filters---------------------------
-    public function filterdloads(Request $request)
-    {
-        $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
-        $restaurants_id = $request->input('restaurants_id');
-        $title = $request->input('title');
-
-        return Excel::download(new EventsFCustomerExport($start_date, $end_date, $restaurants_id, $title), 'exportCustFilterEvents.xlsx');
     }
 
 }

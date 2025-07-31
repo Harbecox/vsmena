@@ -24,7 +24,8 @@
                 <x-icon name="search"/>
                 <input type="text" name="search" placeholder="Поиск...">
             </div>
-            <x-add-event-modal />
+
+            <x-header-event-component/>
         </div>
     </div>
 </header>
@@ -36,15 +37,33 @@
         </div>
         <div class="menu">
             <span>
-                <a href="/eventscustomer" class="menu_item {{ request()->is('eventscustomer') ? 'active' : '' }}">
-                <x-icon name="book"/><span>История смен</span>
-            </a>
-            <a href="/userscustomer" class="menu_item {{ request()->is('userscustomer') ? 'active' : '' }}">
-                <x-icon name="user"/><span>Мои данные</span>
-            </a>
+                <a href="{{ route('events.index') }}"
+                   class="menu_item {{ request()->routeIs('events.*') ? 'active' : '' }}">
+                    <x-icon name="book"/><span>История смен</span>
+                </a>
+                <a href="/userscustomer" class="menu_item {{ request()->routeIs('userscustomer.*') ? 'active' : '' }}">
+                    <x-icon name="user"/><span>Мои данные</span>
+                </a>
+            @switch(auth()->user()->role)
+                @case('e')
+                    {{--                    Менеджер--}}
+                    @break
+                @case('b')
+                    {{--                    Бухгалтер--}}
+                    @break
+                @case('m')
+                    {{--                    Администратор--}}
+                    <a href="{{ route('staff.index') }}" class="menu_item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
+                        <x-icon name="staff"/><span>Сейчас работают</span>
+                    </a>
+                        <a href="{{ route('calendar.index') }}" class="menu_item {{ request()->routeIs('calendar.*') ? 'active' : '' }}">
+                        <x-icon name="approve"/><span>Подтверждение смен</span>
+                    </a>
+                @break
+            @endswitch
             </span>
             <span class="menu_item">
-                <x-logout-modal type="danger" />
+                <x-logout-modal type="danger"/>
             </span>
         </div>
     </aside>
@@ -52,6 +71,8 @@
         @yield('content')
     </div>
 </div>
+<x-notyf/>
+
 
 </body>
 </html>

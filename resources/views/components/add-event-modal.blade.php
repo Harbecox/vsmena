@@ -8,7 +8,7 @@
         </x-slot:button>
         <x-slot:body>
             <div class="d-flex justify-content-center w-100 align-items-center h-100">
-                <form class="w-100" data-class="AddEventRequest" method="POST" action="{{ route('addevent.store') }}">
+                <form class="w-100" data-class="AddEventRequest" method="POST" action="{{ route('events.open') }}">
                     @csrf
                     <x-form.select
                         name="restorant_id"

@@ -23,7 +23,7 @@ class UserCustomerController extends Controller
 
     public function index()
     {
-        $users = User::select("fio", "year_birth", "phone", "email", "role", 'id')->where('role', '=', "a")->where('id', '=', auth()->user()->id)->orderBy("email")->get();
+        $users = User::select("fio", "year_birth", "phone", "email", "role", 'id')->where('id', '=', auth()->user()->id)->orderBy("email")->get();
         $data = [];
         foreach ($users as $user) {
             $data[] = [

@@ -11,11 +11,13 @@ class Select extends Component
     public string $name;
     public array $values;
     public string $label;
-    public function __construct($name,$label,$values = [])
+    public string $selected = '';
+    public function __construct($name,$label,$values = [],$selected = '')
     {
         $this->name = $name;
         $this->values = $values;
         $this->label = $label;
+        $this->selected = intval($selected);
     }
 
     /**
@@ -27,6 +29,7 @@ class Select extends Component
                 "values" => $this->values,
                 "name" => $this->name,
                 "label" => $this->label,
+                "selected" => $this->selected,
             ]);
     }
 }

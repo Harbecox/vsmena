@@ -18,6 +18,8 @@ function filtersInit(){
 
 import { Russian } from "flatpickr/dist/l10n/ru.js"
 import * as url from "node:url";
+import {Notyf} from "notyf";
+import 'notyf/notyf.min.css';
 
 function calendarInit(){
     let input = document.querySelector('#datePicker');
@@ -149,6 +151,8 @@ function formsInit(){
             if(form.dataset.class !== undefined){
                 e.preventDefault();
                 validateForm(form, form.dataset.class);
+            }else{
+                form.submit();
             }
         })
     })
@@ -168,5 +172,15 @@ modalInit();
 selectInit();
 formsInit();
 initClearFilters();
+
+
+let notyf = new Notyf();
+document.addEventListener('notyf:success', function (e) {
+    notyf.success(e.detail.message);
+})
+
+document.addEventListener('notyf:error', function (e) {
+    notyf.error(e.detail.message);
+})
 
 
