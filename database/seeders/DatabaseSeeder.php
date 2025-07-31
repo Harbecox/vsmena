@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             'phone' => fake()->numberBetween(10000000000,99999999999),
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
-            'role' => 'a',
+            'role' => 'm',
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),
