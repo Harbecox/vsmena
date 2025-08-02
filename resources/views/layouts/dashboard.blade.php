@@ -6,6 +6,7 @@
     <title>@yield('title')</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap&subset=cyrillic"
           rel="stylesheet">
+    @livewireStyles
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 </head>
 <body>
@@ -73,6 +74,6 @@
 </div>
 <x-notyf/>
 
-
+@livewireScripts
 </body>
 </html>

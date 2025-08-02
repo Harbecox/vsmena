@@ -13,4 +13,14 @@ class Event extends Model
         return $this->belongsTo("App\Positions", "positions_id", "id");
     }
 
+    public function position(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Positions::class, 'positions_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
 }
