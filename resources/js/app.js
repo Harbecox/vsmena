@@ -90,7 +90,6 @@ function selectInit(){
                 form_input.querySelector('.selected_value').textContent = item.textContent;
                 form_input.querySelector('input').value = item.dataset.id;
                 form_input.querySelector('input').dispatchEvent(new Event('input', { bubbles: true }));
-                window.Livewire.dispatch('restaurant_id_Update', { value: item.dataset.id })
                 select.classList.remove('open');
                 item.classList.add('selected');
             })
@@ -171,7 +170,7 @@ function initClearFilters() {
 filtersInit();
 calendarInit();
 modalInit();
-selectInit();
+// selectInit();
 formsInit();
 initClearFilters();
 
@@ -184,4 +183,3 @@ document.addEventListener('notyf:success', function (e) {
 document.addEventListener('notyf:error', function (e) {
     notyf.error(e.detail.message);
 })
-

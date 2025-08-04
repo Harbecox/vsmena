@@ -4,17 +4,18 @@ namespace App\Helpers;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
 
 class Helper
 {
-    static function check_day_night($start,$status): bool
+    static function check_day_night($start, $status): bool
     {
 
         $flag_ = false;
 
-        if (time() - strtotime($start) <= 24*60*60) {
+        if (time() - strtotime($start) <= 24 * 60 * 60) {
 
             //---------------- not end day-night ------------------
 
@@ -71,7 +72,7 @@ class Helper
         );
     }
 
-    static function formatRussianDate($date,$withTime = true): string
+    static function formatRussianDate($date, $withTime = true): string
     {
         App::setLocale('ru');
         Carbon::setLocale('ru');
@@ -81,9 +82,9 @@ class Helper
         } catch (\Exception $e) {
             return $date;
         }
-        if($withTime){
+        if ($withTime) {
             return $carbon->translatedFormat('j M Y, H:i');
-        }else{
+        } else {
             return $carbon->translatedFormat('j M Y');
         }
     }
@@ -110,5 +111,17 @@ class Helper
             // Не удалось распарсить дату — возвращаем null
             return null;
         }
+    }
+
+    static function toMaryOptions($arr)
+    {
+        $options = new Collection();
+        foreach ($arr as $key => $value) {
+            $options->push([
+                'id' => $key,
+                'name' => $value,
+            ]);
+        }
+        return $options;
     }
 }

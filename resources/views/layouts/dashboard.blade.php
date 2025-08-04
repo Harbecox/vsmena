@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap&subset=cyrillic"
           rel="stylesheet">
     @livewireStyles
-    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+    @vite(['resources/scss/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
 </head>
 <body>
 <header>
