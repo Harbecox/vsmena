@@ -7,7 +7,7 @@ import { resolve, dirname } from 'node:path'
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/scss/app.scss', 'resources/js/app.js','resources/css/app.css'],
+            input: ['resources/scss/app.scss', 'resources/js/app.js', 'resources/js/vue_script.js', 'resources/css/app.css'],
             refresh: true,
         }),
         vue(),
@@ -15,6 +15,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '~bootstrap': resolve('node_modules/bootstrap'),
+            'vue': 'vue/dist/vue.esm-bundler.js',
         }
     },
     server: {
