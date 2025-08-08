@@ -7,7 +7,7 @@
     <title>@yield('title')</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap&subset=cyrillic"
           rel="stylesheet">
-{{--    @livewireStyles--}}
+    {{--    @livewireStyles--}}
     @vite(['resources/scss/app.scss', 'resources/js/app.js', 'resources/js/vue_script.js', 'resources/css/app.css'])
 </head>
 <body>
@@ -46,25 +46,32 @@
                     <x-icon name="user"/><span>Мои данные</span>
                 </a>
             @switch(auth()->user()->role)
-                @case('e')
-                    {{--                    Менеджер--}}
-                    @break
-                @case('b')
-                    {{--                    Бухгалтер--}}
-                    @break
-                @case('m')
-                    {{--                    Администратор--}}
-                    <a href="{{ route('staff.index') }}" class="menu_item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
+                    @case('e')
+                        {{--                    Менеджер--}}
+                        @break
+                    @case('b')
+                        {{--                    Бухгалтер--}}
+                        @break
+                    @case('m')
+                        {{--                    Администратор--}}
+                        <a href="{{ route('staff.index') }}"
+                           class="menu_item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
                         <x-icon name="staff"/><span>Сейчас работают</span>
                     </a>
-                        <a href="{{ route('calendar.index') }}" class="menu_item {{ request()->routeIs('calendar.*') ? 'active' : '' }}">
+                        <a href="{{ route('calendar.index') }}"
+                           class="menu_item {{ request()->routeIs('calendar.*') ? 'active' : '' }}">
                         <x-icon name="approve"/><span>Подтверждение смен</span>
                     </a>
-                    <a href="{{ route('restaurants.index') }}" class="menu_item {{ request()->routeIs('restaurants.*') ? 'active' : '' }}">
+                        <a href="{{ route('restaurants.index') }}"
+                           class="menu_item {{ request()->routeIs('restaurants.*') ? 'active' : '' }}">
                         <x-icon name="cookie"/><span>Рестораны</span>
                     </a>
-                @break
-            @endswitch
+                        <a href="{{ route('positions.index') }}"
+                           class="menu_item {{ request()->routeIs('positions.*') ? 'active' : '' }}">
+                        <x-icon name="file"/><span>Должности</span>
+                    </a>
+                        @break
+                @endswitch
             </span>
             <span class="menu_item">
                 <x-logout-modal type="danger"/>

@@ -289,7 +289,7 @@ header{
             }
         }
         &.active{
-            color: $primary;
+            color: $primary!important;
             background-color: $bg-light;
             svg{
                 *{
