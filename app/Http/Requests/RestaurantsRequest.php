@@ -23,7 +23,8 @@ class RestaurantsRequest extends FormRequest
     {
         return [
             'name' => 'required|max:70',
-            'slug' => 'required|max:70',
+            'user_id' => ['required','exists:users,id'],
+            'description' => ['nullable','string'],
         ];
     }
 
@@ -32,8 +33,6 @@ class RestaurantsRequest extends FormRequest
         return [
             'name.required' => 'Введите название ресторана',
             'name.max' => 'Название ресторана должно быть не длиннее 70 символов',
-            'slug.required' => 'Введите слаг',
-            'slug.max' => 'Слаг должен быть не длиннее 70 символов',
         ];
     }
 }

@@ -114,6 +114,7 @@ Route::middleware(['role:a,e,b,m'])->group(function (){
     Route::post('/events/add',[EventController::class, 'open'])->name('events.open');
     Route::post('/events/close',[EventController::class, 'close'])->name('events.close');
     Route::get('/events/export',[EventController::class,'download']);
+
 });
 
 Route::middleware(['role:m'])->group(function (){
@@ -121,6 +122,7 @@ Route::middleware(['role:m'])->group(function (){
     Route::resource('calendar', CalendarController::class);
     Route::get('calendar/accept/{id}',[CalendarController::class,'accept'])->name("calendar.accept");
     Route::resource('restaurants', RestaurantsController::class);
+    Route::resource('positions', PositionsController::class);
 });
 
 //-------------------------booker export events-------------------------------------------

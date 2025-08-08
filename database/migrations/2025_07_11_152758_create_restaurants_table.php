@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->string('name', 30)->unique();
-            $table->string('slug', 30)->unique();
+            $table->string('slug', 30)->unique()->nullable();
             $table->unsignedBigInteger('user_id')->index();
             $table->text('description')->nullable();
             $table->timestamps();

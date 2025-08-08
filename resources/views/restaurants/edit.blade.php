@@ -11,30 +11,24 @@
             <h1 class="text-primary">Редактировать данные</h1>
         </div>
     </div>
-    <form action="{{ route('restaurants.update',$restaurant->id) }}" method="post" class="page_form_container w_xl">
+    <form action="{{ $action }}" method="post" class="page_form_container w_xl">
         @csrf
-        @method('PUT')
+        @method($method)
         <div class="d-flex gap-30 w-100">
             <x-form.input-with-label
                 name="name"
-                :value="$restaurant->name"
+                :value="($restaurant->name ?? '')"
                 label="Название ресторана"
                 placeholder="Введите название..."
                 :required="true"
                 class="flex_1"
             />
-            <x-form.input-with-label
-                name="user_id"
-                :value="$restaurant->user->fio"
-                label="Назначить менеджера"
-                placeholder="Поиск..."
-                :required="true"
-                class="flex_1"
-            />
             <v-choice
+                :model-value='@json($restaurant->user?->id)'
                 :items='@json($managers)'
+                :required="true"
                 name="user_id"
-                label="Назначить менеджера*"
+                label="Назначить менеджера"
                 placeholder="Поиск..."
             />
         </div>

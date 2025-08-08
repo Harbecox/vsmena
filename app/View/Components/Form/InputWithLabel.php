@@ -15,7 +15,7 @@ class InputWithLabel extends Component
         public string      $label,
         public string      $placeholder = '',
         public string      $name,
-        public string      $value = '',
+        public string|null      $value = '',
         public string      $type = 'text',
         public string|null $icon = null,
         public bool        $required = false,

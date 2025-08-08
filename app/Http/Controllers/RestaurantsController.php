@@ -50,26 +50,47 @@ class RestaurantsController extends Controller
                     'name' => $value->fio,
                 ];
             });
-        return view('restaurants.edit',['restaurant' => $restaurant,'managers' => $managers]);
+        return view('restaurants.edit',[
+            'restaurant' => $restaurant,
+            'managers' => $managers,
+            'action' => route('restaurants.update', $restaurant->id),
+            'method' => 'PUT',
+        ]);
     }
 
-    function update($id, Request $request)
+    function update($id, RestaurantsRequest $request)
     {
-        dd($request->all());
+        Restaurants::query()->where('id', $id)->update($request->validated());
+        return redirect()->route('restaurants.index');
     }
 
-    function destroy()
+    function destroy($id)
     {
-
+        Restaurants::query()->where('id', $id)->delete();
+        return redirect()->route('restaurants.index');
     }
 
     function create()
     {
-
+        $restaurant = new Restaurants();
+        $managers = DB::table('users')->where('role','e')->get()
+            ->map(function ($value) {
+                return [
+                    'id' => $value->id,
+                    'name' => $value->fio,
+                ];
+            });
+        return view('restaurants.edit',[
+            'restaurant' => $restaurant,
+            'managers' => $managers,
+            'action' => route('restaurants.store'),
+            'method' => 'POST',
+        ]);
     }
 
-    function store()
+    function store(RestaurantsRequest $request)
     {
-
+        Restaurants::create($request->validated());
+        return redirect()->route('restaurants.index');
     }
 }

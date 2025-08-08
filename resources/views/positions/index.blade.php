@@ -1,44 +1,15 @@
-@extends("layouts.pc")
+@extends("layouts.dashboard")
 
-@push("head")
-  <script src="/js/pc.js"></script>
-@endpush
+@php
+    $columns = ['Ресторан ','Должность','Метод оплаты','Цена, руб','Описание','Действия'];
+@endphp
 
-@section("title", "Должности")
-@section("main")
-  <h1>Список должностей</h1>
-  <p><!--<a href="{{ route('positions.create') }}">Добавить</a>--></p>
-  <div id="backgroundtable">
-  <table class="list table-list">
-    <tr>
-      <th>Пользователь</th>
-	  <th>Ресторан</th>
-	  <th>Название должности</th>
-      <th colspan="2">Действия</th>
-      <th>Цена за смену</th>
-	  <th>Цена за час</th>
-	  <th>Описание</th>
-      
-    <tr>
-    @foreach ($subcats as $subcat)
-      <tr>
-        <td class="truncate-text65">{{ $subcat->usrname }}</td>
-		<td class="truncate-text45">{{ $subcat->restname }}</td>
-		<td class="truncate-text45">{{ $subcat->name }}</td>
-        <td class="links">
-          <a href="{{ action('PositionsController@input',
-          ['position' => $subcat->slug]) }}">Редактировать</a>
-        </td>
-        <td class="links">
-          <a href="{{ action('PositionsController@destroy',
-          ['position' => $subcat->slug]) }}" class="adel">Удалить</a>
-        </td>
-        <td class="center">{{ $subcat->price_shifts }}</td>
-        <td class="center">{{ $subcat->price_hour }}</td>
-		<td>{{ $subcat->description }}</td>
-        
-      </tr>
-    @endforeach
-  </table>
-  </div>
+@section('content')
+    <div class="page_header d-flex justify-content-between mb-30">
+        <div class="d-flex flex-column gap-5">
+            <h1 class="text-primary">Должности</h1>
+            <h3 class="text-secondary">Каждая должность — новый опыт</h3>
+        </div>
+    </div>
+    <x-form.table :columns="$columns" :items="$positions" fb-title="Добавить должность" fb-url="{{ route('positions.create') }}"/>
 @endsection

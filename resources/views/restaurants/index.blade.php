@@ -11,5 +11,5 @@
             <h3 class="text-secondary">Мои точки на гастрономической карте</h3>
         </div>
     </div>
-    <x-form.table :columns="$columns" :items="$restaurants"/>
+    <x-form.table :columns="$columns" :items="$restaurants" fb-title="Добавить ресторан" fb-url="{{ route('restaurants.create') }}"/>
 @endsection
