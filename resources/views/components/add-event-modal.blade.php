@@ -8,28 +8,10 @@
         </x-slot:button>
         <x-slot:body>
             <div class="d-flex justify-content-center w-100 align-items-center h-100">
-                <form class="w-100" data-class="AddEventRequest" method="POST" action="{{ route('events.open') }}">
-                    @csrf
-                    <x-form.select
-                        name="restorant_id"
-                        :values="$restaurants"
-                        label="Название ресторана"
-                    />
-                    <x-form.select
-                        name="positions_id"
-                        :values="$positions"
-                        label="Выберите должность"
-                    />
-                    <x-form.input-with-label
-                        label="Время начала смены"
-                        icon="lock"
-                        placeholder="Время начала смены"
-                        name="start_date"
-                        :value="\App\Helpers\Helper::formatRussianDate(\Carbon\Carbon::now())"
-                    />
-                </form>
+                <div class="w-100" id="app_header_modal">
+                    <form-example action="{{ route('events.open') }}" method="POST" :form-data="{ start_date: '{{ \App\Helpers\Helper::formatRussianDate(Carbon\Carbon::now()) }}' }" />
+                </div>
             </div>
         </x-slot:body>
     </x-form.modal>
-
 </div>

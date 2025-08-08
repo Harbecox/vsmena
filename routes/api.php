@@ -29,5 +29,7 @@ Route::get('positions/{id}', function ($id) {
 });
 
 Route::post('post_test',function (\App\Http\Requests\TestRequest $request){
-     return response()->json($request->validated());
+     return response()->json([
+         $request->validated(),
+     ]);
 });

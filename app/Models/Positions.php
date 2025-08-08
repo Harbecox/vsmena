@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Positions extends Model
 {
-    protected $fillable = ["name", "price_shifts", "price_hour", "description", "slug", "users_id", "price_month", "restaurants_id"];
+    protected $fillable = ["name", "price_shifts", "price_hour", "description", "slug", "user_id", "price_month", "restaurants_id"];
 
     public function usr() {
         return $this->belongsTo("App\User", "users_id", "id");

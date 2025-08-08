@@ -120,6 +120,10 @@ a{
         @media (min-width: 768px) {
             font-size: 16px;
         }
+        .required{
+            color: $danger;
+            padding-left: 5px;
+        }
     }
     svg{
         position: absolute;
@@ -132,6 +136,13 @@ a{
     }
     [type=password] + svg{
         cursor: pointer;
+    }
+    &.with-search{
+        input{
+            border:none;
+            background-color: transparent;
+            outline: none;
+        }
     }
 }
 

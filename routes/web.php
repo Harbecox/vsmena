@@ -120,10 +120,11 @@ Route::middleware(['role:m'])->group(function (){
     Route::resource('staff',StaffController::class);
     Route::resource('calendar', CalendarController::class);
     Route::get('calendar/accept/{id}',[CalendarController::class,'accept'])->name("calendar.accept");
+    Route::resource('restaurants', RestaurantsController::class);
 });
 
 //-------------------------booker export events-------------------------------------------
 Route::get('/booker', [BookerController::class,'index']); // export route
 Route::post('/booker/export',[BookerController::class,'downloads']);
 
-
+Route::get('icons/{name}',[\App\Http\Controllers\IconController::class,'get']);

@@ -20,6 +20,9 @@ return new class extends Migration
             $table->datetime('end_date')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->foreign('positions_id')->references('id')->on('positions')->onDelete('cascade')->onUpdate('restrict');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')->onUpdate('restrict');
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\View\Components\Form\DateFilter;
 use App\View\Components\Form\Filter;
 use App\View\Components\Form\Table\Date;
 use App\View\Components\Form\Table\Text;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Positions;
@@ -26,10 +27,10 @@ class EventController extends Controller
         $filters_params = \Illuminate\Support\Facades\Request::all();
         $query = Event::select("events.*", "positions.name as posname", "restaurants.name as restname",
             "positions.price_hour")
-            ->join("positions", "events.positions_id", "positions.id")
-            ->join("users", "positions.users_id", "users.id")
-            ->join("restaurants", "positions.restaurants_id", "restaurants.id")
-            ->where('users.id', '=', auth()->user()->id);
+            ->leftJoin("positions", "events.positions_id", "positions.id")
+            ->leftJoin("users", "events.user_id", "users.id")
+            ->leftJoin("restaurants", "positions.restaurants_id", "restaurants.id")
+            ->where('events.user_id', '=', auth()->user()->id);
         if(isset($filters_params['restorant'])){
             $query = $query->where('restaurants.id', '=', $filters_params['restorant']);
         }
@@ -91,7 +92,7 @@ class EventController extends Controller
         //----------------------------restaurants------------------
         $restaurants = DB::select("SELECT * FROM `restaurants`");
         if (isset($getdata_)) {
-            $events = DB::select("SELECT * FROM `positions` WHERE users_id = 2 AND restaurants_id =" . $getdata_);
+            $events = DB::select("SELECT * FROM `positions` WHERE user_id = 2 AND restaurants_id =" . $getdata_);
             $restaurant = DB::table('restaurants')->where('id', $getdata_)->first();
         } else {
             $events = array();
@@ -103,11 +104,11 @@ class EventController extends Controller
     {
         $events = new Event;
         $events->start_date = Helper::parseRuDate($request->input('start_date'));
-        $events->positions_id = $request->input('positions_id');
+        $events->positions_id = $request->input('position_id');
 
         $events->save();
         //----------------------------------------------------------
-        DB::table('positions')->where('id', $events->positions_id)->update(['users_id' => auth()->user()->id]);
+        DB::table('positions')->where('id', $events->positions_id)->update(['user_id' => auth()->user()->id]);
         //----------------------------------------------------------
         return redirect()->route('events.index')->with("status", 'Смена успешно открыта.');
     }
@@ -121,19 +122,8 @@ class EventController extends Controller
 
     public function close(Request $request)
     {
-        $events = Event::where('id', '=', $request->id)->first();
-        //------------------------callback----------------------------------------
-        if ($events->status == 0) {
-            //-------------------------callback insert positions----------------
-            $posit = Positions::select("name", "restaurants_id")->where('id', '=', $events->positions_id)->first();
-            $name_ = $this->convertRUcharacters($posit->name);
-            $slug = $name_ . time() * 1000;
-            DB::table('positions')->insert(['name' => $posit->name, 'price_shifts' => '0.00', 'price_hour' => '0.00', 'description' => '', 'slug' => $slug, 'users_id' => '2', 'restaurants_id' => $posit->restaurants_id]);
-            //-------------------------------------------------------------------
-        }
-        //-------------------------------------------------------------------------
-        $events->status = 1;
-        $events->save();
+        $event = Event::where('id', '=', $request->id)->first();
+        Positions::query()->where('id',$event->positions_id)->update(['user_id' => null]);
         return redirect()->route('events.index')->with('status', 'Смена успешно закрыта.');
     }
 
@@ -151,7 +141,7 @@ class EventController extends Controller
         $events = Event::select("events.*", "positions.name as posname", "restaurants.name as restname",
             "positions.price_hour", DB::raw("SEC_TO_TIME(TIMESTAMPDIFF(minute, events.start_date, events.end_date)*60) as period"), DB::raw("TIMESTAMPDIFF(hour, events.start_date, events.end_date) * positions.price_hour + events.premium as payment"))
             ->join("positions", "events.positions_id", "positions.id")
-            ->join("users", "positions.users_id", "users.id")
+            ->join("users", "positions.user_id", "users.id")
             ->join("restaurants", "positions.restaurants_id", "restaurants.id")->where('events.status', '=', '1')
             ->where('users.id', '=', auth()->user()->id)->orderBy("events.start_date", "asc")->get();
         $rests = Restaurants::orderBy("id", "asc")->orderBy("name")->get(["name", "id"]);
@@ -171,7 +161,7 @@ class EventController extends Controller
             $events = Event::select("events.*", "positions.name as posname", "restaurants.name as restname",
                 "positions.price_hour", DB::raw("SEC_TO_TIME(TIMESTAMPDIFF(minute, events.start_date, events.end_date)*60) as period"), DB::raw("TIMESTAMPDIFF(hour, events.start_date, events.end_date) * positions.price_hour + events.premium as payment"))
                 ->join("positions", "events.positions_id", "positions.id")
-                ->join("users", "positions.users_id", "users.id")
+                ->join("users", "positions.user_id", "users.id")
                 ->join("restaurants", "positions.restaurants_id", "restaurants.id")
                 ->where(DB::raw('DATE(events.start_date)'), '>=', $start_date)
                 ->where(DB::raw('DATE(events.end_date)'), '<=', $end_date)

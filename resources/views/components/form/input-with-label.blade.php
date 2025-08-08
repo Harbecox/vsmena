@@ -1,8 +1,8 @@
 @php
     $input_name = \Illuminate\Support\Str::uuid();
 @endphp
-<div class="input__with_label">
-    <label class="{{ $input_name }}">{{ $label }}</label>
+<div class="input__with_label {{ $class }}">
+    <label class="{{ $input_name }}">{{ $label }}@if($required)<span class="required">*</span>@endif</label>
     <input @if($looked) readonly @endif @if($required) required @endif id="{{ $input_name }}" class="form-input" type="{{ $type }}" value="{{ $value }}" name="{{ $name }}" placeholder="{{ $placeholder }}">
     @if($icon)
         <x-icon name="{{ $icon }}" />

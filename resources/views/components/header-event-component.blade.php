@@ -3,7 +3,6 @@
         <x-event-info-modal :event_id="$event_id" />
         <x-close-event-modal :event_id="$event_id" />
     @else
-{{--        <x-add-event-modal />--}}
-        <livewire:add-event />
+        <x-add-event-modal />
     @endif
 </div>

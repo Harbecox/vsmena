@@ -11,6 +11,6 @@
     </div>
     <x-form.table :columns="$columns" :items="$users"/>
 
-    <form-example/>
+
 @endsection
 

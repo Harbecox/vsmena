@@ -91,7 +91,7 @@ class CalendarController extends Controller
             ->select("events.*", "positions.name as posname", "restaurants.name as restname",
                 "positions.price_hour","users.fio as fio")
                 ->join("positions", "events.positions_id", "positions.id")
-                ->join("users", "positions.users_id", "users.id")
+                ->join("users", "positions.user_id", "users.id")
                 ->join("restaurants", "positions.restaurants_id", "restaurants.id")
             ->whereDate('events.start_date', $date)
             ->get();
@@ -121,7 +121,7 @@ class CalendarController extends Controller
             ->select("events.*", "positions.name as posname", "restaurants.name as restname",
                 "positions.price_hour","users.fio as fio","positions.restaurants_id as restaurants_id")
             ->join("positions", "events.positions_id", "positions.id")
-            ->join("users", "positions.users_id", "users.id")
+            ->join("users", "positions.user_id", "users.id")
             ->join("restaurants", "positions.restaurants_id", "restaurants.id")
             ->where("events.id", $id)
             ->first();

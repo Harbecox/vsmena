@@ -14,7 +14,7 @@ class HeaderEventComponent extends Component
     public function __construct()
     {
         $event = Positions::query()
-            ->where('users_id', '=', auth()->user()->id)
+            ->where('positions.user_id', '=', auth()->user()->id)
             ->where('status', '=', '0')
             ->join('events', 'events.positions_id', '=', 'positions.id')
             ->select('events.id')

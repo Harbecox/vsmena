@@ -2,48 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
+use App\Models\Restaurants;
+use App\View\Components\DeleteModal;
+use App\View\Components\Form\Table\Actions;
+use App\View\Components\Form\Table\Date;
+use App\View\Components\Form\Table\Text;
 use Illuminate\Http\Request;
-use App\Restaurants;
 use App\Http\Requests\RestaurantsRequest;
-use App\Positions;
 use DB;
 
 class RestaurantsController extends Controller
 {
-  public function __construct() {
-		parent::__construct();
-		$this->middleware("can:manipulate,App\Restaurants");
-	}
-  public function index() {
-    $cats = Restaurants::where('session_id', '=', auth()->user()->id)->orderBy("id", "asc")->orderBy("name")->get();
-    return view("restaurants.index", ["cats" => $cats]);
-  }
-
-  public function input(Restaurants $restaurant) {
-    return view("restaurants.input", ["cat" => $restaurant]);
-  }
-
-  public function save(RestaurantsRequest $request) {
-    if ($request->has("id")) {
-      $cat = Restaurants::findOrFail($request->id);
-      $cat->fill($request->all())->save();
-      $s = " обновлен";
-    } else {
-      $cat = Restaurants::create($request->all());
-      $s = " создан"; 
-	   //-------------------------insert positions-----------------------------------------
-		  $slug = 'menedzher'.time()*1000;
-		  DB::table('positions')->insert([ 'name'=>'менеджер','price_shifts'=>'0','price_hour'=>'0','price_month'=>'0','description'=>'','slug'=>$slug,'users_id' => auth()->user()->id,'restaurants_id' => $cat->id ]);
-	  //-----------------------------------------------------------------------------
+    function index()
+    {
+        $restaurants = Restaurants::query()
+            ->select('restaurants.id as id', 'restaurants.name as name', 'restaurants.description as description', 'users.fio as fio')
+            ->join('users', 'restaurants.user_id', 'users.id')
+            ->get();
+        foreach ($restaurants as $restaurant) {
+            $data[] = [
+                new Text($restaurant->name),
+                new Text($restaurant->description),
+                new Text($restaurant->fio),
+                new Actions([
+                    new Actions\IconLink(route('restaurants.edit', $restaurant->id), 'edit'),
+                    //new Actions\IconLink(route('restaurants.destroy',$restaurant->id),'trash'),
+                    new DeleteModal(
+                        title:'Удалить ресторан?',
+                        text:'Вы действительно хотите удалить ресторан?',
+                        url:route('restaurants.destroy', $restaurant->id),
+                        id:$restaurant->id,
+                    )
+                ])
+            ];
+        }
+        return view('restaurants.index', ['restaurants' => Helper::paginateArray($data)]);
     }
-    return redirect()->action("RestaurantsController@index")
-    ->with("status", "Ресторан " . $cat->name . $s);
-  }
 
-  public function destroy(Restaurants $restaurant) {
-    $name = $restaurant->name;
-    $restaurant->delete();
-    return redirect()->action("RestaurantsController@index")
-    ->with("status", "Ресторан " . $name . " удален");
-  }
+    function edit($id)
+    {
+        $restaurant = Restaurants::query()->where('id',$id)->firstOrFail();
+        $managers = DB::table('users')->where('role','e')->get()
+            ->map(function ($value) {
+                return [
+                    'id' => $value->id,
+                    'name' => $value->fio,
+                ];
+            });
+        return view('restaurants.edit',['restaurant' => $restaurant,'managers' => $managers]);
+    }
+
+    function update($id, Request $request)
+    {
+        dd($request->all());
+    }
+
+    function destroy()
+    {
+
+    }
+
+    function create()
+    {
+
+    }
+
+    function store()
+    {
+
+    }
 }

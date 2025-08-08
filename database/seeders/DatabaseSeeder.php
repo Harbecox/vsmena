@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
 
         // Users
         $userIds = [$id_user, $id_admin];
-        foreach (range(1, 25) as $i) {
+        foreach (range(1, 300) as $i) {
             $role = $roles[array_rand($roles)];
             $id = DB::table('users')->insertGetId([
                 'fio' => fake()->name(),
@@ -67,11 +67,13 @@ class DatabaseSeeder extends Seeder
 
         // Restaurants
         $restaurantIds = [];
+        $managers = User::query()->where('role', 'e')->get();
         foreach (range(1, 10) as $i) {
             $name = Str::limit(fake()->unique()->company(), 30, '');
-            $slug = Str::slug($name);
+            $slug = Str::slug($name)."-".Str::random(6);
             $id = DB::table('restaurants')->insertGetId([
                 'name' => $name,
+                'user_id' => $managers->random()->id,
                 'slug' => Str::limit($slug, 30, ''),
                 'description' => fake()->text(100),
                 'created_at' => now(),
@@ -83,23 +85,27 @@ class DatabaseSeeder extends Seeder
 
         // Positions
         $positionIds = [];
-        foreach (range(1, 6) as $i) {
-            $name = fake()->jobTitle();
-            $slug = Str::slug($name . '-' . $i);
-            $id = DB::table('positions')->insertGetId([
-                'name' => $name,
-                'price_shifts' => rand(5000, 10000),
-                'price_hour' => rand(300, 800),
-                'description' => fake()->text(100),
-                'slug' => $slug,
-                'users_id' => $userIds[array_rand($userIds)],
-                'order' => rand(0, 10),
-                'restaurants_id' => $restaurantIds[array_rand($restaurantIds)],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            $positionIds[] = $id;
+        foreach ($restaurantIds as $restaurantId) {
+            foreach (range(1, rand(1,10)) as $i) {
+                $userIds = $this->userIdsWithoutPosition();
+                $name = fake()->jobTitle();
+                $slug = Str::slug($name)."-".Str::random(6);
+                $id = DB::table('positions')->insertGetId([
+                    'name' => $name,
+                    'price_shifts' => rand(5000, 10000),
+                    'price_hour' => rand(300, 800),
+                    'description' => fake()->text(100),
+                    'slug' => $slug,
+                    'user_id' => fake()->boolean() ? $userIds[array_rand($userIds)] : null,
+                    'order' => rand(0, 10),
+                    'restaurants_id' => $restaurantId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $positionIds[] = $id;
+            }
         }
+
         print_r("Positions ok\n");
 
         // Events
@@ -115,6 +121,7 @@ class DatabaseSeeder extends Seeder
                 'status' => rand(0, 1),
                 'created_at' => now(),
                 'updated_at' => now(),
+                'user_id' => $userIds[array_rand($userIds)],
             ]);
         }
         print_r("Events ok\n");
@@ -133,5 +140,13 @@ class DatabaseSeeder extends Seeder
         print_r("Logs ok\n");
 
 
+    }
+
+    function userIdsWithoutPosition()
+    {
+        return User::query()
+            ->leftJoin('positions', 'users.id', '=', 'positions.user_id')
+            ->whereNull('positions.id')
+            ->pluck('users.id')->toArray();
     }
 }

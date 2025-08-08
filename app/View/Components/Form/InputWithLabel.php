@@ -12,16 +12,18 @@ class InputWithLabel extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string $label,
-        public string $placeholder = '',
-        public string $name,
-        public string $value = '',
-        public string $type = 'text',
+        public string      $label,
+        public string      $placeholder = '',
+        public string      $name,
+        public string      $value = '',
+        public string      $type = 'text',
         public string|null $icon = null,
-        public bool $required = false,
-        public bool $looked = false,
+        public bool        $required = false,
+        public bool        $looked = false,
+        public string      $class = ""
     )
-    {}
+    {
+    }
 
     /**
      * Get the view / contents that represent the component.

@@ -22,7 +22,7 @@ class StaffController extends Controller
         $query = Event::select("events.*", "positions.name as posname", "restaurants.name as restname",
             "positions.price_hour","users.fio as fio")
             ->join("positions", "events.positions_id", "positions.id")
-            ->join("users", "positions.users_id", "users.id")
+            ->join("users", "positions.user_id", "users.id")
             ->join("restaurants", "positions.restaurants_id", "restaurants.id");
         if(isset($filters_params['restorant'])){
             $query = $query->where('restaurants.id', '=', $filters_params['restorant']);
@@ -52,7 +52,7 @@ class StaffController extends Controller
     {
         $event = Event::query()
             ->join("positions", "events.positions_id", "positions.id")
-            ->join("users", "positions.users_id", "users.id")
+            ->join("users", "positions.user_id", "users.id")
             ->where('events.id', '=', $id)
             ->first();
         $restaurants = Restaurants::query()->pluck('name','id')->toArray();

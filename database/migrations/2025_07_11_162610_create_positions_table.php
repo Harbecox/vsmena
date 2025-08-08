@@ -18,10 +18,10 @@ return new class extends Migration
             $table->decimal('price_hour', 10, 2);
             $table->text('description')->nullable();
             $table->string('slug', 100)->unique();
-            $table->unsignedBigInteger('users_id');
             $table->tinyInteger('order')->default(0)->index();
             $table->timestamps();
-            $table->foreign('users_id')->references('id')->on('users')
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')->onUpdate('restrict');
             $table->unsignedBigInteger('restaurants_id')->index()->nullable();
             $table->foreign('restaurants_id')->references('id')->on('restaurants')

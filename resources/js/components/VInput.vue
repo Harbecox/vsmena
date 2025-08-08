@@ -1,29 +1,26 @@
 <template>
-    <div class="input__with_label x-select" :class="{ open: opened }">
-        <label class="">{{ label }}</label>
-        <div @click="opened = !opened" class="form-input">
-            <input type="hidden" :name="name" :value="activeItem?.id">
-            <span class="selected_value">{{ activeItem?.name || '---' }}</span>
-            <v-icon name="arrow_down"></v-icon>
-        </div>
-        <div class="list">
-            <div v-for="(item, i) in items" @click="onSelect(item)" :key="i" :data-id="item.id" class="item" :class="{ selected: item.id === modelValue }">{{ item.name }}</div>
-        </div>
+    <div class="input__with_label">
+        <label>{{ label }}</label>
+        <input
+            :readonly="locked"
+            class="form-input"
+            :type="type"
+            :placeholder="placeholder"
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+            :name="name"
+        >
+        <v-icon :name="icon"/>
         <div v-if="errors.length" class="error text-danger">{{ errors[0] }}</div>
     </div>
 </template>
 
 <script>
-
 export default {
-    name: "VSelect",
+    name: "VInput",
     props: {
         modelValue: {
-            type: [String, Number],
-        },
-        items: {
-            type: Array,
-            default: () => ([]),
+            type: [String],
         },
         label: {
             type: String,
@@ -32,6 +29,22 @@ export default {
         errors: {
             type: Array,
             default: () => ([]),
+        },
+        locked: {
+            type: Boolean,
+            default: false,
+        },
+        type: {
+            type: String,
+            default: 'text',
+        },
+        placeholder: {
+            type: String,
+            default: '',
+        },
+        icon: {
+            type: [String, Boolean],
+            default: false,
         },
         name: {
             type: String,
@@ -42,8 +55,10 @@ export default {
     data: () => ({
         opened: false,
     }),
-    created() {},
-    mounted() {},
+    created() {
+    },
+    mounted() {
+    },
     methods: {
         onSelect(item) {
             this.$emit('update:modelValue', item.id);

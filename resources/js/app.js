@@ -63,13 +63,11 @@ function modalInit(){
     document.querySelectorAll('.modal').forEach(function (modal) {
         document.querySelector('body').appendChild(modal);
     })
-    document.querySelectorAll('.modal').forEach(function (modal) {
+    document.querySelectorAll('.modal').forEach(function (modal,i) {
         let button = modal.querySelector('button[type="submit"]');
-        let form = modal.querySelector('form');
-        if(button && form){
+        if(button){
             button.addEventListener('click',function (){
-                form.dispatchEvent(new Event('submit', { bubbles: true }))
-                // form.submit();
+                modal.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true }))
             })
         }
     })

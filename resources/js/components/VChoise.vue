@@ -1,13 +1,12 @@
 <template>
-    <div class="input__with_label x-select" :class="{ open: opened }">
+    <div class="input__with_label x-select with-search" :class="{ open: opened }">
         <label class="">{{ label }}</label>
-        <div @click="opened = !opened" class="form-input">
-            <input type="hidden" :name="name" :value="activeItem?.id">
-            <span class="selected_value">{{ activeItem?.name || '---' }}</span>
-            <v-icon name="arrow_down"></v-icon>
+        <div class="form-input">
+            <input @focus="opened = true" :placeholder="placeholder" v-model="word" >
+            <input type="hidden" :name="name" :value="this.modelValue">
         </div>
-        <div class="list">
-            <div v-for="(item, i) in items" @click="onSelect(item)" :key="i" :data-id="item.id" class="item" :class="{ selected: item.id === modelValue }">{{ item.name }}</div>
+        <div class="list" v-if="word.length > 0">
+            <div v-for="(item, i) in selected" @click="onSelect(item)" :key="i" :data-id="item.id" class="item" :class="{ selected: item.id === modelValue }">{{ item.name }}</div>
         </div>
         <div v-if="errors.length" class="error text-danger">{{ errors[0] }}</div>
     </div>
@@ -16,7 +15,7 @@
 <script>
 
 export default {
-    name: "VSelect",
+    name: "VChoice",
     props: {
         modelValue: {
             type: [String, Number],
@@ -26,6 +25,10 @@ export default {
             default: () => ([]),
         },
         label: {
+            type: String,
+            default: '',
+        },
+        placeholder: {
             type: String,
             default: '',
         },
@@ -41,12 +44,17 @@ export default {
     emits: ['update:modelValue'],
     data: () => ({
         opened: false,
+        selected: [],
+        word: ""
     }),
-    created() {},
+    created() {
+
+    },
     mounted() {},
     methods: {
         onSelect(item) {
             this.$emit('update:modelValue', item.id);
+            this.word = item.name;
             this.opened = false;
         },
     },
@@ -54,6 +62,13 @@ export default {
         activeItem() {
             return (this.items || []).find(item => item.id === this.modelValue) || null;
         },
-    },
+        selected() {
+            if (!this.word) {
+                return this.items;
+            }
+            const w = this.word.toLowerCase();
+            return this.items.filter(item => item.name.toLowerCase().includes(w));
+        }
+    }
 }
 </script>
