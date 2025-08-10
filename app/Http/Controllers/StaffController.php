@@ -19,8 +19,8 @@ class StaffController extends Controller
     function index()
     {
         $filters_params = \request()->all();
-        $query = Event::select("events.*", "positions.name as posname", "restaurants.name as restname",
-            "positions.price_hour","users.fio as fio")
+        $query = Event::select("events.*", "positions.name as posname", "restaurants.name as restname"
+            ,"users.fio as fio")
             ->join("positions", "events.positions_id", "positions.id")
             ->join("users", "positions.user_id", "users.id")
             ->join("restaurants", "positions.restaurants_id", "restaurants.id");
