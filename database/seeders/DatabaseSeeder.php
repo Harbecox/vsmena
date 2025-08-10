@@ -46,8 +46,20 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
+        $id_manager = DB::table('users')->insertGetId([
+            'fio' => fake()->name(),
+            'year_birth' => rand(1970, 2005),
+            'phone' => fake()->numberBetween(10000000000,99999999999),
+            'email' => 'manager@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'b',
+            'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         // Users
-        $userIds = [$id_user, $id_admin];
+        $userIds = [$id_user, $id_admin, $id_manager];
         foreach (range(1, 300) as $i) {
             $role = $roles[array_rand($roles)];
             $id = DB::table('users')->insertGetId([

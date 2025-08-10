@@ -89,7 +89,7 @@ class CalendarController extends Controller
         $filters = [];
         $events = Event::query()
             ->select("events.*", "positions.name as posname", "restaurants.name as restname",
-                "positions.price_hour","users.fio as fio")
+                "positions.payment_amount","users.fio as fio")
                 ->join("positions", "events.positions_id", "positions.id")
                 ->join("users", "positions.user_id", "users.id")
                 ->join("restaurants", "positions.restaurants_id", "restaurants.id")
@@ -119,7 +119,7 @@ class CalendarController extends Controller
     {
         $event = Event::query()
             ->select("events.*", "positions.name as posname", "restaurants.name as restname",
-                "positions.price_hour","users.fio as fio","positions.restaurants_id as restaurants_id")
+                "positions.payment_amount","users.fio as fio","positions.restaurants_id as restaurants_id")
             ->join("positions", "events.positions_id", "positions.id")
             ->join("users", "positions.user_id", "users.id")
             ->join("restaurants", "positions.restaurants_id", "restaurants.id")
