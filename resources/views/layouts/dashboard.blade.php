@@ -47,7 +47,33 @@
                 </a>
             @switch(auth()->user()->role)
                     @case('e')
-                        {{--                    Менеджер--}}
+                        <a href="{{ route('staff.index') }}"
+                           class="menu_item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
+                        <x-icon name="staff"/><span>Сейчас работают</span>
+                    </a>
+                        <a href="{{ route('calendar.index') }}"
+                           class="menu_item {{ request()->routeIs('calendar.*') ? 'active' : '' }}">
+                        <x-icon name="approve"/><span>Подтверждение смен</span>
+                    </a>
+                        <a href="{{ route('restaurants.index') }}"
+                           class="menu_item {{ request()->routeIs('restaurants.*') ? 'active' : '' }}">
+                        <x-icon name="cookie"/><span>Рестораны</span>
+                    </a>
+                        <a href="{{ route('positions.index') }}"
+                           class="menu_item {{ request()->routeIs('positions.*') ? 'active' : '' }}">
+                        <x-icon name="file"/><span>Должности</span>
+                    </a>
+                        <a href="{{ route('users.index') }}"
+                           class="menu_item {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                        <x-icon name="users"/><span>Пользователи</span>
+                    </a>
+                        <a href="{{ route('logs.index') }}"
+                           class="menu_item {{ request()->routeIs('logs.*') ? 'active' : '' }}">
+                        <x-icon name="log"/><span>История событий</span>
+                    </a>
+                        <div class="ps-50 mt-20" >
+                        <x-reward-modal />
+                    </div>
                         @break
                     @case('b')
                         {{--                    Бухгалтер--}}
