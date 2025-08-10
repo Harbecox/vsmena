@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Event;
-use App\Models\Logs;
+use App\Models\Log;
 use App\Models\Positions;
 use App\Models\Restaurants;
 use App\Models\User;

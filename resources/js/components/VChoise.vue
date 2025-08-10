@@ -5,10 +5,11 @@
         </label>
         <div class="form-input">
             <input @focus="opened = true" :placeholder="placeholder" v-model="word">
+            <v-icon name="search" />
             <input type="hidden" :name="name" :value="selectedId">
         </div>
 
-        <div class="list" v-if="word.length > 0">
+        <div class="list" v-if="opened">
             <div v-for="(item, i) in filteredItems"
                  :key="i"
                  @click="onSelect(item)"
@@ -31,7 +32,7 @@ export default {
             type: [String, Number, null],
             default: null
         },
-        value: { // поддержка старого способа передачи
+        value: {
             type: [String, Number, null],
             default: null
         },
@@ -65,11 +66,10 @@ export default {
         return {
             opened: false,
             word: "",
-            selectedId: null // локальное хранилище выбранного id
+            selectedId: null
         };
     },
     created() {
-        // Инициализация из modelValue или value
         this.selectedId = this.modelValue ?? this.value ?? null;
 
         if (this.selectedId) {
@@ -80,7 +80,6 @@ export default {
         }
     },
     watch: {
-        // Если родитель обновил значение — обновляем локальное
         modelValue(newVal) {
             this.selectedId = newVal;
             const found = this.items.find(item => item.id === newVal);
@@ -90,8 +89,8 @@ export default {
     methods: {
         onSelect(item) {
             if (!item) return;
-            this.selectedId = item.id; // меняем локально
-            this.$emit('update:modelValue', item.id); // уведомляем родителя
+            this.selectedId = item.id;
+            this.$emit('update:modelValue', item.id);
             this.word = item.name;
             this.opened = false;
         }

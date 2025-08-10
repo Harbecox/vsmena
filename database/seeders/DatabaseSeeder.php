@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enum\PaymentMethod;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -83,17 +84,27 @@ class DatabaseSeeder extends Seeder
         }
         print_r("Restaurants ok\n");
 
+        $positions = [
+            'Официант',
+            'Бармен',
+            'Повар',
+            'Су-шеф',
+            'Хостес',
+            'Администратор зала',
+            'Кассир',
+        ];
+
         // Positions
         $positionIds = [];
         foreach ($restaurantIds as $restaurantId) {
             foreach (range(1, rand(1,10)) as $i) {
                 $userIds = $this->userIdsWithoutPosition();
-                $name = fake()->jobTitle();
+                $name = fake()->randomElement($positions);
                 $slug = Str::slug($name)."-".Str::random(6);
                 $id = DB::table('positions')->insertGetId([
                     'name' => $name,
-                    'price_shifts' => rand(5000, 10000),
-                    'price_hour' => rand(300, 800),
+                    'payment_amount' => rand(5000, 10000),
+                    'payment_method' => fake()->randomElement(PaymentMethod::values()),
                     'description' => fake()->text(100),
                     'slug' => $slug,
                     'user_id' => fake()->boolean() ? $userIds[array_rand($userIds)] : null,
@@ -126,18 +137,18 @@ class DatabaseSeeder extends Seeder
         }
         print_r("Events ok\n");
 
-        // Logs
-        foreach (range(1, 2000) as $i) {
-            DB::table('logs')->insert([
-                'positions_id' => $positionIds[array_rand($positionIds)],
-                'date_add' => now()->subDays(rand(1, 30)),
-                'title' => fake()->sentence(3),
-                'admin_id' => $userIds[array_rand($userIds)],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-        print_r("Logs ok\n");
+//        // Log
+//        foreach (range(1, 2000) as $i) {
+//            DB::table('logs')->insert([
+//                'positions_id' => $positionIds[array_rand($positionIds)],
+//                'date_add' => now()->subDays(rand(1, 30)),
+//                'title' => fake()->sentence(3),
+//                'admin_id' => $userIds[array_rand($userIds)],
+//                'created_at' => now(),
+//                'updated_at' => now(),
+//            ]);
+//        }
+//        print_r("Log ok\n");
 
 
     }

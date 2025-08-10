@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap&subset=cyrillic"
           rel="stylesheet">
     {{--    @livewireStyles--}}
-    @vite(['resources/scss/app.scss', 'resources/js/app.js', 'resources/js/vue_script.js', 'resources/css/app.css'])
+    @vite(['resources/scss/app.scss', 'resources/js/vue_script.js'])
 </head>
 <body>
 <header>
@@ -70,6 +70,17 @@
                            class="menu_item {{ request()->routeIs('positions.*') ? 'active' : '' }}">
                         <x-icon name="file"/><span>Должности</span>
                     </a>
+                        <a href="{{ route('users.index') }}"
+                           class="menu_item {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                        <x-icon name="users"/><span>Пользователи</span>
+                    </a>
+                        <a href="{{ route('logs.index') }}"
+                           class="menu_item {{ request()->routeIs('logs.*') ? 'active' : '' }}">
+                        <x-icon name="log"/><span>История событий</span>
+                    </a>
+                    <div class="ps-50 mt-20" >
+                        <x-reward-modal />
+                    </div>
                         @break
                 @endswitch
             </span>

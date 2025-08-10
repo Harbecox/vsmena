@@ -1,8 +1,8 @@
 @php
     $input_name = \Illuminate\Support\Str::uuid();
 @endphp
-<div class="input__with_label x-select">
-    <label class="{{ $input_name }}">{{ $label }}</label>
+<div class="input__with_label x-select {{ $class }}">
+    <label for="{{ $input_name }}">{{ $label }}</label>
     <div id="{{ $input_name }}" class="form-input">
         <input type="hidden" name="{{ $name }}" value="{{ $selected }}">
         @if($selected && isset($values[$selected]))

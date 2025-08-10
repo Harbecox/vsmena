@@ -5,15 +5,17 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventCustomerController;
 use App\Http\Controllers\EventManagerController;
-use App\Http\Controllers\LogsController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PositionsController;
 use App\Http\Controllers\PositionsManagerController;
 use App\Http\Controllers\RestaurantsController;
+use App\Http\Controllers\RewardController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserCustomerController;
 use App\Http\Controllers\UserManagerController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ValidateController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -49,19 +51,19 @@ Route::get("/users/{user}/delete", [UserController::class,'destroy']);
 Route::get('/users/{user}/chgpwd', [UserController::class,'changepwd']);
 Route::put("/users", [UserController::class,'update']);;
 //-----------------------------------↓----------------------------------------
-Route::get("/positions", [PositionsController::class, 'index']);
-Route::get("/positions/create", [PositionsController::class,'input'])->name("positions.create");
-Route::post("/positions", [PositionsController::class,'save']);
-Route::get("/positions/{position}/edit", [PositionsController::class,'input']);
-Route::put("/positions", [PositionsController::class,'save']);
-Route::get("/positions/{position}/delete", [PositionsController::class,'destroy']);
+//Route::get("/positions", [PositionsController::class, 'index']);
+//Route::get("/positions/create", [PositionsController::class,'input'])->name("positions.create");
+//Route::post("/positions", [PositionsController::class,'save']);
+//Route::get("/positions/{position}/edit", [PositionsController::class,'input']);
+//Route::put("/positions", [PositionsController::class,'save']);
+//Route::get("/positions/{position}/delete", [PositionsController::class,'destroy']);
 //-------------------restaurants-----↑-----------------------------------------
-Route::get("/restaurants", [RestaurantsController::class, 'index']);
-Route::get("/restaurants/create", [RestaurantsController::class, 'input'])->name("restaurants.create");
-Route::post("/restaurants", [RestaurantsController::class, 'save']);
-Route::get("/restaurants/{restaurant}/edit", [RestaurantsController::class, 'input']);
-Route::put("/restaurants", [RestaurantsController::class, 'save']);
-Route::get("/restaurants/{restaurant}/delete", [RestaurantsController::class, 'destroy']);
+//Route::get("/restaurants", [RestaurantsController::class, 'index']);
+//Route::get("/restaurants/create", [RestaurantsController::class, 'input'])->name("restaurants.create");
+//Route::post("/restaurants", [RestaurantsController::class, 'save']);
+//Route::get("/restaurants/{restaurant}/edit", [RestaurantsController::class, 'input']);
+//Route::put("/restaurants", [RestaurantsController::class, 'save']);
+//Route::get("/restaurants/{restaurant}/delete", [RestaurantsController::class, 'destroy']);
 //-----------------------manager------------------------------------------------
 Route::get('/usersmanager', [UserManagerController::class, 'index']);
 Route::get("/usersmanager/{user}/edit", [UserManagerController::class, 'input']);
@@ -123,6 +125,9 @@ Route::middleware(['role:m'])->group(function (){
     Route::get('calendar/accept/{id}',[CalendarController::class,'accept'])->name("calendar.accept");
     Route::resource('restaurants', RestaurantsController::class);
     Route::resource('positions', PositionsController::class);
+    Route::resource('users', UsersController::class);
+    Route::resource('logs', LogController::class);
+    Route::resource('rewards', RewardController::class);
 });
 
 //-------------------------booker export events-------------------------------------------

@@ -10,6 +10,16 @@
             <h1 class="text-primary">Должности</h1>
             <h3 class="text-secondary">Каждая должность — новый опыт</h3>
         </div>
+        <div class="d-flex flex-column gap-20">
+            <div class="filters d-flex gap-20">
+                @foreach($filters as $filter)
+                    {!! $filter->render() !!}
+                @endforeach
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-light clear_filter" >Сбросить фильтры</button>
+            </div>
+        </div>
     </div>
     <x-form.table :columns="$columns" :items="$positions" fb-title="Добавить должность" fb-url="{{ route('positions.create') }}"/>
 @endsection

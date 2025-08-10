@@ -11,7 +11,7 @@
 <script>
 
 export default {
-    name: "FormExample",
+    name: "RewardForm",
     data: (vm) => ({
         form: { ...vm.formData },
         form_errors: {
@@ -56,7 +56,6 @@ export default {
             this.axios.get('/restaurants')
                 .then(({ data }) => {
                     this.select_1_items = data || [];
-                    console.log(data);
                 })
                 .catch(err => {})
         },

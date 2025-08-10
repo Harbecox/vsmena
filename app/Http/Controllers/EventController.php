@@ -26,7 +26,7 @@ class EventController extends Controller
     {
         $filters_params = \Illuminate\Support\Facades\Request::all();
         $query = Event::select("events.*", "positions.name as posname", "restaurants.name as restname",
-            "positions.price_hour")
+            "positions.payment_amount")
             ->leftJoin("positions", "events.positions_id", "positions.id")
             ->leftJoin("users", "events.user_id", "users.id")
             ->leftJoin("restaurants", "positions.restaurants_id", "restaurants.id")
@@ -139,7 +139,7 @@ class EventController extends Controller
     public function views()
     {
         $events = Event::select("events.*", "positions.name as posname", "restaurants.name as restname",
-            "positions.price_hour", DB::raw("SEC_TO_TIME(TIMESTAMPDIFF(minute, events.start_date, events.end_date)*60) as period"), DB::raw("TIMESTAMPDIFF(hour, events.start_date, events.end_date) * positions.price_hour + events.premium as payment"))
+            "positions.payment_amount", DB::raw("SEC_TO_TIME(TIMESTAMPDIFF(minute, events.start_date, events.end_date)*60) as period"), DB::raw("TIMESTAMPDIFF(hour, events.start_date, events.end_date) * positions.payment_amount + events.premium as payment"))
             ->join("positions", "events.positions_id", "positions.id")
             ->join("users", "positions.user_id", "users.id")
             ->join("restaurants", "positions.restaurants_id", "restaurants.id")->where('events.status', '=', '1')
@@ -159,7 +159,7 @@ class EventController extends Controller
 
         if ($start_date != "" && $end_date != "" && $restaurants_id != "" && $title != "") {
             $events = Event::select("events.*", "positions.name as posname", "restaurants.name as restname",
-                "positions.price_hour", DB::raw("SEC_TO_TIME(TIMESTAMPDIFF(minute, events.start_date, events.end_date)*60) as period"), DB::raw("TIMESTAMPDIFF(hour, events.start_date, events.end_date) * positions.price_hour + events.premium as payment"))
+                "positions.payment_amount", DB::raw("SEC_TO_TIME(TIMESTAMPDIFF(minute, events.start_date, events.end_date)*60) as period"), DB::raw("TIMESTAMPDIFF(hour, events.start_date, events.end_date) * positions.payment_amount + events.premium as payment"))
                 ->join("positions", "events.positions_id", "positions.id")
                 ->join("users", "positions.user_id", "users.id")
                 ->join("restaurants", "positions.restaurants_id", "restaurants.id")

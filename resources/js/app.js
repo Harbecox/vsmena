@@ -6,7 +6,9 @@ function filtersInit(){
     filters.forEach(function (filter) {
         filter.addEventListener('click', function (e) {
             filter.classList.toggle('show');
-            filter.querySelector('#datePicker').click();
+            if(filter.querySelector('#datePicker')){
+                filter.querySelector('#datePicker').click();
+            }
         })
         document.addEventListener('click', function (e) {
             if (!filter.contains(e.target)) {

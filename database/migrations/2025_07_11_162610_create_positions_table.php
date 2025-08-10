@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->decimal('price_shifts', 10, 2);
-            $table->decimal('price_hour', 10, 2);
+            $table->decimal('payment_amount', 10, 2)->default(0);
+            $table->enum('payment_method',['per_month', 'per_hour', 'per_shift']);
             $table->text('description')->nullable();
-            $table->string('slug', 100)->unique();
-            $table->tinyInteger('order')->default(0)->index();
+            $table->string('slug', 100)->nullable();
+            $table->tinyInteger('order')->default(0)->index()->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')

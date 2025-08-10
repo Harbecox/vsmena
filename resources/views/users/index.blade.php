@@ -1,44 +1,15 @@
-@extends("layouts.pc")
+@extends("layouts.dashboard")
 
-@push("head")
-  <script src="/js/pc.js"></script>
-@endpush
+@php
+    $columns = ['ФИО ','Год рождения','Телефон','Email','Роль','Действия'];
+@endphp
 
-@section("title", "Пользователи")
-@section("main")
-  <h1>Список пользователей</h1>
-  <div id="backgroundtable">
-  <table class="list table-list">
-    <tr>
-      <th>ФИО</th>
-	  <th>Год рождения</th>
-	  <th>Телефон</th>
-	   <th>E-mail</th>
-      <th>Роль</th>
-      <th colspan="2">&nbsp;</th>
-    <tr>
-    @foreach ($users as $user)
-      <tr>
-        <td>{{ $user->fio }}</td>
-		<td>{{ $user->phone }}</td>
-        <td class="center">{{ $user->friendly_role }}</td>
-        <td class="links">
-          <a href="{{ action('UserController@input',
-          ['user' => $user->id]) }}">Редактировать</a>
-        </td>
-        <td class="links">
-		 @if ($user->role != "m")
-			  <a href="{{ action('UserController@destroy', ['user' => $user->id]) }}" class="adel">Удалить</a>
-		  @else
-			  <a href="{{ action('UserController@changepwd',
-			  ['user' => $user->id]) }}">Сменить пароль</a>
-        
-		  @endif
-        </td>
-        <td>{{ $user->year_birth }}</td>
-        <td>{{ $user->email }}</td>
-      </tr>
-    @endforeach
-  </table>
-  </div>
+@section('content')
+    <div class="page_header d-flex justify-content-between mb-30">
+        <div class="d-flex flex-column gap-5">
+            <h1 class="text-primary">Пользователи</h1>
+            <h3 class="text-secondary">Каждая должность — новый опыт</h3>
+        </div>
+    </div>
+    <x-form.table :columns="$columns" :items="$users" />
 @endsection

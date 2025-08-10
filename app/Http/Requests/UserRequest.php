@@ -26,6 +26,7 @@ class UserRequest extends FormRequest
             'email' => 'required|email|max:255',
             'year_birth' => 'required|max:4',
             'phone' => 'required|max:11',
+            'role' => 'required',
         ];
     }
 
@@ -38,6 +39,7 @@ class UserRequest extends FormRequest
             'email.required' => 'Введите адрес электронной почты',
             'email.email' => 'Введите корректный адрес электронной почты',
             'email.max' => 'Адрес электронной почты не должен превышать в длину 255 символов',
+            'role.required' => 'Введите Роль'
         ];
     }
 }

@@ -665,17 +665,19 @@ header{
     }
 }
 
-.x-select{
+.x-select,v-select{
     cursor: pointer;
     svg{
         *{
             stroke: $primary!important;
         }
-    }
-    &.open{
+    }//with-search
+    &.open:not(.with-search){
         svg{
             transform: rotate(180deg);
         }
+    }
+    &.open{
         .list{
             display: flex;
         }

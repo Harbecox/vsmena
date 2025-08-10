@@ -23,9 +23,10 @@ class PositionsRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'price_shifts' => 'required',
-            'price_hour' => 'required',
-            'slug' => 'required|max:50',
+            'payment_amount' => 'required',
+            'payment_method' => 'required',
+            'description' => 'nullable|max:200',
+            'restaurants_id' => 'required|exists:restaurants,id',
         ];
     }
 
@@ -34,10 +35,9 @@ class PositionsRequest extends FormRequest
         return [
             'name.required' => 'Введите название должности',
             'name.max' => 'Название должности должно быть не длиннее 50 символов',
-            'slug.required' => 'Введите слаг',
-            'slug.max' => 'Слаг должен быть не длиннее 50 символов',
-            'price_shifts.required' => 'Введите цену за смену',
-            'price_hour.required' => 'Введите цену за час',
+            'slug.max' => 'Описание должен быть не длиннее 50 символов',
+            'payment_method.required' => 'Выберите метод оплаты',
+            'payment_amount.required' => 'Введите цену',
         ];
     }
 }
