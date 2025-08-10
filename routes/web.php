@@ -119,7 +119,7 @@ Route::middleware(['role:a,e,b,m'])->group(function (){
 
 });
 
-Route::middleware(['role:m'])->group(function (){
+Route::middleware(['role:m,b'])->group(function (){
     Route::resource('staff',StaffController::class);
     Route::resource('calendar', CalendarController::class);
     Route::get('calendar/accept/{id}',[CalendarController::class,'accept'])->name("calendar.accept");
