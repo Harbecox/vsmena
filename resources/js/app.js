@@ -141,7 +141,7 @@ async function validateForm(form, className) {
 
     } catch (err) {
         console.error(err);
-        alert('Сетевая ошибка');
+        //alert('Сетевая ошибка');
         return false;
     }
 }
