@@ -50,24 +50,24 @@ vueApp_header_modal.component('VInputDateTime', VInputDateTime);
 
 vueApp_header_modal.mount('#app_header_modal');
 
-//app_reward
 
-// const app_reward = createApp({
-//     // delimiters: ['{[', ']}'],
-//     data: () => ({
-//
-//     }),
-// });
-//
-// app_reward.config.compilerOptions.delimiters = ['{[', ']}'];
-// app_reward.config.globalProperties.axios = axiosInstance;
-// app_reward.component('VSelect', VSelect);
-// app_reward.component('RewardForm', RewardForm);
-// app_reward.component('VIcon', Vicon);
-// app_reward.component('VInput', VInput);
-// app_reward.component('VChoise', VChoise);
-//
-// app_reward.mount('#app_reward');
+const app_reward = createApp({
+    // delimiters: ['{[', ']}'],
+    data: () => ({
+
+    }),
+});
+
+app_reward.config.compilerOptions.delimiters = ['{[', ']}'];
+app_reward.config.globalProperties.axios = axiosInstance;
+app_reward.component('VSelect', VSelect);
+app_reward.component('RewardForm', RewardForm);
+app_reward.component('VIcon', Vicon);
+app_reward.component('VInput', VInput);
+app_reward.component('VChoise', VChoise);
+app_reward.component('VInputDateTime', VInputDateTime);
+
+app_reward.mount('#app_reward');
 
 import 'bootstrap';
 import flatpickr from "flatpickr";
@@ -100,9 +100,9 @@ function calendarInit(){
     if(!input){
         return;
     }
-    let picker = flatpickr("#datePicker", {mode: "range","locale": Russian});
-    let flatpickr_calendar = document.querySelector('.flatpickr-calendar');
-    input.parentNode.insertBefore(flatpickr_calendar, input);
+    let picker = flatpickr("#datePicker", {mode: "range","locale": Russian,appendTo:input.parentNode.querySelector('.customCalendarContainer')});
+    // let flatpickr_calendar = document.querySelector('.flatpickr-calendar');
+    // input.parentNode.insertBefore(flatpickr_calendar, input);
     let base_url = input.getAttribute('data-base-url');
     input.addEventListener('change', function (e) {
         if(e.target.value.indexOf('—') !== -1){
@@ -140,7 +140,9 @@ function modalInit(){
     document.querySelectorAll('.modal').forEach(function (modal,i) {
         let button = modal.querySelector('button[type="submit"]');
         if(button){
+            console.log(1,i);
             button.addEventListener('click',function (){
+                console.log(2);
                 modal.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true }))
             })
         }
@@ -225,7 +227,7 @@ function formsInit(){
         form.addEventListener('submit', function (e) {
             if(form.dataset.class !== undefined){
                 e.preventDefault();
-                validateForm(form, form.dataset.class);
+                //validateForm(form, form.dataset.class);
             }else{
                 form.submit();
             }
@@ -261,6 +263,6 @@ nextTick(() => {
     })
 });
 
-setTimeout(function () {
-    modalInit();
-},100)
+// setTimeout(function () {
+//     modalInit();
+// },100)

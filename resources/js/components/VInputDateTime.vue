@@ -31,7 +31,11 @@ export default {
         type: { type: String, default: 'text' },
         placeholder: String,
         icon: [String, Boolean],
-        name: String
+        name: String,
+        format: {
+            type: String,
+            default: 'Y-m-d H:i',
+        }
     },
     emits: ['update:modelValue'],
     mounted() {
@@ -40,8 +44,8 @@ export default {
     methods: {
         initCalendar() {
             let flatpick = flatpickr(this.$refs.datepicker, {
-                enableTime: true,
-                dateFormat: "Y-m-d H:i",
+                enableTime: /[Hgis]/.test(this.format),
+                dateFormat: this.format,
                 locale: Russian,
                 defaultDate: this.modelValue,
                 onChange: (selectedDates, dateStr) => {

@@ -167,12 +167,12 @@ function initClearFilters() {
     })
 }
 
-filtersInit();
-calendarInit();
-modalInit();
-// selectInit();
-formsInit();
-initClearFilters();
+// filtersInit();
+// calendarInit();
+// modalInit();
+// // selectInit();
+// formsInit();
+// initClearFilters();
 
 
 let notyf = new Notyf();

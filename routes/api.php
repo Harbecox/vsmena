@@ -28,6 +28,15 @@ Route::get('positions/{id}', function ($id) {
     })->toArray());
 });
 
+Route::get('users', function () {
+    return \App\Models\User::all()->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'name' => $item->fio,
+        ];
+    })->toArray();
+});
+
 Route::post('post_test',function (\App\Http\Requests\TestRequest $request){
      return response()->json([
          $request->validated(),

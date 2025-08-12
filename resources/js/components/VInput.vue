@@ -10,7 +10,9 @@
             @input="$emit('update:modelValue', $event.target.value)"
             :name="name"
         >
-        <v-icon :name="icon"/>
+        <span v-if="icon">
+            <v-icon :name="icon"/>
+        </span>
         <div v-if="errors.length" class="error text-danger">{{ errors[0] }}</div>
     </div>
 </template>

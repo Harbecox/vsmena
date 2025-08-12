@@ -10,4 +10,5 @@
         <x-icon name="arrow_down"></x-icon>
     </span>
     <input style="opacity:0;z-index: -1;position: absolute; bottom: 0" id="datePicker" value="{{ $selected_value }}" data-base-url="{{ $base_url }}">
+        <div class="customCalendarContainer"></div>
 </div>

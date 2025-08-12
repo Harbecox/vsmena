@@ -729,6 +729,9 @@ header{
         display: flex;
         flex-wrap: wrap;
         gap: 1px;
+        &>*{
+            flex: 0 0 calc(14.2857142857% - 2px);
+        }
     }
     .day{
         flex:0 0 calc(calc(100% / 7) - 2px);
@@ -784,5 +787,18 @@ header{
             height: 49px;
             background-color: #fff;
         }
+    }
+}
+
+.event_items{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    .event_item{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        border:1px solid $border-color;
     }
 }

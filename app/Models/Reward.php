@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reward extends Model
 {
-    protected $fillable = ['user_id','admin_id','type','comment','date'];
+    protected $fillable = ['user_id','admin_id','type','comment','date','amount'];
 
     function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

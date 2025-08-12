@@ -38,15 +38,19 @@
         </div>
         <div class="menu">
             <span>
-                <a href="{{ route('events.index') }}"
-                   class="menu_item {{ request()->routeIs('events.*') ? 'active' : '' }}">
+
+            @switch(auth()->user()->role)
+                @case('a')
+
+                        <a href="{{ route('events.index') }}"
+                           class="menu_item {{ request()->routeIs('events.*') ? 'active' : '' }}">
                     <x-icon name="book"/><span>История смен</span>
                 </a>
-                <a href="/userscustomer" class="menu_item {{ request()->routeIs('userscustomer.*') ? 'active' : '' }}">
-                    <x-icon name="user"/><span>Мои данные</span>
-                </a>
-            @switch(auth()->user()->role)
                     @case('e')
+                        <a href="/userscustomer"
+                           class="menu_item {{ request()->routeIs('userscustomer.*') ? 'active' : '' }}">
+                            <x-icon name="user"/><span>Мои данные</span>
+                        </a>
                         <a href="{{ route('staff.index') }}"
                            class="menu_item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
                         <x-icon name="staff"/><span>Сейчас работают</span>
@@ -71,15 +75,27 @@
                            class="menu_item {{ request()->routeIs('logs.*') ? 'active' : '' }}">
                         <x-icon name="log"/><span>История событий</span>
                     </a>
-                        <div class="ps-50 mt-20" >
-                        <x-reward-modal />
+                        <div class="ps-50 mt-20">
+                        <x-reward-modal/>
                     </div>
                         @break
                     @case('b')
                         {{--                    Бухгалтер--}}
+                    <a href="{{ route('calendar.index') }}"
+                           class="menu_item {{ request()->routeIs('calendar.*') ? 'active' : '' }}">
+                        <x-icon name="approve"/><span>Подтверждение смен</span>
+                    </a>
+                        <a href="{{ route('reports.index') }}"
+                           class="menu_item {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                        <x-icon name="report"/><span>Отчетность</span>
+                    </a>
                         @break
                     @case('m')
                         {{--                    Администратор--}}
+                        <a href="{{ route('events.index') }}"
+                           class="menu_item {{ request()->routeIs('events.*') ? 'active' : '' }}">
+                    <x-icon name="book"/><span>История смен</span>
+                </a>
                         <a href="{{ route('staff.index') }}"
                            class="menu_item {{ request()->routeIs('staff.*') ? 'active' : '' }}">
                         <x-icon name="staff"/><span>Сейчас работают</span>
@@ -104,11 +120,18 @@
                            class="menu_item {{ request()->routeIs('logs.*') ? 'active' : '' }}">
                         <x-icon name="log"/><span>История событий</span>
                     </a>
-                    <div class="ps-50 mt-20" >
-                        <x-reward-modal />
+                        <a href="{{ route('rewards.index') }}"
+                           class="menu_item {{ request()->routeIs('rewards.*') ? 'active' : '' }}">
+                        <x-icon name="reward"/><span>История премий</span>
+                    </a>
+                        <div class="ps-50 mt-20">
+                        <x-reward-modal/>
                     </div>
                         @break
                 @endswitch
+                <a href="/userscustomer" class="menu_item {{ request()->routeIs('userscustomer.*') ? 'active' : '' }}">
+                            <x-icon name="user"/><span>Мои данные</span>
+                        </a>
             </span>
             <span class="menu_item">
                 <x-logout-modal type="danger"/>

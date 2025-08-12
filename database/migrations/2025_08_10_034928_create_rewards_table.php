@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\Reward;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('admin_id');
             $table->date('date');
-            $table->enum('type',['reward','penalty']);
+            $table->enum('type', Reward::values());
+            $table->decimal('amount', 8, 2)->default(0);
             $table->string("comment")->nullable();
             $table->timestamps();
         });

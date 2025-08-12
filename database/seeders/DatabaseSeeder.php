@@ -52,6 +52,18 @@ class DatabaseSeeder extends Seeder
             'phone' => fake()->numberBetween(10000000000,99999999999),
             'email' => 'manager@gmail.com',
             'password' => Hash::make('password'),
+            'role' => 'e',
+            'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('users')->insertGetId([
+            'fio' => fake()->name(),
+            'year_birth' => rand(1970, 2005),
+            'phone' => fake()->numberBetween(10000000000,99999999999),
+            'email' => 'bux@gmail.com',
+            'password' => Hash::make('password'),
             'role' => 'b',
             'remember_token' => Str::random(10),
             'created_at' => now(),
@@ -133,8 +145,8 @@ class DatabaseSeeder extends Seeder
 
         // Events
         foreach (range(1, 3000) as $i) {
-            $start = Carbon::now()->addDays(rand(-10, 10))->setTime(rand(8, 16), 0);
-            $end = (clone $start)->addHours(rand(1, 4));
+            $start = fake()->dateTimeBetween('-1 year');
+            $end = fake()->dateTimeBetween($start);
             DB::table('events')->insert([
                 'positions_id' => $positionIds[array_rand($positionIds)],
                 'title' => fake()->catchPhrase(),

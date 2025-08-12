@@ -17,23 +17,29 @@
                 <div class="day">ВС</div>
             </div>
             <div class="body">
-                @foreach($calendar as $day)
-                    @if($day['status'] == -1)
-                        <a href="{{ route('calendar.show',$day['date']) }}" class="day {{ $day['type'] }} reject">
-                            <span class="num">{{ $day['value'] }}</span>
-                            <span class="text">Не подтверждена</span>
-                        </a>
-                    @elseif($day['status'] == 0)
-                        <a href="{{ route('calendar.show',$day['date']) }}" class="day {{ $day['type'] }}">
-                            <span class="num">{{ $day['value'] }}</span>
-                        </a>
-                    @elseif($day['status'] == 1)
-                        <a href="{{ route('calendar.show',$day['date']) }}" class="day {{ $day['type'] }} approve">
-                            <span class="num">{{ $day['value'] }}</span>
-                            <span class="text">Подтверждена</span>
-                        </a>
-                    @endif
-                @endforeach
+                @if(auth()->user()->role == 'b')
+                    @foreach($calendar as $day)
+                        <x-calendar-modal :day="$day" />
+                    @endforeach
+                @else
+                    @foreach($calendar as $day)
+                        @if($day['status'] == -1)
+                            <a href="{{ route('calendar.show',$day['date']) }}" class="day {{ $day['type'] }} reject">
+                                <span class="num">{{ $day['value'] }}</span>
+                                <span class="text">Не подтверждена</span>
+                            </a>
+                        @elseif($day['status'] == 0)
+                            <a href="{{ route('calendar.show',$day['date']) }}" class="day {{ $day['type'] }}">
+                                <span class="num">{{ $day['value'] }}</span>
+                            </a>
+                        @elseif($day['status'] == 1)
+                            <a href="{{ route('calendar.show',$day['date']) }}" class="day {{ $day['type'] }} approve">
+                                <span class="num">{{ $day['value'] }}</span>
+                                <span class="text">Подтверждена</span>
+                            </a>
+                        @endif
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>
