@@ -8,7 +8,17 @@ class MainController extends Controller
 {
     public function index()
     {
-        return redirect()->route('events.index');
+        if(auth()->user()){
+            if(auth()->user()->role == 'b'){
+                return redirect()->route('reports.index');
+            }else{
+                return redirect()->route('events.index');
+            }
+        }else{
+            return redirect()->route('login');
+        }
+
+
     }
 
     public function policy()
