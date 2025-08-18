@@ -244,7 +244,40 @@ function initClearFilters() {
 }
 
 
-
+function tableInit(){
+    const table = document.querySelector(".x-table");
+    if (!table) return;
+    const rows = table.querySelectorAll(".x-table-row");
+    if (rows.length === 0) return;
+    const colCount = rows[0].querySelectorAll(".x-table-cell").length;
+    if (rows[1].querySelectorAll(".x-table-cell").length === 1) {
+        let width = 0;
+        rows[0].querySelectorAll(".x-table-cell").forEach(row => {
+            width += row.offsetWidth;
+        })
+        rows[1].querySelector(".x-table-cell").style.flex = "0 0 " + width + "px";
+        return;
+    }
+    for (let colIndex = 0; colIndex < colCount; colIndex++) {
+        let maxWidth = 0;
+        rows.forEach(row => {
+            const cell = row.querySelectorAll(".x-table-cell")[colIndex];
+            if (cell) {
+                cell.style.width = "auto";
+                const width = cell.offsetWidth;
+                if (width > maxWidth) {
+                    maxWidth = width;
+                }
+            }
+        });
+        rows.forEach(row => {
+            const cell = row.querySelectorAll(".x-table-cell")[colIndex];
+            if (cell) {
+                cell.style.flex = "0 0 " + maxWidth + "px";
+            }
+        });
+    }
+}
 
 let notyf = new Notyf();
 
@@ -255,6 +288,7 @@ nextTick(() => {
     selectInit();
     formsInit();
     initClearFilters();
+    tableInit();
     document.addEventListener('notyf:success', function (e) {
         notyf.success(e.detail.message);
     })

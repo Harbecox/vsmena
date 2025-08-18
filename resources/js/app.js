@@ -146,6 +146,7 @@ async function validateForm(form, className) {
     }
 }
 
+
 function formsInit(){
     document.querySelectorAll('form').forEach(function (form) {
         form.addEventListener('submit', function (e) {
