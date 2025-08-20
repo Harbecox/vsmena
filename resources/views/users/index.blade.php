@@ -4,12 +4,13 @@
     $columns = ['ФИО ','Год рождения','Телефон','Email','Роль','Действия'];
 @endphp
 
+@section('page_header')
+    <x-page-header
+        title-primary="Пользователи"
+        title-secondary="Каждая должность — новый опыт"
+    />
+@endsection
+
 @section('content')
-    <div class="page_header d-flex justify-content-between mb-30">
-        <div class="d-flex flex-column gap-5">
-            <h1 class="text-primary">Пользователи</h1>
-            <h3 class="text-secondary">Каждая должность — новый опыт</h3>
-        </div>
-    </div>
     <x-form.table :columns="$columns" :items="$users" />
 @endsection

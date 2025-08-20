@@ -3,7 +3,7 @@
         <div class="d-flex flex-column gap-5">
             <a href="{{ $backUrl }}" class="text-secondary d-flex gap-5 align-items-center">
                 <x-icon name="back"/>
-                <span class="text-secondary">Вернуться</span>
+                <span class="text-secondary">Вернуться в</span>
                 <span class="text-success">{{ $backText }}</span>
             </a>
             <h1 class="text-primary">{{ $titlePrimary }}</h1>
