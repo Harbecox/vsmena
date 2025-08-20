@@ -8,12 +8,12 @@ $event = \App\Models\Event::query()
 ->first();
 @endphp
 <div>
-    <x-form.modal>
+    <x-form.modal buttonClass="EventInfoModalButton">
         <x-slot:title>
             О смене
         </x-slot:title>
-        <x-slot:button>
-            <button class="btn btn-light">О смене</button>
+        <x-slot:button >
+            <button class="btn btn-light w-100 w-xl-auto">О смене</button>
         </x-slot:button>
         <x-slot:body>
             <div class="d-flex flex-column gap-15">

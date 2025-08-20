@@ -1,8 +1,12 @@
 @php
     $id = \Illuminate\Support\Str::uuid()
 @endphp
-<div>
-    <span data-bs-toggle="modal"  style="cursor: pointer" data-bs-target="#modal_{{ $id }}">
+@props([
+    'buttonClass' => '',
+    'wrapper_class' => '',
+])
+<div class="{{ $wrapper_class }}">
+    <span data-bs-toggle="modal" class="{{ $buttonClass }}" style="cursor: pointer" data-bs-target="#modal_{{ $id }}">
         {{ $button ?? "Model open button" }}
     </span>
     <div class="modal fade" id="modal_{{ $id }}" tabindex="-1" >

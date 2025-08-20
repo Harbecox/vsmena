@@ -1,5 +1,5 @@
 <div>
-    <x-form.modal>
+    <x-form.modal buttonClass="menu_item">
         <x-slot:title>
             Выйти из аккаунта?
         </x-slot:title>
@@ -14,5 +14,4 @@
             </div>
         </x-slot:body>
     </x-form.modal>
-
 </div>

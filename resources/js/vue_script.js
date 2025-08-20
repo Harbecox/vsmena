@@ -131,6 +131,8 @@ function calendarInit(){
     });
     m_prev.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18093"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18093)"><path d="M13 15L10 12L13 9" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
     m_next.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18095"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18095)"><path d="M11 9L14 12L11 15" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
+
+
 }
 
 function modalInit(){
@@ -243,6 +245,30 @@ function initClearFilters() {
     })
 }
 
+function initMenu(){
+    document.querySelector('.menu_btn').addEventListener('click',function (){
+        document.querySelector('body').classList.toggle('mobile_menu_open')
+    });
+    if (window.innerWidth <= 768) {
+        let items = document.querySelectorAll('.menu_item');
+        let h = items[1].offsetWidth;
+        document.querySelectorAll('.menu_item').forEach(function (item){
+            item.style.height = h + "px";
+            item.style.width = h + "px";
+        })
+        let buttons = [
+            '.AddEventModalButton',
+            '.EventInfoModalButton',
+            '.CloseEventModalButton',
+        ];
+        for(let i = 0;i < buttons.length;i++){
+            let item = document.querySelector(buttons[i]);
+            if(item){
+                document.querySelector('.menu .menu_buttons').appendChild(item);
+            }
+        }
+    }
+}
 
 function tableInit(){
     const table = document.querySelector(".x-table");
@@ -279,6 +305,16 @@ function tableInit(){
     }
 }
 
+function fullPageCalendar(){
+    let calendar = document.querySelector('.full_page_calendar');
+    if(calendar){
+        calendar.querySelectorAll('.text').forEach(function (item){
+            item.textContent = item.textContent.replace('Не подтверждена','Не подтв.')
+            item.textContent = item.textContent.replace('Подтверждена','Подтв.')
+        });
+    }
+}
+
 let notyf = new Notyf();
 
 nextTick(() => {
@@ -289,6 +325,8 @@ nextTick(() => {
     formsInit();
     initClearFilters();
     tableInit();
+    initMenu();
+    fullPageCalendar();
     document.addEventListener('notyf:success', function (e) {
         notyf.success(e.detail.message);
     })
