@@ -1,5 +1,5 @@
 <div class="x-table">
-    <div style="overflow-x: auto;">
+    <div class="x-table-container">
         <div class="x-table-header">
             <div class="x-table-row">
                 @foreach($columns as $column)

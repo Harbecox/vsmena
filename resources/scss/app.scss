@@ -466,6 +466,9 @@ body{
     @media screen and (max-width: 768px) {
         position: relative;
         padding-top: 70px;
+        .x-table-container{
+            overflow-x: auto;
+        }
         .x-table-header{
             .x-table-cell{
                 font-size: 12px;
@@ -657,6 +660,7 @@ body{
 .filters_wrapper{
     @media screen and (max-width: 768px) {
         overflow-x: auto;
+        padding-bottom: 5px;
         .filters{
             gap: 10px!important;
             .filter{
@@ -709,7 +713,8 @@ body{
     .selected{
         font-size: 14px;
         font-weight: 400;
-        color: $secondary
+        color: $secondary;
+        white-space: nowrap;
     }
     .open_icon{
         transition:transform 0.2s;

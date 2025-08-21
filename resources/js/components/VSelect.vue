@@ -50,7 +50,7 @@ export default {
     data() {
         return {
             opened: false,
-            selectedId: this.modelValue,  // локальное состояние для выбранного id
+            selectedId: this.modelValue,
         };
     },
     watch: {

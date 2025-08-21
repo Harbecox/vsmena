@@ -73,20 +73,41 @@ import 'bootstrap';
 import flatpickr from "flatpickr";
 
 function filtersInit(){
-    let filters = document.querySelectorAll('.filter');
-    filters.forEach(function (filter) {
-        filter.addEventListener('click', function (e) {
-            filter.classList.toggle('show');
-            if(filter.querySelector('#datePicker')){
-                filter.querySelector('#datePicker').click();
-            }
-        })
-        document.addEventListener('click', function (e) {
-            if (!filter.contains(e.target)) {
-                filter.classList.remove('show');
-            }
+    let filters = document.querySelector('.filters')?.querySelectorAll('.filter');
+    if(filters){
+        filters.forEach(function (filter) {
+            filter.addEventListener('click', function (e) {
+                filter.classList.toggle('show');
+                if(filter.querySelector('#datePicker')){
+                    filter.querySelector('#datePicker').click();
+                }
+            })
+            document.addEventListener('click', function (e) {
+                if (!filter.contains(e.target)) {
+                    filter.classList.remove('show');
+                }
+            });
         });
-    });
+        filterListInit(filters);
+        document.querySelector('.filters_wrapper').addEventListener('scroll', function (e) {
+            filterListInit(filters);
+        })
+    }
+
+}
+
+function filterListInit(filters){
+    filters.forEach(function (filter) {
+        const rect = filter.getBoundingClientRect();
+        let list = filter.querySelector('.list');
+        if(list){
+            list.style.top = rect.bottom + 5 + window.scrollY + "px";
+            list.style.left = rect.left + window.scrollX + "px";
+            list.style.width = rect.width + "px";
+            list.style.position = "fixed";
+        }
+
+    })
 }
 
 import { Russian } from "flatpickr/dist/l10n/ru.js"
