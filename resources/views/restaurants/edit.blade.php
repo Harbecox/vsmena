@@ -12,7 +12,7 @@
     <form action="{{ $action }}" method="post" class="page_form_container w_xl">
         @csrf
         @method($method)
-        <div class="d-flex flex-column flex-lg-row">
+        <div class="d-flex flex-column ">
             <div class="d-flex gap-lg-30 gap-0 w-100 flex-column flex-lg-row">
                 <x-form.input-with-label
                     name="name"

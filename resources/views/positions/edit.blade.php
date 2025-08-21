@@ -12,7 +12,7 @@
     <form action="{{ $action }}" method="post" class="page_form_container w_xl">
         @csrf
         @method($method)
-        <div class="d-flex flex-column flex-lg-row gap-lg-0 gap-15">
+        <div class="d-flex flex-column gap-lg-0 gap-15">
             <div class="d-flex gap-lg-30 w-100 flex-column flex-lg-row">
                 <div class="flex_1">
                     <v-select

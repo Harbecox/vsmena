@@ -24,7 +24,6 @@ class CalendarController extends Controller
             ->get()
             ->groupBy(fn($event) => Carbon::parse($event->start_date)->toDateString())
             ->map(fn($group) => $group->every(fn($event) => $event->status != 0));
-
         $filters = [];
         $calendar = new Collection();
         $month = Carbon::now()->startOfMonth();
@@ -91,7 +90,7 @@ class CalendarController extends Controller
             ->select("events.*", "positions.name as posname", "restaurants.name as restname",
                 "positions.payment_amount","users.fio as fio")
                 ->join("positions", "events.positions_id", "positions.id")
-                ->join("users", "positions.user_id", "users.id")
+                ->join("users", "events.user_id", "users.id")
                 ->join("restaurants", "positions.restaurants_id", "restaurants.id")
             ->whereDate('events.start_date', $date)
             ->get();

@@ -270,24 +270,29 @@ function initMenu(){
     document.querySelector('.menu_btn').addEventListener('click',function (){
         document.querySelector('body').classList.toggle('mobile_menu_open')
     });
-    if (window.innerWidth <= 768) {
-        let items = document.querySelectorAll('.menu_item');
-        let h = items[1].offsetWidth;
-        document.querySelectorAll('.menu_item').forEach(function (item){
-            item.style.height = h + "px";
-            item.style.width = h + "px";
-        })
-        let buttons = [
-            '.AddEventModalButton',
-            '.EventInfoModalButton',
-            '.CloseEventModalButton',
-        ];
-        for(let i = 0;i < buttons.length;i++){
-            let item = document.querySelector(buttons[i]);
-            if(item){
-                document.querySelector('.menu .menu_buttons').appendChild(item);
-            }
+    let items = document.querySelectorAll('.menu_item');
+    let h = items[1].offsetWidth;
+    document.querySelectorAll('.menu_item').forEach(function (item){
+        item.style.height = h + "px";
+        item.style.width = h + "px";
+    })
+    let buttons = [
+        '.AddEventModalButton',
+        '.EventInfoModalButton',
+        '.CloseEventModalButton',
+    ];
+    for(let i = 0;i < buttons.length;i++){
+        let item = document.querySelector(buttons[i]);
+        if(item){
+            document.querySelector('.menu .menu_buttons').appendChild(item);
         }
+    }
+}
+
+function mobileInit(){
+    if (window.innerWidth <= 768) {
+        initMenu();
+        fullPageCalendar();
     }
 }
 
@@ -346,8 +351,7 @@ nextTick(() => {
     formsInit();
     initClearFilters();
     tableInit();
-    initMenu();
-    fullPageCalendar();
+    mobileInit()
     document.addEventListener('notyf:success', function (e) {
         notyf.success(e.detail.message);
     })
