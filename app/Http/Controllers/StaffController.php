@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Http\Requests\StaffRequest;
 use App\Models\Event;
 use App\Models\Positions;
 use App\Models\Restaurants;
@@ -80,9 +81,9 @@ class StaffController extends Controller
         ]);
     }
 
-    function store(Request $request)
+    function store(StaffRequest $request)
     {
-        /** todo **/
+        Event::create($request->validated());
         return redirect()->route('staff.index');
     }
 }

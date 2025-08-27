@@ -13,11 +13,8 @@
                 <a href="/userscustomer" class="menu_item {{ request()->routeIs('userscustomer.*') ? 'active' : '' }}">
                     <x-icon name="user"/><span>Мои данные</span>
                 </a>
+                @break
             @case('e')
-                <a href="/userscustomer"
-                   class="menu_item {{ request()->routeIs('userscustomer.*') ? 'active' : '' }}">
-                    <x-icon name="user"/><span>Мои данные</span>
-                </a>
                 <a href="/userscustomer" class="menu_item {{ request()->routeIs('userscustomer.*') ? 'active' : '' }}">
                     <x-icon name="user"/><span>Мои данные</span>
                 </a>

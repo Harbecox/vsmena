@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\Role;
 use App\Helpers\Helper;
 use App\Models\Restaurants;
 use App\View\Components\DeleteModal;
@@ -16,10 +17,19 @@ class RestaurantsController extends Controller
 {
     function index()
     {
-        $restaurants = Restaurants::query()
-            ->select('restaurants.id as id', 'restaurants.name as name', 'restaurants.description as description', 'users.fio as fio')
-            ->join('users', 'restaurants.user_id', 'users.id')
-            ->get();
+        if(auth()->user()->role == Role::E->value){
+            $restaurants = Restaurants::query()
+                ->select('restaurants.id as id', 'restaurants.name as name', 'restaurants.description as description', 'users.fio as fio')
+                ->join('users', 'restaurants.user_id', 'users.id')
+                ->where('restaurants.user_id',auth()->user()->id)
+                ->get();
+        }else{
+            $restaurants = Restaurants::query()
+                ->select('restaurants.id as id', 'restaurants.name as name', 'restaurants.description as description', 'users.fio as fio')
+                ->join('users', 'restaurants.user_id', 'users.id')
+                ->get();
+        }
+        $data = [];
         foreach ($restaurants as $restaurant) {
             $data[] = [
                 new Text($restaurant->name),

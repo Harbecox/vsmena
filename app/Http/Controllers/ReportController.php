@@ -57,8 +57,8 @@ class ReportController extends Controller
                 new Text($report->fio),
                 new Text($report->position),
                 new Text($hours),
+                new Text($report->amount),
                 new Text($report->amount * $hours),
-                new Text(""),
                 new Text(""),
                 new Text($report->amount * $hours),
             ];

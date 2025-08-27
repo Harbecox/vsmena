@@ -36,7 +36,7 @@ class EventsCustomerExport implements FromCollection, WithHeadings, WithMapping
                 'events.status'
             )
             ->join("positions", "events.positions_id", "positions.id")
-            ->join("users", "positions.users_id", "users.id")
+            ->join("users", "events.user_id", "users.id")
             ->join("restaurants", "positions.restaurants_id", "restaurants.id")
             ->where('users.id', '=', auth()->user()->id)
             ->whereBetween('events.start_date', [$this->start_date,$this->end_date] );

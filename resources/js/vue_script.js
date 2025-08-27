@@ -6,6 +6,7 @@ import Vicon from "@/components/Vicon.vue";
 import VInput from "@/components/VInput.vue";
 import VInputDateTime from "@/components/VInputDateTime.vue";
 import VChoise from "@/components/VChoise.vue";
+import StaffForm from "@/components/StaffForm.vue";
 
 const axiosInstance = axios.create({
     baseURL: '/api',
@@ -29,6 +30,7 @@ vueApp.component('FormExample', FormExample);
 vueApp.component('VInputDateTime', VInputDateTime);
 vueApp.component('VChoice', VChoise);
 vueApp.component('VIcon', Vicon);
+vueApp.component('StaffForm', StaffForm);
 
 vueApp.mount('#app');
 
@@ -176,7 +178,9 @@ function selectInit(){
     document.querySelectorAll(".x-select").forEach(function (select) {
         let form_input = select.querySelector('.form-input');
         form_input.addEventListener('click', function (e) {
-            select.classList.toggle('open');
+            if(!select.classList.contains('v-select')){
+                select.classList.toggle('open');
+            }
         })
         let selected = select.querySelector('.item.selected');
         if(selected){
@@ -250,7 +254,7 @@ function formsInit(){
         form.addEventListener('submit', function (e) {
             if(form.dataset.class !== undefined){
                 e.preventDefault();
-                //validateForm(form, form.dataset.class);
+                validateForm(form, form.dataset.class);
             }else{
                 form.submit();
             }
@@ -358,6 +362,13 @@ nextTick(() => {
     document.addEventListener('notyf:error', function (e) {
         notyf.error(e.detail.message);
     })
+    document.querySelectorAll('.input__with_label.password').forEach(function (input_elem){
+        input_elem.querySelectorAll('svg').forEach(function (svg){
+            svg.addEventListener("click",function (){
+                input_elem.classList.toggle('show');
+            })
+        })
+    });
 });
 
 // setTimeout(function () {

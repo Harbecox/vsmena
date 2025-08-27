@@ -22,14 +22,18 @@
                     :required="true"
                     class="flex_1"
                 />
-                <v-choice
-                    :model-value='@json($restaurant->user?->id)'
-                    :items='@json($managers)'
-                    :required="true"
-                    name="user_id"
-                    label="Назначить менеджера"
-                    placeholder="Поиск..."
-                />
+                @if(auth()->user()->role == \App\Enum\Role::E->value)
+                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                @else
+                    <v-choice
+                        :model-value='@json($restaurant->user?->id)'
+                        :items='@json($managers)'
+                        :required="true"
+                        name="user_id"
+                        label="Назначить менеджера"
+                        placeholder="Поиск..."
+                    />
+                @endif
             </div>
             <x-form.input-with-label
                 name="description"

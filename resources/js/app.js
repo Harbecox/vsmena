@@ -118,16 +118,28 @@ async function validateForm(form, className) {
             body: JSON.stringify(data)
         });
 
+        form.querySelectorAll('.success').forEach(function (el){
+            el.classList.add('d-block')
+            el.classList.remove('d-none')
+        });
+
         const result = await response.json();
         if (response.status === 422 && result.errors) {
             for (const [field, messages] of Object.entries(result.errors)) {
                 const input = form.querySelector(`[name="${field}"]`);
                 if (input) {
-                    let error = input.parentNode.querySelector('.error');
-                    error.classList.add('d-block');
-                    error.classList.remove('d-none');
-                    error.textContent = messages[0];
-                    input.insertAdjacentElement('afterend', error);
+                    input.parentNode.querySelectorAll('.error').forEach(function (error) {
+                        error.classList.add('d-block');
+                        error.classList.remove('d-none');
+                        if(!error.classList.contains('non-text')){
+                            error.textContent = messages[0];
+                        }
+                        // input.insertAdjacentElement('afterend', error);
+                    })
+                    input.parentNode.querySelectorAll('.success').forEach(function (success) {
+                        success.classList.add('d-none');
+                        success.classList.remove('d-block');
+                    })
                 }
             }
             return false;
@@ -172,7 +184,7 @@ function initClearFilters() {
 // calendarInit();
 // modalInit();
 // // selectInit();
-// formsInit();
+formsInit();
 // initClearFilters();
 
 
@@ -184,3 +196,17 @@ document.addEventListener('notyf:success', function (e) {
 document.addEventListener('notyf:error', function (e) {
     notyf.error(e.detail.message);
 })
+
+document.querySelectorAll('.input__with_label.password').forEach(function (input_elem){
+    let input = input_elem.querySelector('input');
+    input_elem.querySelectorAll('svg').forEach(function (svg){
+        svg.addEventListener("click",function (){
+            input_elem.classList.toggle('show');
+            if(input.type == "password"){
+                input.type = "text";
+            }else{
+                input.type = "password"
+            }
+        })
+    })
+});

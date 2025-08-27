@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Matrix\Exception;
@@ -13,6 +16,7 @@ class ValidateController extends Controller
 {
     function validate(Request $request,$validator_class)
     {
+        $is_login = $validator_class == "EmailCheckRequest";
         $validator_class = 'App\\Http\Requests\\'.$validator_class;
         if (!class_exists($validator_class)) {
             return response()->json([
@@ -28,6 +32,18 @@ class ValidateController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         } else {
+            if($is_login){
+                $user = User::query()->where('email',$request->email)->first();
+                if(!Hash::check($request->password,$user->password)){
+                    return response()->json([
+                        'errors' => [
+                            'password' => [
+                                'Неправильный пароль'
+                            ]
+                        ],
+                    ], 422);
+                }
+            }
             return response()->json(true);
         }
     }

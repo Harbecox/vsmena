@@ -13,7 +13,8 @@ class Icon extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string $name
+        public string $name,
+        public string $class = ""
     )
     {}
 
@@ -26,6 +27,9 @@ class Icon extends Component
         $path = resource_path('icons/' . $this->name . '.svg');
         if (file_exists($path)) {
             $svg = file_get_contents($path);
+            if($this->class){
+                $svg = str_replace('<svg ', '<svg class="' . $this->class . '" ', $svg);
+            }
         }
         return view('components.icon',['svg' => $svg]);
     }

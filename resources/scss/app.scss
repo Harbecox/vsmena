@@ -132,6 +132,38 @@ a{
     display: flex;
     flex-direction: column;
     margin-top: 30px;
+    svg.input_success{
+        *{
+            stroke: $success;
+        }
+    }
+    svg.input_danger{
+        *{
+            stroke: $danger;
+        }
+    }
+    &.password{
+        svg{
+            cursor: pointer;
+            *{
+                stroke: $secondary;
+            }
+        }
+        .password_hide{
+            display: inline-block;
+        }
+        .password_show{
+            display: none;
+        }
+        &.show{
+            .password_hide{
+                display: none;
+            }
+            .password_show{
+                display: inline-block;
+            }
+        }
+    }
     @media (max-width: 768px) {
         margin-top: 20px;
         &:first-child{
