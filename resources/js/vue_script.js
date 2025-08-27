@@ -201,7 +201,7 @@ function selectInit(){
 }
 
 async function validateForm(form, className) {
-    const url = `http://127.0.0.1:8000/api/validator/${className}`;
+    const url = `/api/validator/${className}`;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     delete data._method;
