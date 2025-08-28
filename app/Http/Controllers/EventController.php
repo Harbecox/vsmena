@@ -39,10 +39,10 @@ class EventController extends Controller
         }
         if(isset($filters_params['date'])){
             $dates = explode(',', $filters_params['date']);
-            $query = $query->whereBetween('events.start_date', [$dates[0], $dates[1]]);
+            $query = $query->whereBetween('events.start_date', [$dates[0], Carbon::parse($dates[1])->endOfDay()]);
         }
         else{
-            $from = Carbon::now()->subDays(1)->format('Y-m-d');
+            $from = Carbon::now()->subMonth()->format('Y-m-d');
             $to = Carbon::now()->format('Y-m-d');
             $url = \Illuminate\Support\Facades\Request::url() . (count($filters_params) > 0 ? http_build_query($filters_params). '&' : "?") . "date=".$from.','.$to;
 
@@ -103,8 +103,9 @@ class EventController extends Controller
     public function open(Request $request)
     {
         $events = new Event;
-        $events->start_date = Helper::parseRuDate($request->input('start_date'));
+        $events->start_date = $request->input('start_date');
         $events->positions_id = $request->input('position_id');
+        $events->user_id = \auth()->user()->id;
 
         $events->save();
         //----------------------------------------------------------
@@ -123,6 +124,8 @@ class EventController extends Controller
     public function close(Request $request)
     {
         $event = Event::where('id', '=', $request->id)->first();
+        $event->end_date = Carbon::now();
+        $event->save();
         Positions::query()->where('id',$event->positions_id)->update(['user_id' => null]);
         return redirect()->route('events.index')->with('status', 'Смена успешно закрыта.');
     }

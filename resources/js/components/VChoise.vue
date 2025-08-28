@@ -71,7 +71,6 @@ export default {
     },
     created() {
         this.selectedId = this.modelValue ?? this.value ?? null;
-
         if (this.selectedId) {
             const found = this.items.find(item => item.id === this.selectedId);
             if (found) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Http\Requests\CalendarRequest;
 use App\Models\Event;
 use App\Models\Positions;
 use App\Models\Restaurants;
@@ -74,10 +75,11 @@ class CalendarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CalendarRequest $request)
     {
-        /** TODO */
-        return redirect()->route('calendar.show', Carbon::parse(Carbon::now())->toDateString());
+        $data = $request->except('restaurant_id');
+        Event::create($data);
+        return redirect()->route('calendar.show', Carbon::parse($data['end_date'])->format('Y-m-d'));
     }
 
     /**
@@ -85,6 +87,7 @@ class CalendarController extends Controller
      */
     public function show(string $date)
     {
+        $carbon = Carbon::parse($date);
         $filters = [];
         $events = Event::query()
             ->select("events.*", "positions.name as posname", "restaurants.name as restname",
@@ -92,7 +95,7 @@ class CalendarController extends Controller
                 ->join("positions", "events.positions_id", "positions.id")
                 ->join("users", "events.user_id", "users.id")
                 ->join("restaurants", "positions.restaurants_id", "restaurants.id")
-            ->whereDate('events.start_date', $date)
+            ->whereBetween("events.start_date", [$carbon->startOfDay()->format('Y-m-d H:i:s'), $carbon->endOfDay()->format('Y-m-d H:i:s')])
             ->get();
         $data = [];
         foreach ($events as $event) {
@@ -116,14 +119,7 @@ class CalendarController extends Controller
      */
     public function edit(string $id)
     {
-        $event = Event::query()
-            ->select("events.*", "positions.name as posname", "restaurants.name as restname",
-                "positions.payment_amount","users.fio as fio","positions.restaurants_id as restaurants_id")
-            ->join("positions", "events.positions_id", "positions.id")
-            ->join("users", "positions.user_id", "users.id")
-            ->join("restaurants", "positions.restaurants_id", "restaurants.id")
-            ->where("events.id", $id)
-            ->first();
+        $event = Event::find($id);
         $restaurants = Restaurants::query()->pluck('name','id')->toArray();
         $positions = Positions::query()->pluck('name','id')->toArray();
         return view('calendar.edit', [
@@ -136,11 +132,12 @@ class CalendarController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CalendarRequest $request, string $id)
     {
         $event = Event::query()
             ->where('id','=', $id)
             ->first();
+        dd($request->validated());
         /** TODO */
         return redirect()->route('calendar.show', Carbon::parse($event->start_date)->toDateString());
     }

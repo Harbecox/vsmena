@@ -12,6 +12,7 @@ use App\View\Components\Form\Table\Text;
 use Illuminate\Http\Request;
 use App\Http\Requests\RestaurantsRequest;
 use DB;
+use Illuminate\Support\Str;
 
 class RestaurantsController extends Controller
 {
@@ -33,7 +34,7 @@ class RestaurantsController extends Controller
         foreach ($restaurants as $restaurant) {
             $data[] = [
                 new Text($restaurant->name),
-                new Text($restaurant->description),
+                new Text($restaurant->description,limit:30),
                 new Text($restaurant->fio),
                 new Actions([
                     new Actions\IconLink(route('restaurants.edit', $restaurant->id), 'edit'),

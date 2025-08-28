@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="onSubmit" class="pb-5" data-class="null" :action="action" method="POST" ref="nativeForm">
+    <form @submit.prevent="onSubmit" class="pb-5" data-class="null" data-form="no-validate" :action="action" method="POST" ref="nativeForm">
         <input type="hidden" name="_token" :value="csrfToken">
         <input type="hidden" name="_method" :value="method">
         <v-choice name="user_id" v-model="form.user_id" label="ФИО сотрудника" placeholder="Поиск..." :items="select_1_items" :errors="form_errors.user_id" />

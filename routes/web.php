@@ -129,7 +129,7 @@ Route::middleware(['role:m,e'])->group(function (){
     Route::get('rewards/download',[RewardController::class,'dloads'])->name('rewards.download');
 });
 
-Route::middleware(['role:a,b,m'])->group(function (){
+Route::middleware(['role:e,b,m'])->group(function (){
     Route::resource('calendar', CalendarController::class);
     Route::get('calendar/accept/{id}',[CalendarController::class,'accept'])->name("calendar.accept");
 });

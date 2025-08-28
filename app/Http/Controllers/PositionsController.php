@@ -38,7 +38,7 @@ class PositionsController extends Controller
                 new Text($position->name),
                 new Text(PaymentMethod::from($position->payment_method)->label()),
                 new Text($position->payment_amount),
-                new Text($position->description,limit:50),
+                new Text($position->description,limit:30),
                 new Actions([
                     new Actions\IconLink(route('positions.edit',$position->id),'edit'),
                     new DeleteModal(

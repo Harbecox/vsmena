@@ -48,10 +48,10 @@
                 @break
             @case('b')
                 {{--                    Бухгалтер--}}
-                <a href="{{ route('calendar.index') }}"
-                   class="menu_item {{ request()->routeIs('calendar.*') ? 'active' : '' }}">
-                    <x-icon name="approve"/><span>Подтверждение смен</span>
-                </a>
+{{--                <a href="{{ route('calendar.index') }}"--}}
+{{--                   class="menu_item {{ request()->routeIs('calendar.*') ? 'active' : '' }}">--}}
+{{--                    <x-icon name="approve"/><span>Подтверждение смен</span>--}}
+{{--                </a>--}}
                 <a href="/userscustomer" class="menu_item {{ request()->routeIs('userscustomer.*') ? 'active' : '' }}">
                     <x-icon name="user"/><span>Мои данные</span>
                 </a>

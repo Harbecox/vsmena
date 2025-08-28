@@ -1,4 +1,4 @@
-<div>
+<div class="logout_button_outer">
     <x-form.modal buttonClass="menu_item">
         <x-slot:title>
             Выйти из аккаунта?

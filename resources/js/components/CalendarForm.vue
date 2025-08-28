@@ -1,34 +1,38 @@
 <template>
-    <form @submit.prevent="onSubmit" class="pb-5" :action="action" data-form="no-validate" method="POST" ref="nativeForm">
+    <form @submit.prevent="onSubmit" class="page_form_container w_xl" data-form="no-validate" :action="action" method="POST" ref="nativeForm">
         <input type="hidden" name="_token" :value="csrfToken">
         <input type="hidden" name="_method" :value="method">
-        <v-select name="restaurant_id" v-model="form.restaurant_id" @update:modelValue="onChangeOneSelect($event)" label="Название ресторана" :items="select_1_items" :errors="form_errors.restaurant_id"/>
-        <v-select name="positions_id" v-model="form.positions_id" label="Выберите должность" :items="select_2_items" :errors="form_errors.positions_id"/>
-        <v-choice name="user_id" v-model="form.user_id" label="ФИО сотрудника" placeholder="Поиск..." :items="select_1_items" :errors="form_errors.user_id" />
-        <v-input-date-time name="start_date" v-model="form.start_date" label="Время начала смены" :errors="form_errors.start_date" icon="calendar"/>
+        <div class="d-flex gap-30 w-100 flex-xl-row flex-column">
+            <div class="flex_1">
+                <v-select name="restaurant_id" v-model="form.restaurant_id" @update:modelValue="onChangeOneSelect($event)" label="Название ресторана" :items="select_1_items" :errors="form_errors.restaurant_id"/>
+                <v-select name="positions_id" v-model="form.positions_id" label="Выберите должность" :items="select_2_items" :errors="form_errors.positions_id"/>
+                <v-choice name="user_id" v-model="form.user_id" label="ФИО сотрудника" placeholder="Поиск..." :items="select_3_items" :errors="form_errors.user_id" />
+            </div>
+            <div class="flex_1">
+                <v-input-date-time name="start_date" v-model="form.start_date" label="Время начала смены" :errors="form_errors.start_date" icon="calendar"/>
+                <v-input-date-time name="end_date" v-model="form.end_date" label="Время окончания смены" :errors="form_errors.end_date" icon="calendar"/>
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary mt-30">Сохранить</button>
     </form>
 </template>
 
 <script>
 
-import VChoice from "@/components/VChoise.vue";
-import VSelect from "@/components/VSelect.vue";
-import VInput from "@/components/VInput.vue";
-
 export default {
-    name: "RewardForm",
-    components: {VInput, VSelect, VChoice},
+    name: "FormExample",
     data: (vm) => ({
         form: { ...vm.formData },
         form_errors: {
             restaurant_id: [],
             positions_id: [],
-            user_id: [],
             start_date: [],
+            user_id: [],
+            end_date: [],
         },
         select_1_items: [],
         select_2_items: [],
+        select_3_items: [],
     }),
     props: {
         formData: {
@@ -37,8 +41,9 @@ export default {
             default: () => ({
                 restaurant_id: null,
                 positions_id: null,
-                user_id: null,
                 start_date: null,
+                end_date: null,
+                user_id: null,
             }),
         },
         action: {
@@ -51,7 +56,9 @@ export default {
             default: 'POST',
         },
     },
-    created() {},
+    created() {
+
+    },
     computed: {
         csrfToken() {
             return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
@@ -59,6 +66,10 @@ export default {
     },
     mounted() {
         this.getSelectOneItems();
+        if(this.form.restaurant_id){
+            this.getSelectTwoItems(this.form.restaurant_id);
+        }
+        this.getSelect3Items();
     },
     methods: {
         getSelectOneItems() {
@@ -75,14 +86,20 @@ export default {
                 })
                 .catch(err => {})
         },
+        getSelect3Items(){
+            this.axios.get(`/users`)
+                .then(({ data }) => {
+                    this.select_3_items = data || [];
+                })
+                .catch(err => {})
+        },
         onChangeOneSelect(value) {
             this.getSelectTwoItems(value);
         },
 
         onSubmit() {
-            console.log(this.form)
             Object.keys(this.form_errors).forEach(key => this.form_errors[key] = []);
-            this.axios.post('/validator/StaffRequest', this.form)
+            this.axios.post('/validator/CalendarRequest', this.form)
                 .then(({ data }) => {
                     this.$refs.nativeForm.submit()
                 })

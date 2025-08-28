@@ -15,9 +15,10 @@ class HeaderEventComponent extends Component
     {
         $event = Positions::query()
             ->where('positions.user_id', '=', auth()->user()->id)
-            ->where('status', '=', '0')
-            ->join('events', 'events.positions_id', '=', 'positions.id')
+            ->where('events.user_id', '=', auth()->user()->id)
+            ->rightJoin('events', 'events.positions_id', '=', 'positions.id')
             ->select('events.id')
+            ->orderByDesc('events.id')
             ->first();
         $this->event_id = $event->id ?? null;
     }

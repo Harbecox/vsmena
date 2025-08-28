@@ -31,6 +31,7 @@ vueApp.component('VInputDateTime', VInputDateTime);
 vueApp.component('VChoice', VChoise);
 vueApp.component('VIcon', Vicon);
 vueApp.component('StaffForm', StaffForm);
+vueApp.component('CalendarForm', CalendarForm);
 
 vueApp.mount('#app');
 
@@ -117,6 +118,7 @@ import * as url from "node:url";
 import {Notyf} from "notyf";
 import 'notyf/notyf.min.css';
 import RewardForm from "@/components/RewardForm.vue";
+import CalendarForm from "@/components/CalendarForm.vue";
 
 function calendarInit(){
     let input = document.querySelector('#datePicker');
@@ -165,9 +167,7 @@ function modalInit(){
     document.querySelectorAll('.modal').forEach(function (modal,i) {
         let button = modal.querySelector('button[type="submit"]');
         if(button){
-            console.log(1,i);
             button.addEventListener('click',function (){
-                console.log(2);
                 modal.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true }))
             })
         }
@@ -252,12 +252,15 @@ async function validateForm(form, className) {
 function formsInit(){
     document.querySelectorAll('form').forEach(function (form) {
         form.addEventListener('submit', function (e) {
-            if(form.dataset.class !== undefined){
-                e.preventDefault();
-                validateForm(form, form.dataset.class);
-            }else{
-                form.submit();
+            if(form.dataset.form === undefined){
+                if(form.dataset.class !== undefined){
+                    e.preventDefault();
+                    validateForm(form, form.dataset.class);
+                }else{
+                    form.submit();
+                }
             }
+
         })
     })
 }

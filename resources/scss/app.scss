@@ -368,10 +368,10 @@ body{
     .main_content_box{
         $mtop: 100px;
         flex: 1;
-        height: 100%;
+        //height: calc(100% + #{$mtop});
         background-color: #F9F9F9;
         padding: 50px 40px 50px 50px;
-        min-height: calc(100vh - #{$mtop});
+        //min-height: calc(100vh + #{$mtop});
         overflow-x: hidden;
         @media screen and (max-width: 768px) {
             padding: 20px 15px 20px 15px;
@@ -429,12 +429,17 @@ body{
             }
         }
     }
+    .menu_items{
+        height: 100%;
+        position: relative;
+    }
     @media screen and ( max-width: 768px) {
         .menu_items{
             padding-top: 20px;
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
+            position: relative;
             .menu_item{
                 flex: 0 0 calc( calc(100% / 3) - 10px );
                 background-color: #FAFBFF;
@@ -469,6 +474,17 @@ body{
         }
     }
 
+}
+
+.logout_button_outer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    @media screen and ( max-width: 768px) {
+        position: relative;
+        bottom: auto;
+        left: auto;
+    }
 }
 
 .search_box{
@@ -829,6 +845,9 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    svg{
+        position: static!important;
+    }
     .flatpickr-prev-month,.flatpickr-next-month{
         position: relative;
         padding: 0;
@@ -859,9 +878,10 @@ body{
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 4px;
-    &:hover{
+    &:hover,&.selected{
         color: #fff!important;
         background-color: $primary!important;
+        border: none;
     }
     &.startRange,
     &.inRange,

@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="onSubmit" class="pb-5" :action="action" method="POST" ref="nativeForm">
+    <form @submit.prevent="onSubmit" class="pb-5" data-form="no-validate" :action="action" method="POST" ref="nativeForm">
         <input type="hidden" name="_token" :value="csrfToken">
         <input type="hidden" name="_method" :value="method">
         <v-select name="restaurant_id" v-model="form.restaurant_id" @update:modelValue="onChangeOneSelect($event)" label="Название ресторана" :items="select_1_items" :errors="form_errors.restaurant_id"/>
@@ -42,7 +42,9 @@ export default {
             default: 'POST',
         },
     },
-    created() {},
+    created() {
+
+    },
     computed: {
         csrfToken() {
             return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
@@ -50,13 +52,15 @@ export default {
     },
     mounted() {
         this.getSelectOneItems();
+        if(this.form.restaurant_id){
+            this.getSelectTwoItems(this.form.restaurant_id);
+        }
     },
     methods: {
         getSelectOneItems() {
             this.axios.get('/restaurants')
                 .then(({ data }) => {
                     this.select_1_items = data || [];
-                    console.log(data);
                 })
                 .catch(err => {})
         },

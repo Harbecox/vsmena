@@ -45,13 +45,17 @@ export default {
         initCalendar() {
             let flatpick = flatpickr(this.$refs.datepicker, {
                 enableTime: /[Hgis]/.test(this.format),
-                dateFormat: this.format,
+                dateFormat: this.format, // то, что реально хранится в modelValue (2025-08-28 16:48)
                 locale: Russian,
                 defaultDate: this.modelValue,
                 onChange: (selectedDates, dateStr) => {
                     this.$emit('update:modelValue', dateStr)
                 },
-                appendTo: this.$refs.customCalendarContainer
+                appendTo: this.$refs.customCalendarContainer,
+
+                // вот это для отображения красиво
+                altInput: true,
+                altFormat: "d M Y, H:i", // 28 авг 2025, 16:48
             })
         }
     }

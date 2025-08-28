@@ -5,6 +5,7 @@ $event = \App\Models\Event::query()
 ->join('restaurants','positions.restaurants_id','restaurants.id')
 ->select('positions.name as position_name','events.start_date as start_data','restaurants.name as restaurant_name')
 ->where('events.id',$event_id)
+->where('events.user_id',auth()->user()->id)
 ->first();
 @endphp
 <div>
