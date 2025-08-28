@@ -8,7 +8,6 @@ class IconController extends Controller
 {
     function get($name)
     {
-        dd($name);
         $svg = "";
         $path = resource_path('icons/' . $name . '.svg');
         if (file_exists($path)) {
