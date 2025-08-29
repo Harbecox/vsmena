@@ -10,10 +10,23 @@ class Log extends Model
 
     static function Log($object,$title): void
     {
+        if(is_string($object)){
+            $object_text = $object;
+        }elseif($object instanceof Positions){
+            $object_text = $object->restaurant->name . " / " . $object->name;
+        }elseif($object instanceof Restaurants){
+            $object_text = $object->name;
+        }elseif($object instanceof User) {
+            $object_text = $object->fio;
+        }elseif($object instanceof Reward){
+            $object_text = $object->user->fio . " - " . $object->amount;
+        }else{
+            $object_text = " - - - ";
+        }
         static::create([
             "admin_id" => auth()->user()->id,
             'title' => $title,
-            "object" => $object,
+            "object" => $object_text,
         ]);
     }
 

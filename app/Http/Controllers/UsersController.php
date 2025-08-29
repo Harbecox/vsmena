@@ -6,6 +6,8 @@ use App\Enum\PaymentMethod;
 use App\Enum\Role;
 use App\Helpers\Helper;
 use App\Http\Requests\UserRequest;
+use App\Models\Log;
+use App\Models\Positions;
 use App\Models\User;
 use App\View\Components\DeleteModal;
 use App\View\Components\Form\Table\Actions;
@@ -48,7 +50,6 @@ class UsersController extends Controller
      */
     public function create()
     {
-
         return view('users.edit');
     }
 
@@ -87,6 +88,7 @@ class UsersController extends Controller
     public function update(UserRequest $request, string $id)
     {
         User::query()->where('id',$id)->firstOrFail()->update($request->validated());
+        Log::Log(User::find($id),'Обновление пользователя');
         return redirect()->route('users.index');
     }
 
@@ -95,6 +97,7 @@ class UsersController extends Controller
      */
     public function destroy(string $id)
     {
+        Log::Log(User::find($id),'Удаление пользователя');
         User::query()->where('id',$id)->firstOrFail()?->delete();
         return redirect()->route('users.index');
     }

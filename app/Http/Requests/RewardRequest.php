@@ -29,4 +29,13 @@ class RewardRequest extends FormRequest
             'comment' => 'nullable'
         ];
     }
+
+    public function messages() {
+        return [
+            'user_id.required' => 'Пользователь не выбран',
+            'date.required' => 'Дата не указана',
+            'amount.required' => 'Сумма не заполнена',
+            'type.required' => 'Тип не выбран',
+        ];
+    }
 }

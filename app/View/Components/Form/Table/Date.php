@@ -14,7 +14,7 @@ class Date extends Component
     public ?string $date;
     public function __construct($date)
     {
-        $this->date = Helper::formatRussianDate($date);
+        $this->date = $date ? Helper::formatRussianDate($date) : "-";
     }
 
     /**

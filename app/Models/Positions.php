@@ -9,7 +9,7 @@ class Positions extends Model
 
     protected $fillable = ["name", 'payment_amount','payment_method', "description", "user_id", "restaurants_id"];
 
-    function restaurant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    function restaurant()
     {
         return $this->belongsTo(Restaurants::class, 'restaurants_id', 'id');
     }

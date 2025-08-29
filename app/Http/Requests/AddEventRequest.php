@@ -26,4 +26,11 @@ class AddEventRequest extends FormRequest
             'positions_id' => 'required',
         ];
     }
+
+    public function messages() {
+        return [
+            'start_date.required' => 'Время начала смены не заполнено',
+            'positions_id.required' => 'Должность не выбрана '
+        ];
+    }
 }

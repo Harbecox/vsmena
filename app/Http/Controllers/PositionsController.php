@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\PaymentMethod;
 use App\Helpers\Helper;
+use App\Models\Log;
 use App\Models\Positions;
 use App\Models\Restaurants;
 use App\View\Components\DeleteModal;
@@ -80,12 +81,14 @@ class PositionsController extends Controller
     function update($id,PositionsRequest $request)
     {
         Positions::query()->where('id',$id)->update($request->validated());
+        Log::Log(Positions::find($id),'обновление Должности');
         return response()->redirectToRoute('positions.index');
     }
 
     function store(PositionsRequest $request)
     {
-        Positions::create($request->validated());
+        $pos = Positions::create($request->validated());
+        Log::Log($pos,'добавление Должности');
         return response()->redirectToRoute('positions.index');
     }
 
@@ -109,6 +112,7 @@ class PositionsController extends Controller
 
     function destroy($id)
     {
+        Log::Log(Positions::find($id),'Удаление Должности');
         Positions::query()->where('id',$id)->firstOrFail()?->delete();
         return redirect()->route('positions.index');
     }

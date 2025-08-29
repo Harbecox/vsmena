@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Requests\StaffRequest;
 use App\Models\Event;
+use App\Models\Log;
 use App\Models\Positions;
 use App\Models\Restaurants;
 use App\View\Components\Form\Filter;
@@ -51,11 +52,7 @@ class StaffController extends Controller
 
     function edit($id)
     {
-        $event = Event::query()
-            ->join("positions", "events.positions_id", "positions.id")
-            ->join("users", "positions.user_id", "users.id")
-            ->where('events.id', '=', $id)
-            ->first();
+        $event = Event::query()->where('id',$id)->firstOrFail();
         $restaurants = Restaurants::query()->pluck('name','id')->toArray();
         $positions = Positions::query()->pluck('name','id')->toArray();
         return view("staff.edit",[
@@ -65,9 +62,11 @@ class StaffController extends Controller
         ]);
     }
 
-    function update(Request $request, $id)
+    function update(StaffRequest $request, $id)
     {
-        /** todo **/
+        $data = collect($request->validated())->except('restaurant_id')->toArray();
+        Event::query()->where('id',$id)->update($data);
+        Log::Log(Event::find($id)->position,'обновление смены сотрудника');
         return redirect()->route('staff.index');
     }
 
@@ -83,7 +82,8 @@ class StaffController extends Controller
 
     function store(StaffRequest $request)
     {
-        Event::create($request->validated());
+        $event = Event::create($request->validated());
+        Log::Log($event->position,'добавление смены');
         return redirect()->route('staff.index');
     }
 }

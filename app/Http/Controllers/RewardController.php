@@ -6,6 +6,7 @@ use App\Exports\EventsCustomerExport;
 use App\Exports\RewardExport;
 use App\Helpers\Helper;
 use App\Http\Requests\RewardRequest;
+use App\Models\Log;
 use App\Models\Reward;
 use App\View\Components\Form\DateFilter;
 use App\View\Components\Form\Table\Text;
@@ -58,7 +59,8 @@ class RewardController extends Controller
     {
         $data = $request->validated();
         $data['admin_id'] = auth()->user()->id;
-        Reward::create($data);
+        $rew = Reward::create($data);
+        Log::Log($rew,$rew->type == 'reward' ? 'Премия' : 'Штраф');
         return redirect()->route('rewards.index');
     }
 

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\BookerController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\EventController;
@@ -19,7 +22,6 @@ use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ValidateController;
 use App\Http\Middleware\RoleMiddleware;
-use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 
@@ -140,3 +142,4 @@ Route::middleware(['role:b'])->group(function (){
 });
 
 Route::get('icons/{name}',[\App\Http\Controllers\IconController::class,'get']);
+

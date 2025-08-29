@@ -30,4 +30,18 @@ class RegisterRequest extends FormRequest
             'politics' => 'required',
         ];
     }
+
+    public function messages() {
+        return [
+            'fio.required' => 'ФИО не заполнено',
+            'year_birth.required' => 'Год рождения не указан',
+            'phone.required' => 'Телефон не заполнен',
+            'email.required' => 'Email не заполнен',
+            'email.email' => 'Некорректный email',
+            'email.unique' => 'Такой email уже зарегистрирован',
+            'password.required' => 'Пароль не заполнен',
+            'password.confirmed' => 'Пароли не совпадают',
+            'politics.required' => 'Нужно принять политику конфиденциальности',
+        ];
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\Role;
 use App\Helpers\Helper;
+use App\Models\Log;
 use App\Models\Restaurants;
 use App\View\Components\DeleteModal;
 use App\View\Components\Form\Table\Actions;
@@ -72,11 +73,13 @@ class RestaurantsController extends Controller
     function update($id, RestaurantsRequest $request)
     {
         Restaurants::query()->where('id', $id)->update($request->validated());
+        Log::Log(Restaurants::find($id),'обновление ресторана');
         return redirect()->route('restaurants.index');
     }
 
     function destroy($id)
     {
+        Log::Log(Restaurants::find($id),'Удаление ресторана');
         Restaurants::query()->where('id', $id)->delete();
         return redirect()->route('restaurants.index');
     }
@@ -101,7 +104,8 @@ class RestaurantsController extends Controller
 
     function store(RestaurantsRequest $request)
     {
-        Restaurants::create($request->validated());
+        $rest = Restaurants::create($request->validated());
+        Log::Log($rest,'Добавление ресторана');
         return redirect()->route('restaurants.index');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StaffRequest extends FormRequest
+class PasswordResetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,19 +22,14 @@ class StaffRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'restaurant_id' => 'required',
-            'positions_id' => 'required',
-            'user_id' => 'required',
-            'start_date' => 'required',
+            'email' => 'required|email|exists:users,email',
         ];
     }
 
     public function messages() {
         return [
-            'restaurant_id.required' => 'Ресторан не выбран',
-            'positions_id.required' => 'Должность не выбрана',
-            'start_date.required' => 'Время начала смены не заполнено',
-            'user_id.required' => 'Сотрудник не выбран',
+            'email.required' => 'Введите почту',
+            'email.exists' => 'Пользователь с таким адресом электронной почты отсутствует в базе данных',
         ];
     }
 }

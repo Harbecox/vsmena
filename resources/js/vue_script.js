@@ -121,6 +121,7 @@ import RewardForm from "@/components/RewardForm.vue";
 import CalendarForm from "@/components/CalendarForm.vue";
 
 function calendarInit(){
+    return false;
     let input = document.querySelector('#datePicker');
     if(!input){
         return;
@@ -352,7 +353,7 @@ let notyf = new Notyf();
 
 nextTick(() => {
     filtersInit();
-    calendarInit();
+    // calendarInit();
     modalInit();
     selectInit();
     formsInit();

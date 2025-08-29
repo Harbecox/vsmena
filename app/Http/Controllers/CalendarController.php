@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Requests\CalendarRequest;
 use App\Models\Event;
+use App\Models\Log;
 use App\Models\Positions;
 use App\Models\Restaurants;
 use App\View\Components\Form\Table\AcctionApprove;
@@ -69,6 +70,7 @@ class CalendarController extends Controller
     {
         $restaurants = Restaurants::query()->pluck('name','id')->toArray();
         $positions = Positions::query()->pluck('name','id')->toArray();
+
         return view('calendar.create', compact('restaurants','positions'));
     }
 
@@ -78,8 +80,9 @@ class CalendarController extends Controller
     public function store(CalendarRequest $request)
     {
         $data = $request->except('restaurant_id');
-        Event::create($data);
-        return redirect()->route('calendar.show', Carbon::parse($data['end_date'])->format('Y-m-d'));
+        $event = Event::create($data);
+        Log::Log(Event::find($event->id)->position,'добавление смены');
+        return redirect()->route('calendar.show', Carbon::parse($data['start_date'])->format('Y-m-d'));
     }
 
     /**
@@ -90,19 +93,14 @@ class CalendarController extends Controller
         $carbon = Carbon::parse($date);
         $filters = [];
         $events = Event::query()
-            ->select("events.*", "positions.name as posname", "restaurants.name as restname",
-                "positions.payment_amount","users.fio as fio")
-                ->join("positions", "events.positions_id", "positions.id")
-                ->join("users", "events.user_id", "users.id")
-                ->join("restaurants", "positions.restaurants_id", "restaurants.id")
-            ->whereBetween("events.start_date", [$carbon->startOfDay()->format('Y-m-d H:i:s'), $carbon->endOfDay()->format('Y-m-d H:i:s')])
+            ->whereBetween("start_date", [$carbon->startOfDay()->format('Y-m-d H:i:s'), $carbon->endOfDay()->format('Y-m-d H:i:s')])
             ->get();
         $data = [];
         foreach ($events as $event) {
             $data[] = [
-                new Text($event->restname),
-                new Text($event->posname),
-                new Text($event->fio),
+                new Text($event->position->restaurant->name),
+                new Text($event->position->name),
+                new Text($event->user->fio),
                 new Date($event->start_date),
                 new Date($event->end_date),
                 new AcctionApprove($event->status,$event->id)
@@ -134,12 +132,11 @@ class CalendarController extends Controller
      */
     public function update(CalendarRequest $request, string $id)
     {
-        $event = Event::query()
-            ->where('id','=', $id)
-            ->first();
-        dd($request->validated());
-        /** TODO */
-        return redirect()->route('calendar.show', Carbon::parse($event->start_date)->toDateString());
+        $data = $request->validated();
+        $data = collect($data)->except('restaurant_id')->toArray();
+        Event::query()->where('id',$id)->update($data);
+        Log::Log(Event::find($id)->position,'обновление смены сотрудника');
+        return redirect()->route('calendar.show', Carbon::parse($data['start_date'])->toDateString());
     }
 
     /**
@@ -153,6 +150,7 @@ class CalendarController extends Controller
 
     public function accept(string $id)
     {
+        Log::Log(Event::find($id)->position,'Подтверждения смены');
         Event::query()->where("id", $id)->update(["status" => 1]);
         return back();
     }

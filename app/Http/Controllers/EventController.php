@@ -108,9 +108,7 @@ class EventController extends Controller
         $events->user_id = \auth()->user()->id;
 
         $events->save();
-        //----------------------------------------------------------
         DB::table('positions')->where('id', $events->positions_id)->update(['user_id' => auth()->user()->id]);
-        //----------------------------------------------------------
         return redirect()->route('events.index')->with("status", 'Смена успешно открыта.');
     }
 

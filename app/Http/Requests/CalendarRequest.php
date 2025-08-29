@@ -29,4 +29,14 @@ class CalendarRequest extends FormRequest
             'end_date' => 'required',
         ];
     }
+
+    public function messages() {
+        return [
+            'restaurant_id.required' => 'Ресторан не выбран',
+            'positions_id.required' => 'Должность не выбрана',
+            'start_date.required' => 'Время начала смены не заполнено',
+            'user_id.required' => 'Сотрудник не выбран',
+            'end_date.required' => 'Время окончания смены не заполнено',
+        ];
+    }
 }

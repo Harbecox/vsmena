@@ -10,5 +10,6 @@
 </head>
 <body>
     @yield('content')
+    <x-notyf/>
 </body>
 </html>

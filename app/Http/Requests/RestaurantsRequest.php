@@ -33,6 +33,7 @@ class RestaurantsRequest extends FormRequest
         return [
             'name.required' => 'Введите название ресторана',
             'name.max' => 'Название ресторана должно быть не длиннее 70 символов',
+            'user_id.required' => 'Сотрудник не выбран',
         ];
     }
 }

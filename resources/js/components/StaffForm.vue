@@ -4,7 +4,7 @@
         <input type="hidden" name="_method" :value="method">
         <v-select name="restaurant_id" v-model="form.restaurant_id" @update:modelValue="onChangeOneSelect($event)" label="Название ресторана" :items="select_1_items" :errors="form_errors.restaurant_id"/>
         <v-select name="positions_id" v-model="form.positions_id" label="Выберите должность" :items="select_2_items" :errors="form_errors.positions_id"/>
-        <v-choice name="user_id" v-model="form.user_id" label="ФИО сотрудника" placeholder="Поиск..." :items="select_1_items" :errors="form_errors.user_id" />
+        <v-choice name="user_id" v-model="form.user_id" label="ФИО сотрудника" placeholder="Поиск..." :items="select_3_items" :errors="form_errors.user_id" />
         <v-input-date-time name="start_date" v-model="form.start_date" label="Время начала смены" :errors="form_errors.start_date" icon="calendar"/>
         <button type="submit" class="btn btn-primary mt-30">Сохранить</button>
     </form>
@@ -29,6 +29,7 @@ export default {
         },
         select_1_items: [],
         select_2_items: [],
+        select_3_items: [],
     }),
     props: {
         formData: {
@@ -59,6 +60,10 @@ export default {
     },
     mounted() {
         this.getSelectOneItems();
+        if(this.form.restaurant_id){
+            this.getSelectTwoItems(this.form.restaurant_id);
+        }
+        this.getSelect3Items()
     },
     methods: {
         getSelectOneItems() {
@@ -72,6 +77,13 @@ export default {
             this.axios.get(`/positions/${restaurantId}`)
                 .then(({ data }) => {
                     this.select_2_items = data || [];
+                })
+                .catch(err => {})
+        },
+        getSelect3Items() {
+            this.axios.get(`/users`)
+                .then(({ data }) => {
+                    this.select_3_items = data || [];
                 })
                 .catch(err => {})
         },
