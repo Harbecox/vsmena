@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\Log;
 use App\Models\Positions;
 use App\Models\Restaurants;
+use App\View\Components\Form\Filter;
 use App\View\Components\Form\Table\AcctionApprove;
 use App\View\Components\Form\Table\Date;
 use App\View\Components\Form\Table\Text;
@@ -22,13 +23,23 @@ class CalendarController extends Controller
      */
     public function index()
     {
+        $filters_params = \Illuminate\Support\Facades\Request::all();
+        if(isset($filters_params['restorant'])){
+            $position_ids = Positions::query()->where('restaurants_id', $filters_params['restorant'])->pluck('id')->toArray();
+        }else{
+            $position_ids = Positions::query()->pluck('id')->toArray();
+        }
         $events = Event::orderBy('start_date')
+            ->whereIn('positions_id', $position_ids)
             ->get()
             ->groupBy(fn($event) => Carbon::parse($event->start_date)->toDateString())
             ->map(fn($group) => $group->every(fn($event) => $event->status != 0));
-        $filters = [];
         $calendar = new Collection();
-        $month = Carbon::now()->startOfMonth();
+        if(isset($filters_params['month'])){
+            $month = Carbon::createFromFormat('n-Y', $filters_params['month'])->startOfMonth();
+        }else{
+            $month = Carbon::now()->startOfMonth();
+        }
         $current_month = $month->month;
         while($month->month == $current_month){
             $calendar->push([
@@ -60,6 +71,19 @@ class CalendarController extends Controller
             ]);
             $month->addDay();
         }
+        Carbon::setLocale('ru');
+        $cm = Carbon::now();
+        $months = [];
+        for($i = 0; $i < 12; $i++){
+            $months[$cm->month."-".$cm->year] = $cm->translatedFormat('F Y');
+            $cm->subMonth();
+        }
+        $filters = [];
+        $restorans = Restaurants::query()->pluck("name", "id")->toArray();
+        $restorans['-1'] = 'Все рестораны';
+        $filters[] = new Filter('restorant','Выбрать ресторан','Все рестораны',$restorans,'cookie');
+        $filters[] = new Filter('month','Выбрать месяц',$cm->translatedFormat('F Y'),$months,'calendar');
+
         return view('calendar.index', compact('filters','calendar'));
     }
 

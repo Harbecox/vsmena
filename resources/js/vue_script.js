@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createApp,nextTick } from 'vue';
+import {createApp, nextTick} from 'vue';
 import VSelect from "@/components/VSelect.vue";
 import FormExample from "@/components/FormExample.vue";
 import Vicon from "@/components/Vicon.vue";
@@ -18,9 +18,7 @@ const axiosInstance = axios.create({
 
 const vueApp = createApp({
     // delimiters: ['{[', ']}'],
-    data: () => ({
-
-    }),
+    data: () => ({}),
 });
 
 vueApp.config.compilerOptions.delimiters = ['{[', ']}'];
@@ -38,9 +36,7 @@ vueApp.mount('#app');
 
 const vueApp_header_modal = createApp({
     // delimiters: ['{[', ']}'],
-    data: () => ({
-
-    }),
+    data: () => ({}),
 });
 
 vueApp_header_modal.config.compilerOptions.delimiters = ['{[', ']}'];
@@ -56,9 +52,7 @@ vueApp_header_modal.mount('#app_header_modal');
 
 const app_reward = createApp({
     // delimiters: ['{[', ']}'],
-    data: () => ({
-
-    }),
+    data: () => ({}),
 });
 
 app_reward.config.compilerOptions.delimiters = ['{[', ']}'];
@@ -75,13 +69,13 @@ app_reward.mount('#app_reward');
 import 'bootstrap';
 import flatpickr from "flatpickr";
 
-function filtersInit(){
+function filtersInit() {
     let filters = document.querySelector('.filters')?.querySelectorAll('.filter');
-    if(filters){
+    if (filters) {
         filters.forEach(function (filter) {
             filter.addEventListener('click', function (e) {
                 filter.classList.toggle('show');
-                if(filter.querySelector('#datePicker')){
+                if (filter.querySelector('#datePicker')) {
                     filter.querySelector('#datePicker').click();
                 }
             })
@@ -91,19 +85,21 @@ function filtersInit(){
                 }
             });
         });
-        filterListInit(filters);
-        document.querySelector('.filters_wrapper').addEventListener('scroll', function (e) {
+        if (window.innerWidth <= 768) {
             filterListInit(filters);
-        })
+            document.querySelector('.filters_wrapper').addEventListener('scroll', function (e) {
+                filterListInit(filters);
+            })
+        }
     }
 
 }
 
-function filterListInit(filters){
+function filterListInit(filters) {
     filters.forEach(function (filter) {
         const rect = filter.getBoundingClientRect();
         let list = filter.querySelector('.list');
-        if(list){
+        if (list) {
             list.style.top = rect.bottom + 5 + window.scrollY + "px";
             list.style.left = rect.left + window.scrollX + "px";
             list.style.width = rect.width + "px";
@@ -113,26 +109,30 @@ function filterListInit(filters){
     })
 }
 
-import { Russian } from "flatpickr/dist/l10n/ru.js"
+import {Russian} from "flatpickr/dist/l10n/ru.js"
 import * as url from "node:url";
 import {Notyf} from "notyf";
 import 'notyf/notyf.min.css';
 import RewardForm from "@/components/RewardForm.vue";
 import CalendarForm from "@/components/CalendarForm.vue";
 
-function calendarInit(){
+function calendarInit() {
     return false;
     let input = document.querySelector('#datePicker');
-    if(!input){
+    if (!input) {
         return;
     }
-    let picker = flatpickr("#datePicker", {mode: "range","locale": Russian,appendTo:input.parentNode.querySelector('.customCalendarContainer')});
+    let picker = flatpickr("#datePicker", {
+        mode: "range",
+        "locale": Russian,
+        appendTo: input.parentNode.querySelector('.customCalendarContainer')
+    });
     // let flatpickr_calendar = document.querySelector('.flatpickr-calendar');
     // input.parentNode.insertBefore(flatpickr_calendar, input);
     let base_url = input.getAttribute('data-base-url');
     input.addEventListener('change', function (e) {
-        if(e.target.value.indexOf('—') !== -1){
-            let dateRange = e.target.value.replace(' — ',',');
+        if (e.target.value.indexOf('—') !== -1) {
+            let dateRange = e.target.value.replace(' — ', ',');
             window.location.href = base_url + dateRange;
         }
     })
@@ -141,63 +141,67 @@ function calendarInit(){
     let m_sel = document.querySelector('.flatpickr-monthDropdown-months');
     let month_el = document.createElement('div');
     month_el.classList.add('flatpickr-month_el');
-    m_next.parentNode.insertBefore(month_el, m_next);
-    month_el.textContent = m_sel.querySelector('option:checked').textContent;
-    m_prev.addEventListener('click', function () {
-        m_sel.dispatchEvent(new Event('change', { bubbles: true }))
-        setTimeout(function () {
-            month_el.textContent = m_sel.querySelector('option:checked').textContent;
-        },1);
-    });
-    m_next.addEventListener('click', function () {
-        m_sel.dispatchEvent(new Event('change', { bubbles: true }))
-        setTimeout(function () {
-            month_el.textContent = m_sel.querySelector('option:checked').textContent;
-        },1);
-    });
-    m_prev.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18093"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18093)"><path d="M13 15L10 12L13 9" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
-    m_next.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18095"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18095)"><path d="M11 9L14 12L11 15" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
+    if (m_next) {
+        m_next.parentNode.insertBefore(month_el, m_next);
+        month_el.textContent = m_sel.querySelector('option:checked').textContent;
+        m_prev.addEventListener('click', function () {
+            m_sel.dispatchEvent(new Event('change', {bubbles: true}))
+            setTimeout(function () {
+                month_el.textContent = m_sel.querySelector('option:checked').textContent;
+            }, 1);
+        });
+        m_next.addEventListener('click', function () {
+            m_sel.dispatchEvent(new Event('change', {bubbles: true}))
+            setTimeout(function () {
+                month_el.textContent = m_sel.querySelector('option:checked').textContent;
+            }, 1);
+        });
+        m_prev.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18093"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18093)"><path d="M13 15L10 12L13 9" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
+        m_next.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18095"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18095)"><path d="M11 9L14 12L11 15" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
+
+    }
 
 
 }
 
-function modalInit(){
+function modalInit() {
     document.querySelectorAll('.modal').forEach(function (modal) {
         document.querySelector('body').appendChild(modal);
     })
-    document.querySelectorAll('.modal').forEach(function (modal,i) {
+    document.querySelectorAll('.modal').forEach(function (modal, i) {
         let button = modal.querySelector('button[type="submit"]');
-        if(button){
-            button.addEventListener('click',function (){
-                modal.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true }))
+        if (button) {
+            button.addEventListener('click', function () {
+                modal.querySelector('form').dispatchEvent(new Event('submit', {bubbles: true}))
             })
         }
     })
 }
 
-function selectInit(){
+function selectInit() {
     document.querySelectorAll(".x-select").forEach(function (select) {
         let form_input = select.querySelector('.form-input');
         form_input.addEventListener('click', function (e) {
-            if(!select.classList.contains('v-select')){
+            if (!select.classList.contains('v-select')) {
                 select.classList.toggle('open');
             }
         })
         let selected = select.querySelector('.item.selected');
-        if(selected){
+        if (selected) {
             selected.classList.remove('selected');
         }
-        try{
+        try {
             select.querySelector('.list').querySelectorAll('.item').forEach(function (item) {
                 item.addEventListener('click', function (e) {
                     form_input.querySelector('.selected_value').textContent = item.textContent;
                     form_input.querySelector('input').value = item.dataset.id;
-                    form_input.querySelector('input').dispatchEvent(new Event('input', { bubbles: true }));
+                    form_input.querySelector('input').dispatchEvent(new Event('input', {bubbles: true}));
                     select.classList.remove('open');
                     item.classList.add('selected');
                 })
             })
-        }catch (err){}
+        } catch (err) {
+        }
     })
 }
 
@@ -207,7 +211,7 @@ async function validateForm(form, className) {
     const data = Object.fromEntries(formData.entries());
     delete data._method;
 
-    form.querySelectorAll('.error').forEach(function (el){
+    form.querySelectorAll('.error').forEach(function (el) {
         el.classList.remove('d-block')
         el.classList.add('d-none')
     });
@@ -250,14 +254,14 @@ async function validateForm(form, className) {
     }
 }
 
-function formsInit(){
+function formsInit() {
     document.querySelectorAll('form').forEach(function (form) {
         form.addEventListener('submit', function (e) {
-            if(form.dataset.form === undefined){
-                if(form.dataset.class !== undefined){
+            if (form.dataset.form === undefined) {
+                if (form.dataset.class !== undefined) {
                     e.preventDefault();
                     validateForm(form, form.dataset.class);
-                }else{
+                } else {
                     form.submit();
                 }
             }
@@ -274,13 +278,13 @@ function initClearFilters() {
     })
 }
 
-function initMenu(){
-    document.querySelector('.menu_btn').addEventListener('click',function (){
+function initMenu() {
+    document.querySelector('.menu_btn').addEventListener('click', function () {
         document.querySelector('body').classList.toggle('mobile_menu_open')
     });
     let items = document.querySelectorAll('.menu_item');
     let h = items[1].offsetWidth;
-    document.querySelectorAll('.menu_item').forEach(function (item){
+    document.querySelectorAll('.menu_item').forEach(function (item) {
         item.style.height = h + "px";
         item.style.width = h + "px";
     })
@@ -289,22 +293,22 @@ function initMenu(){
         '.EventInfoModalButton',
         '.CloseEventModalButton',
     ];
-    for(let i = 0;i < buttons.length;i++){
+    for (let i = 0; i < buttons.length; i++) {
         let item = document.querySelector(buttons[i]);
-        if(item){
+        if (item) {
             document.querySelector('.menu .menu_buttons').appendChild(item);
         }
     }
 }
 
-function mobileInit(){
+function mobileInit() {
     if (window.innerWidth <= 768) {
         initMenu();
         fullPageCalendar();
     }
 }
 
-function tableInit(){
+function tableInit() {
     const table = document.querySelector(".x-table");
     if (!table) return;
     const rows = table.querySelectorAll(".x-table-row");
@@ -339,12 +343,12 @@ function tableInit(){
     }
 }
 
-function fullPageCalendar(){
+function fullPageCalendar() {
     let calendar = document.querySelector('.full_page_calendar');
-    if(calendar){
-        calendar.querySelectorAll('.text').forEach(function (item){
-            item.textContent = item.textContent.replace('Не подтверждена','Не подтв.')
-            item.textContent = item.textContent.replace('Подтверждена','Подтв.')
+    if (calendar) {
+        calendar.querySelectorAll('.text').forEach(function (item) {
+            item.textContent = item.textContent.replace('Не подтверждена', 'Не подтв.')
+            item.textContent = item.textContent.replace('Подтверждена', 'Подтв.')
         });
     }
 }
@@ -366,9 +370,9 @@ nextTick(() => {
     document.addEventListener('notyf:error', function (e) {
         notyf.error(e.detail.message);
     })
-    document.querySelectorAll('.input__with_label.password').forEach(function (input_elem){
-        input_elem.querySelectorAll('svg').forEach(function (svg){
-            svg.addEventListener("click",function (){
+    document.querySelectorAll('.input__with_label.password').forEach(function (input_elem) {
+        input_elem.querySelectorAll('svg').forEach(function (svg) {
+            svg.addEventListener("click", function () {
                 input_elem.classList.toggle('show');
             })
         })

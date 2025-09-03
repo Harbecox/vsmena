@@ -5,6 +5,9 @@
         title-primary="Подтверждение смен"
         title-secondary="Рабочий ритм задан"
     />
+    <x-page-filters
+        :filters="$filters"
+    />
 @endsection
 
 @section('content')
