@@ -105,6 +105,13 @@ function filterListInit(filters) {
             list.style.width = rect.width + "px";
             list.style.position = "fixed";
         }
+        let ca = filter.querySelector('.customCalendarContainer');
+        if (ca) {
+            ca.style.top = rect.bottom + 5 + window.scrollY + "px";
+            ca.style.left = rect.left + window.scrollX - 322 + rect.width + "px";
+            ca.style.width = rect.width + "px";
+            ca.style.position = "fixed";
+        }
 
     })
 }
@@ -117,18 +124,17 @@ import RewardForm from "@/components/RewardForm.vue";
 import CalendarForm from "@/components/CalendarForm.vue";
 
 function calendarInit() {
-    return false;
-    let input = document.querySelector('#datePicker');
+    let input = document.querySelector('#datePicker_inp');
+    console.log(input);
     if (!input) {
         return;
     }
-    let picker = flatpickr("#datePicker", {
+    let picker = flatpickr("#datePicker_inp", {
         mode: "range",
         "locale": Russian,
         appendTo: input.parentNode.querySelector('.customCalendarContainer')
     });
-    // let flatpickr_calendar = document.querySelector('.flatpickr-calendar');
-    // input.parentNode.insertBefore(flatpickr_calendar, input);
+    console.log(picker);
     let base_url = input.getAttribute('data-base-url');
     input.addEventListener('change', function (e) {
         if (e.target.value.indexOf('—') !== -1) {
@@ -357,7 +363,7 @@ let notyf = new Notyf();
 
 nextTick(() => {
     filtersInit();
-    // calendarInit();
+    calendarInit();
     modalInit();
     selectInit();
     formsInit();

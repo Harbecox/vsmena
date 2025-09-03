@@ -1,4 +1,4 @@
-<div class="x-table">
+<div class="x-table @if(strlen($fbTitle) > 0) ptm-70 @endif">
     <div class="x-table-container">
         <div class="x-table-header">
             <div class="x-table-row">

@@ -16,6 +16,9 @@ body,html {
     font-family: "Poppins", sans-serif;
     color: $primary;
     height: 100%;
+    @media screen and (max-width: 768px) {
+        background-color: #F9F9F9;
+    }
 }
 
 a{
@@ -335,6 +338,9 @@ body{
     display: flex;
     width: 100%;
     min-height: calc(100% - 100px);
+    @media screen and (max-width: 768px) {
+        min-height: calc(100% - 64px);
+    }
     height: auto;
     box-sizing: border-box;
     position: relative;
@@ -383,6 +389,7 @@ body{
     padding-top: 40px;
     @media screen and ( max-width: 768px) {
         padding-top: 20px;
+        max-height: fit-content;
     }
     display: flex;
     flex-direction: column;
@@ -514,7 +521,11 @@ body{
 .x-table{
     @media screen and (max-width: 768px) {
         position: relative;
-        padding-top: 70px;
+        padding-top: 20px;
+        &.ptm-70{
+            padding-top: 70px;
+        }
+
         .x-table-container{
             overflow-x: auto;
         }
