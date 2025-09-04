@@ -790,6 +790,12 @@ body{
         .list{
             display: flex;
         }
+        .flatpickr-calendar{
+            display: block;
+            visibility: visible;
+            opacity: 1;
+        }
+
     }
     .list{
         position: absolute;

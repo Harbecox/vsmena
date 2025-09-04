@@ -5,7 +5,6 @@
             ref="datepicker"
             :readonly="locked"
             class="form-input"
-            :type="type"
             :placeholder="placeholder"
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
@@ -55,7 +54,9 @@ export default {
                 altInput: true,
                 altFormat: "d M Y, H:i", // 28 авг 2025, 16:48
                 minuteIncrement: 1,
+                disableMobile: "true"
             })
+            console.log("flatpick",flatpick);
             let m_prev = this.$refs.customCalendarContainer.querySelector('.flatpickr-prev-month');
             let m_next = this.$refs.customCalendarContainer.querySelector('.flatpickr-next-month');
             let m_sel = this.$refs.customCalendarContainer.querySelector('.flatpickr-monthDropdown-months');

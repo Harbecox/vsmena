@@ -125,16 +125,16 @@ import CalendarForm from "@/components/CalendarForm.vue";
 
 function calendarInit() {
     let input = document.querySelector('#datePicker_inp');
-    console.log(input);
     if (!input) {
         return;
     }
+    let calendar_container = input.parentNode.querySelector('.customCalendarContainer');
     let picker = flatpickr("#datePicker_inp", {
         mode: "range",
         "locale": Russian,
-        appendTo: input.parentNode.querySelector('.customCalendarContainer')
+        appendTo: calendar_container,
+        disableMobile: "true"
     });
-    console.log(picker);
     let base_url = input.getAttribute('data-base-url');
     input.addEventListener('change', function (e) {
         if (e.target.value.indexOf('—') !== -1) {
@@ -142,9 +142,9 @@ function calendarInit() {
             window.location.href = base_url + dateRange;
         }
     })
-    let m_prev = document.querySelector('.flatpickr-prev-month');
-    let m_next = document.querySelector('.flatpickr-next-month');
-    let m_sel = document.querySelector('.flatpickr-monthDropdown-months');
+    let m_prev = calendar_container.querySelector('.flatpickr-prev-month');
+    let m_next = calendar_container.querySelector('.flatpickr-next-month');
+    let m_sel = calendar_container.querySelector('.flatpickr-monthDropdown-months');
     let month_el = document.createElement('div');
     month_el.classList.add('flatpickr-month_el');
     if (m_next) {
@@ -154,12 +154,14 @@ function calendarInit() {
             m_sel.dispatchEvent(new Event('change', {bubbles: true}))
             setTimeout(function () {
                 month_el.textContent = m_sel.querySelector('option:checked').textContent;
+                input.parentNode.classList.add('show');
             }, 1);
         });
         m_next.addEventListener('click', function () {
             m_sel.dispatchEvent(new Event('change', {bubbles: true}))
             setTimeout(function () {
                 month_el.textContent = m_sel.querySelector('option:checked').textContent;
+                input.parentNode.classList.add('show');
             }, 1);
         });
         m_prev.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18093"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18093)"><path d="M13 15L10 12L13 9" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
