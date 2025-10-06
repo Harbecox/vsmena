@@ -13,8 +13,8 @@
                 @csrf
                 <h1 class="text-center">Добро пожаловать!</h1>
                 <div class="input__with_label" >
-                    <label class="9f6dca6d-e23a-4d2e-914f-3f03a325ec2e">Электронный адрес</label>
-                    <input id="9f6dca6d-e23a-4d2e-914f-3f03a325ec2e" class="form-input" type="text" value="{{ old('email') }}" name="email" placeholder="user@bk.ru">
+                    <label class="9f6dca6d-e23a-4d2e-914f-3f03a325ec2e">Номер телефона</label>
+                    <input id="9f6dca6d-e23a-4d2e-914f-3f03a325ec2e" class="form-input" type="text" value="{{ old('phone') }}" name="phone" placeholder="8ХХХХХХХХХХ">
                     <span class="success non-text d-none">
                         <x-icon class="input_success" name="check_circle" />
                     </span>
@@ -57,8 +57,24 @@
                         </svg>
                         <span class="label text-success">Запомнить меня</span>
                     </label>
-                    <a class="text-secondary text-decoration-none" href="{{ route('password.request') }}">Забыли
-                        пароль?</a>
+                    <x-form.modal buttonClass="EventInfoModalButton">
+                        <x-slot:title>
+                            Забыли пароль?
+                        </x-slot:title>
+                        <x-slot:button >
+                            <span class="text-secondary text-decoration-none">Забыли пароль?</span>
+                        </x-slot:button>
+                        <x-slot:body>
+                            <div class="d-flex flex-column gap-15">
+                                <div class="d-flex justify-content-center fs-18">
+                                    <span class="fw-700 text-center">Обратитесь к администратору для восстановления доступа</span>
+                                </div>
+                            </div>
+                        </x-slot:body>
+                        <x-slot:footer></x-slot:footer>
+                    </x-form.modal>
+{{--                    <a class="text-secondary text-decoration-none" href="{{ route('password.request') }}">Забыли--}}
+{{--                        пароль?</a>--}}
                 </div>
                 <button class="btn btn-success w-100 mt-30 text-white">Вход</button>
                 <div class="mt-50 d-flex justify-content-center">

@@ -8,6 +8,6 @@
 @endsection
 
 @section('content')
-    <x-form.table :columns="['ФИО ','Год рождения','Телефон','Email','Роль','Действия']" :items="$users"/>
+    <x-form.table :columns="['ФИО ','Год рождения','Телефон','Роль','Действия']" :items="$users"/>
 @endsection
 

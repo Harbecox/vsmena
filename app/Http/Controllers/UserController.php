@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::select("id", "email", "fio", "year_birth", "phone", "role", "password")->orderBy("email")->get();
+        $users = User::select("id", "fio", "year_birth", "phone", "role", "password")->get();
         return view("users.index", ["users" => $users]);
     }
 

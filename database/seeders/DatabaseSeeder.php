@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
 
         $id_user = DB::table('users')->insertGetId([
             'fio' => fake()->name(),
-            'year_birth' => rand(1970, 2005),
-            'phone' => fake()->numberBetween(10000000000,99999999999),
-            'email' => 'user@gmail.com',
+            'year_birth' => Carbon::make(fake()->dateTimeBetween("-60 years", "-18 years"))->format('Y-m-d'),
+            'phone' => '10000000000',
+//            'email' => 'user@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'a',
             'remember_token' => Str::random(10),
@@ -35,9 +35,9 @@ class DatabaseSeeder extends Seeder
 
         $id_admin = DB::table('users')->insertGetId([
             'fio' => fake()->name(),
-            'year_birth' => rand(1970, 2005),
-            'phone' => fake()->numberBetween(10000000000,99999999999),
-            'email' => 'admin@gmail.com',
+            'year_birth' => Carbon::make(fake()->dateTimeBetween("-60 years", "-18 years"))->format('Y-m-d'),
+            'phone' => '20000000000',
+//            'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'm',
             'remember_token' => Str::random(10),
@@ -47,9 +47,9 @@ class DatabaseSeeder extends Seeder
 
         $id_manager = DB::table('users')->insertGetId([
             'fio' => fake()->name(),
-            'year_birth' => rand(1970, 2005),
-            'phone' => fake()->numberBetween(10000000000,99999999999),
-            'email' => 'manager@gmail.com',
+            'year_birth' => Carbon::make(fake()->dateTimeBetween("-60 years", "-18 years"))->format('Y-m-d'),
+            'phone' => 30000000000,
+//            'email' => 'manager@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'e',
             'remember_token' => Str::random(10),
@@ -59,9 +59,9 @@ class DatabaseSeeder extends Seeder
 
         DB::table('users')->insertGetId([
             'fio' => fake()->name(),
-            'year_birth' => rand(1970, 2005),
-            'phone' => fake()->numberBetween(10000000000,99999999999),
-            'email' => 'bux@gmail.com',
+            'year_birth' => Carbon::make(fake()->dateTimeBetween("-60 years", "-18 years"))->format('Y-m-d'),
+            'phone' => 40000000000,
+//            'email' => 'bux@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'b',
             'remember_token' => Str::random(10),

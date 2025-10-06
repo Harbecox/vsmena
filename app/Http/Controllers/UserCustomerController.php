@@ -23,14 +23,13 @@ class UserCustomerController extends Controller
 
     public function index()
     {
-        $users = User::select("fio", "year_birth", "phone", "email", "role", 'id')->where('id', '=', auth()->user()->id)->orderBy("email")->get();
+        $users = User::select("fio", "year_birth", "phone", "role", 'id')->where('id', '=', auth()->user()->id)->get();
         $data = [];
         foreach ($users as $user) {
             $data[] = [
                 new Text($user->fio),
                 new Text($user->year_birth),
                 new Text($user->phone),
-                new Text($user->email),
                 new Text(Helper::role_to_russian()),
                 new ActionDropdown([
                     new UserCustomerEditModal(),

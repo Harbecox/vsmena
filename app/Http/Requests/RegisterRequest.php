@@ -25,7 +25,7 @@ class RegisterRequest extends FormRequest
             'fio' => 'required',
             'year_birth' => 'required',
             'phone' => 'required',
-            'email' => 'required|email|unique:users,email',
+//            'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
             'politics' => 'required',
         ];

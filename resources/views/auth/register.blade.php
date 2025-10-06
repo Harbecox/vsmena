@@ -19,11 +19,12 @@
                 />
                 <div class="d-flex gap-15">
                     <x-form.input-with-label
-                        label="Год рождения"
-                        placeholder="1980"
+                        label="Дату рождения"
+                        placeholder="1991-01-05"
                         name="year_birth"
                         value="{{ old('year_birth') }}"
                         required
+                        class="datePicker"
                     />
                     <x-form.input-with-label
                         label="Номер телефона"
@@ -33,17 +34,17 @@
                         required
                     />
                 </div>
-                <div class="input__with_label" >
-                    <label class="9f6dca6d-e23a-4d2e-914f-3f03a325ec2e">Электронный адрес</label>
-                    <input id="9f6dca6d-e23a-4d2e-914f-3f03a325ec2e" class="form-input" type="text" value="{{ old('email') }}" name="email" placeholder="user@bk.ru">
-                    <span class="success non-text d-none">
-                        <x-icon class="input_success" name="check_circle" />
-                    </span>
-                    <span class="error d-none non-text">
-                        <x-icon class="input_danger" name="input_danger" />
-                    </span>
-                    <div class="error text-danger d-none "></div>
-                </div>
+{{--                <div class="input__with_label" >--}}
+{{--                    <label class="9f6dca6d-e23a-4d2e-914f-3f03a325ec2e">Электронный адрес</label>--}}
+{{--                    <input id="9f6dca6d-e23a-4d2e-914f-3f03a325ec2e" class="form-input" type="text" value="{{ old('email') }}" name="email" placeholder="user@bk.ru">--}}
+{{--                    <span class="success non-text d-none">--}}
+{{--                        <x-icon class="input_success" name="check_circle" />--}}
+{{--                    </span>--}}
+{{--                    <span class="error d-none non-text">--}}
+{{--                        <x-icon class="input_danger" name="input_danger" />--}}
+{{--                    </span>--}}
+{{--                    <div class="error text-danger d-none "></div>--}}
+{{--                </div>--}}
                 <div class="input__with_label password">
                     <label class="d4d62035-768d-4a8e-92b4-ab7fe8640686">Пароль</label>
                     <input id="d4d62035-768d-4a8e-92b4-ab7fe8640686" class="form-input" type="password" value=""

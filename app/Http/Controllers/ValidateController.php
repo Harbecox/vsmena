@@ -33,7 +33,7 @@ class ValidateController extends Controller
             ], 422);
         } else {
             if($is_login){
-                $user = User::query()->where('email',$request->email)->first();
+                $user = User::query()->where('phone',$request->phone)->first();
                 if(!Hash::check($request->password,$user->password)){
                     return response()->json([
                         'errors' => [

@@ -22,9 +22,14 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required', 'password' => 'required',
         ], [
-            $this->username() . '.required' => 'Введите адрес электронной почты',
+            $this->username() . '.required' => 'Введите номер телефона',
             'password.required' => 'Введите пароль',
         ]);
+    }
+
+    public function username()
+    {
+        return 'phone';
     }
 
     protected function sendFailedLoginResponse(Request $request)
@@ -32,7 +37,7 @@ class LoginController extends Controller
         return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors([
-                $this->username() => 'Пользователь с таким адресом электронной почты или паролем ' .
+                $this->username() => 'Пользователь с таким телефоном или паролем ' .
                     'отсутствует в базе данных',
             ]);
     }

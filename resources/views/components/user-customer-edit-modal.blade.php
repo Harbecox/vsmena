@@ -20,18 +20,11 @@
                     />
                     <x-form.input-with-label
                         label="Год рождения"
-                        placeholder="1980"
+                        placeholder="1991-05-01"
                         name="year_birth"
                         value="{{ auth()->user()->year_birth }}"
                         required
-                    />
-                    <x-form.input-with-label
-                        label="Электронный адрес"
-                        placeholder="user@bk.ru"
-                        name="email"
-                        value="{{ auth()->user()->email }}"
-                        icon="check_circle"
-                        required
+                        class="datePicker"
                     />
                     <x-form.input-with-label
                         label="Номер телефона"

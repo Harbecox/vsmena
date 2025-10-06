@@ -22,9 +22,9 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fio' => 'required|max:255',
-            'email' => 'required|email|max:255',
-            'year_birth' => 'required|max:4',
+            'fio' => 'required',
+//            'email' => 'required|email|max:255',
+            'year_birth' => 'required|date',
             'phone' => 'required|max:11',
             'role' => 'nullable',
         ];
@@ -34,11 +34,13 @@ class UserRequest extends FormRequest
         return [
             'fio.required' => 'Введите имя пользователя',
             'fio.max' => 'Имя пользователя должно быть не длиннее 255 символов',
-            'year_birth.max' => 'Год рождения должен быть не длиннее 4 символов',
+            'fio.unique' => 'Такой пользователь уже зарегистрирован, обратитесь к администратору для восстановления доступа',
+//            'year_birth.max' => 'Год рождения должен быть не длиннее 4 символов',
             'phone.max' => 'Телефон должен быть не длиннее 11 символов',
-            'email.required' => 'Введите адрес электронной почты',
-            'email.email' => 'Введите корректный адрес электронной почты',
-            'email.max' => 'Адрес электронной почты не должен превышать в длину 255 символов',
+//            'email.required' => 'Введите адрес электронной почты',
+//            'email.email' => 'Введите корректный адрес электронной почты',
+//            'email.max' => 'Адрес электронной почты не должен превышать в длину 255 символов',
+
         ];
     }
 }

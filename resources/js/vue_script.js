@@ -116,19 +116,32 @@ import 'notyf/notyf.min.css';
 import RewardForm from "@/components/RewardForm.vue";
 import CalendarForm from "@/components/CalendarForm.vue";
 
-function calendarInit() {
-    return false;
-    let input = document.querySelector('#datePicker');
-    if (!input) {
-        return;
+function calendarInit(){
+    document.querySelectorAll(".datePicker").forEach(function (el) {
+        let target = null;
+        if(el.tagName == "INPUT"){
+            target = el;
+        }
+        if(target || (target = el.querySelector('input'))){
+            makeFlatPicker(target);
+        }
+    })
+}
+
+function makeFlatPicker(input){
+    let calendarContainer = input.parentNode.querySelector('.customCalendarContainer');
+    if(!calendarContainer){
+        calendarContainer = document.createElement("DIV");
+        calendarContainer.classList.add("customCalendarContainer");
+        input.parentNode.appendChild(calendarContainer);
     }
-    let picker = flatpickr("#datePicker", {
-        mode: "range",
+    let picker = flatpickr(input, {
+        // mode: "range",
+        dateFormat: "Y-m-d",
         "locale": Russian,
-        appendTo: input.parentNode.querySelector('.customCalendarContainer')
+        appendTo: calendarContainer
     });
-    // let flatpickr_calendar = document.querySelector('.flatpickr-calendar');
-    // input.parentNode.insertBefore(flatpickr_calendar, input);
+
     let base_url = input.getAttribute('data-base-url');
     input.addEventListener('change', function (e) {
         if (e.target.value.indexOf('—') !== -1) {
@@ -160,8 +173,6 @@ function calendarInit() {
         m_next.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18095"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18095)"><path d="M11 9L14 12L11 15" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
 
     }
-
-
 }
 
 function modalInit() {
@@ -357,7 +368,7 @@ let notyf = new Notyf();
 
 nextTick(() => {
     filtersInit();
-    // calendarInit();
+    calendarInit();
     modalInit();
     selectInit();
     formsInit();

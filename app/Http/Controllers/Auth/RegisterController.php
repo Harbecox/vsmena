@@ -20,15 +20,16 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'fio' => 'required|max:255',
-            'year_birth' => 'required|max:4',
+            'fio' => 'required|max:255|unique:users',
+            'year_birth' => 'required|date',
             'phone' => 'required|max:11|unique:users',
-            'email' => 'required|email|max:255|unique:users',
+//            'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
             'captcha' => 'captcha',
         ], [
             'fio.required' => 'Введите имя пользователя',
             'fio.max' => 'Имя пользователя должно быть не длиннее 255 символов',
+            'fio.unique' => 'Такой пользователь уже зарегистрирован, обратитесь к администратору для восстановления доступа',
             'year_birth.max' => 'Год рождения должен быть не длиннее 4 символов',
             'phone.max' => 'Телефон должен быть не длиннее 11 символов',
             'phone.unique' => 'Пользователь с таким телефоном уже ' .
@@ -52,7 +53,7 @@ class RegisterController extends Controller
             'fio' => $data['fio'],
             'year_birth' => $data['year_birth'],
             'phone' => $data['phone'],
-            'email' => $data['email'],
+//            'email' => $data['email'],
             'password' => $data['password'],
         ]);
     }
