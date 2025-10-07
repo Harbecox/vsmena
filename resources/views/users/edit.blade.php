@@ -41,16 +41,6 @@
                     :required="true"
                     class="flex_1"
                 />
-                <x-form.input-with-label
-                    name="email"
-                    :value="($user->email ?? old('email'))"
-                    label="E-mail"
-                    placeholder="Введите E-mail..."
-                    :required="true"
-                    class="flex_1"
-                />
-            </div>
-            <div class="d-flex gap-lg-30 flex-column flex-lg-row w-100">
                 <x-form.select
                     name="role"
                     label="Роль"
@@ -58,7 +48,6 @@
                     :selected="$user->role ?? old('role')"
                     class="flex_1"
                 />
-                <div class="flex_1"></div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary mt-30">Сохранить</button>
