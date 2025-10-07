@@ -1,7 +1,7 @@
 @extends("layouts.dashboard")
 
 @php
-    $columns = ['ФИО ','Год рождения','Телефон','Email','Роль','Действия'];
+    $columns = ['ФИО ','Год рождения','Телефон','Роль','Действия'];
 @endphp
 
 @section('page_header')

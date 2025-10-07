@@ -126,6 +126,7 @@ Route::middleware(['role:m,e'])->group(function (){
     Route::resource('restaurants', RestaurantsController::class);
     Route::resource('positions', PositionsController::class);
     Route::resource('users', UsersController::class);
+    Route::post('users/restore/{id}',[UsersController::class, 'restore'])->name('users.restore');
     Route::resource('logs', LogController::class);
     Route::resource('rewards', RewardController::class);
     Route::get('rewards/download',[RewardController::class,'dloads'])->name('rewards.download');

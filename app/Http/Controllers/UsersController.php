@@ -12,6 +12,8 @@ use App\Models\User;
 use App\View\Components\DeleteModal;
 use App\View\Components\Form\Table\Actions;
 use App\View\Components\Form\Table\Text;
+use App\View\Components\UserRestoreModal;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -21,24 +23,34 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::query()->get();
+        $users = User::query()->withTrashed()->get();
         $data = [];
         foreach ($users as $user) {
-            $data[] = [
-                new Text($user->fio),
-                new Text($user->year_birth),
-                new Text($user->phone),
-                new Text($user->email),
-                new Text(Role::from($user->role)->label()),
-                new Actions([
+            $actions = [];
+            if(!$user->trashed()){
+                $actions = [
                     new Actions\IconLink(route('users.edit',$user->id),'edit'),
                     new DeleteModal(
                         title:'Удалить пользователя?',
                         text:'Вы действительно хотите удалить пользователя?',
                         url:route('users.destroy', $user->id),
                         id:$user->id,
-                    )
-                ])
+                    ),
+
+                ];
+            }else{
+                $actions = [new UserRestoreModal(
+                    fio:$user->fio,
+                    id:$user->id,
+                    url:route('users.restore', $user->id),
+                )];
+            }
+            $data[] = [
+                new Text($user->fio),
+                new Text($user->year_birth),
+                new Text($user->phone),
+                new Text(Role::from($user->role)->label()),
+                new Actions($actions)
             ];
         }
         $data = Helper::paginateArray($data);
@@ -99,6 +111,12 @@ class UsersController extends Controller
     {
         Log::Log(User::find($id),'Удаление пользователя');
         User::query()->where('id',$id)->firstOrFail()?->delete();
+        return redirect()->route('users.index');
+    }
+
+    public function restore(string $id)
+    {
+        User::query()->withTrashed()->where('id',$id)->firstOrFail()->restore();
         return redirect()->route('users.index');
     }
 }
