@@ -853,6 +853,10 @@ body{
     }
 }
 
+.y_prev,.y_next{
+    cursor: pointer;
+}
+
 .flatpickr-calendar{
     box-shadow: 0px 4px 6px 0px rgba(228, 228, 228, 0.25);
     border-radius: 12px;

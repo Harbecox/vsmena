@@ -35,7 +35,7 @@ class RestaurantsController extends Controller
         foreach ($restaurants as $restaurant) {
             $data[] = [
                 new Text($restaurant->name),
-                new Text($restaurant->description,limit:30),
+                new Text($restaurant->description ?? "",limit:30),
                 new Text($restaurant->fio),
                 new Actions([
                     new Actions\IconLink(route('restaurants.edit', $restaurant->id), 'edit'),

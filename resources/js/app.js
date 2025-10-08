@@ -30,57 +30,100 @@ function calendarInit(){
             target = el;
         }
         if(target || (target = el.querySelector('input'))){
-            makeFlatPicker(target);
+            FlatPickerObj.make(target);
         }
     })
 }
 
-function makeFlatPicker(input){
-    let calendarContainer = input.parentNode.querySelector('.customCalendarContainer');
-    if(!calendarContainer){
-        calendarContainer = document.createElement("DIV");
-        calendarContainer.classList.add("customCalendarContainer");
-        input.parentNode.appendChild(calendarContainer);
-    }
-    let picker = flatpickr(input, {
-        // mode: "range",
-        dateFormat: "Y-m-d",
-        "locale": Russian,
-        appendTo: calendarContainer
-    });
-
-    // let flatpickr_calendar = document.querySelector('.flatpickr-calendar');
-    // input.parentNode.insertBefore(flatpickr_calendar, input);
-    let base_url = input.getAttribute('data-base-url');
-    input.addEventListener('change', function (e) {
-        if (e.target.value.indexOf('—') !== -1) {
-            let dateRange = e.target.value.replace(' — ', ',');
-            window.location.href = base_url + dateRange;
+let FlatPickerObj = {
+    input:null,
+    m_prev:null,
+    m_next:null,
+    m_sel:null,
+    month_el:null,
+    calendarContainer:null,
+    picker:null,
+    cur_year:null,
+    y_next:null,
+    y_prev:null,
+    make:function (input){
+        this.input = input;
+        this.calendarContainer = input.parentNode.querySelector('.customCalendarContainer');
+        if(!this.calendarContainer){
+            this.calendarContainer = document.createElement("DIV");
+            this.calendarContainer.classList.add("customCalendarContainer");
+            input.parentNode.appendChild(this.calendarContainer);
         }
-    })
-    let m_prev = document.querySelector('.flatpickr-prev-month');
-    let m_next = document.querySelector('.flatpickr-next-month');
-    let m_sel = document.querySelector('.flatpickr-monthDropdown-months');
-    let month_el = document.createElement('div');
-    month_el.classList.add('flatpickr-month_el');
-    if (m_next) {
-        m_next.parentNode.insertBefore(month_el, m_next);
-        month_el.textContent = m_sel.querySelector('option:checked').textContent;
-        m_prev.addEventListener('click', function () {
-            m_sel.dispatchEvent(new Event('change', {bubbles: true}))
-            setTimeout(function () {
-                month_el.textContent = m_sel.querySelector('option:checked').textContent;
-            }, 1);
+        this.picker = flatpickr(input, {
+            // mode: "range",
+            dateFormat: "Y-m-d",
+            "locale": Russian,
+            appendTo: this.calendarContainer
         });
-        m_next.addEventListener('click', function () {
-            m_sel.dispatchEvent(new Event('change', {bubbles: true}))
-            setTimeout(function () {
-                month_el.textContent = m_sel.querySelector('option:checked').textContent;
-            }, 1);
-        });
-        m_prev.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18093"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18093)"><path d="M13 15L10 12L13 9" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
-        m_next.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18095"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18095)"><path d="M11 9L14 12L11 15" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
 
+        let base_url = input.getAttribute('data-base-url');
+        input.addEventListener('change', function (e) {
+            if (e.target.value.indexOf('—') !== -1) {
+                let dateRange = e.target.value.replace(' — ', ',');
+                window.location.href = base_url + dateRange;
+            }
+        })
+        this.cur_year = this.calendarContainer.querySelector(".cur-year");
+        this.m_prev = document.querySelector('.flatpickr-prev-month');
+        this.m_next = document.querySelector('.flatpickr-next-month');
+        this.m_sel = document.querySelector('.flatpickr-monthDropdown-months');
+        this.month_el = document.createElement('div');
+        this.month_el.classList.add('flatpickr-month_el');
+        if (this.m_next) {
+            this.m_next.parentNode.insertBefore(this.month_el, this.m_next);
+            this.month_el.textContent = this.m_sel.querySelector('option:checked').textContent + (this.cur_year ? " " + this.cur_year.value : "" );
+            this.m_prev.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18093"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18093)"><path d="M13 15L10 12L13 9" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
+            this.m_next.innerHTML = '<svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="clip507_18095"><rect rx="0.000000" width="23.000000" height="23.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/></clipPath></defs><g clip-path="url(#clip507_18095)"><path d="M11 9L14 12L11 15" stroke="#14181F" stroke-opacity="1.000000" stroke-width="2.000000" stroke-linejoin="round" stroke-linecap="round"/></g></svg>';
+        }
+        if(this.cur_year){
+            this.y_next = document.createElement("SPAN");
+            this.y_next.innerHTML = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.000000" height="24.000000" fill="none">\n' +
+                '\t<path id="Vector" d="M13 8L17 12L13 16" stroke="rgb(20.4,23.8,30.6)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />\n' +
+                '\t<path id="Vector" d="M7 8L11 12L7 16" stroke="rgb(20.4,23.8,30.6)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />\n' +
+                '</svg>';
+            this.y_next.classList.add('y_next');
+            this.y_prev = document.createElement("SPAN");
+            this.y_prev.innerHTML = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.000000" height="24.000000" fill="none">\n' +
+                '\t<path id="Vector" d="M17 16L13 12L17 8" stroke="rgb(20.4,23.8,30.6)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />\n' +
+                '\t<path id="Vector" d="M11 16L7 12L11 8" stroke="rgb(20.4,23.8,30.6)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />\n' +
+                '</svg>\n';
+            this.y_prev.classList.add('y_prev');
+            this.m_prev.parentNode.prepend(this.y_prev);
+            this.m_prev.parentNode.append(this.y_next);
+        }
+        this.events();
+    },
+    events:function (){
+        this.m_prev.addEventListener('click', () => {
+            this.m_sel.dispatchEvent(new Event('change', {bubbles: true}))
+            this.setMonthEl()
+        });
+        this.m_next.addEventListener('click',  () => {
+            this.m_sel.dispatchEvent(new Event('change', {bubbles: true}))
+            this.setMonthEl()
+        });
+        this.y_next.addEventListener('click', () => {
+            this.picker.changeMonth(12);
+            this.setMonthEl()
+        })
+        this.y_prev.addEventListener('click', () => {
+            this.picker.changeMonth(-12);
+            this.setMonthEl()
+        })
+    },
+    setMonthEl:function (){
+        setTimeout(() => {
+            let text = this.m_sel.querySelector('option:checked').textContent;
+            if(this.cur_year){
+                text += " " + this.cur_year.value;
+            }
+            this.month_el.textContent = text;
+        }, 1);
     }
 }
 
